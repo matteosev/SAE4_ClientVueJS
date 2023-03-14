@@ -1,0 +1,42 @@
+[
+    { 
+        "etat":"0",
+        "id":"0",
+        "price":"498 000€   ", 
+        "state":"Appartement meublé", 
+        "info":"4 pièces - 3 chambres - 103 m² - Étage 5/5 - Ascenseur",
+        "photo": "./Images/test.jpg"
+    },
+    { 
+        "etat":"0",
+        "id":"1",
+        "price":"675 000€", 
+        "state":"Maison", 
+        "info":"4 pièces - 3 chambres - 90 m² - Jardin - Garage",
+        "photo": "./Images/Maison1.jpg"
+    },
+    { 
+        "etat":"0",
+        "id":"2",
+        "price":"940 000€", 
+        "state":"Maison", 
+        "info":"9 pièces - 5 chambres - 222 m² - Parking",
+        "photo": "./Images/Maison2.jpg"
+    },  
+    { 
+        "etat":"0",
+        "id":"3",
+        "price":"795 000€", 
+        "state":"Maison", 
+        "info":"4 pièces - 3 chambres - 108 m² - Jardin - Parking",
+        "photo": "./Images/Maison3.jpg"
+    },
+    { 
+        "etat":"0",
+        "id":"4",
+        "price":"700 000€", 
+        "state":"Maison", 
+        "info":"5 pièces - 2 chambres - 150 m² - Terrain 130 m² - Garage",
+        "photo": "./Images/Maison4.jpg"
+    }
+  ]

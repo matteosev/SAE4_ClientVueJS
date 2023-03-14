@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import AccueilView from '../views/AccueilView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -6,9 +7,9 @@ const router = createRouter({
     {
       path: '/',
       name: 'accueil',
-      component: () => import('../views/AccueilView.vue')
+      component: AccueilView
     },
-
+    
     {
       path: '/produits',
       name: 'produits',
@@ -17,7 +18,7 @@ const router = createRouter({
 
     {
       path: '/collections',
-      name: 'accueil',
+      name: 'collections', //le nom etait "accueil ça bugait"
       component: () => import('../views/CollectionsView.vue')
     },
 
@@ -46,5 +47,4 @@ const router = createRouter({
     }
   ]
 })
-
 export default router
