@@ -11,7 +11,24 @@ import { RouterLink, RouterView } from "vue-router"
         props:{
             achats:[]
         }
-}
+    }
+    // CODE DE TEST POUR LES FILTRES MAIS JE GALERE ZBI
+    // actions:{    
+    //         async fetchProducts(){
+    //             const {$contentful} = useNuxtApp();
+    //             const entries = await $contentful.GetEntries({
+    //                 content_type:"product",
+    //                 "fields.heatLevel": "Hot"
+    //             });
+    //             this.achats = entries.items;
+    //             return this.achats
+    //         },
+    //         async fetchProduct(id){
+    //             const {$contentful} = useNuxtApp();
+    //             this.achat = await $contentful.GetEntry(id);
+    //             return this.achat;
+    //         },
+    // }
 </script>
 
 <template>
@@ -29,9 +46,12 @@ img{
     height: 10%;
 }
 .Bien{
-    background-color: var(--first-color);
+    background-color: var(--second-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 25vw;
-    padding: 10%;
+    padding: 5%;
     border-radius: 3%;
 }
 .Bien:hover{
@@ -41,6 +61,7 @@ img{
 
 .Bien p{
     color: rgba(229, 160, 1, 1) ;
+    text-align: center;
 }
 
 @media (max-width: 1250px) { 

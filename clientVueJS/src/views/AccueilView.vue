@@ -7,34 +7,40 @@ import Data from '../assets/json/achat.json'
 
 <template>
   <main>
-    <div class="home_collections">
 
-      <div class="home_infos">
+    <div class="home_container">
+      <div class="home_titre">
         <h1 class="home_collections_titre">
           Collections
         </h1>
-        <h2 id="home_collections_texte">Miliboo propose plusieurs collections de meubles de haute qualité, allant des styles classiques aux designs modernes et contemporains, alliant à la fois fonctionnalité et esthétique.</h2>
+        <h2 id="home_collections_texte">Miliboo propose plusieurs collections de meubles de haute qualité, allant des styles classiques aux designs modernes et contemporains, en utilisant des matériaux nobles, alliant à la fois fonctionnalité et esthétique.</h2>
       </div>
-
       <div class="home_collections_images">
         <img src="../assets/chaises.png" alt="">
       </div>
-      
       <RouterLink id="home_collections_button" to="/collections">Découvrir</RouterLink>
-      </div>
+    </div>
       
-    <div class="home_produits">
-      <div class="home_infos">
+
+    <div class="home_container">
+      <div class="home_titre">
         <h1 class="home_collections_titre">Nos best sellers</h1>
       </div>
-
       <div class="home_produits_container">
         <productItem v-bind:achats="Data" />
-
       </div>
-
-
     </div>
+
+
+    <div class="home_container">
+      <div class="home_titre">
+        <h1 class="home_collections_titre">Promotions</h1>
+      </div>
+      <div class="home_produits_container">
+        <productItem v-bind:achats="Data" />
+      </div>
+    </div>
+
   </main>
 </template>
 
@@ -45,7 +51,7 @@ main{ /*Je crée les différentes section du main*/
   grid-gap: 10px;
   grid-auto-rows: minmax(100px, auto);
 }
-.home_collections{
+.home_container{
   position: relative;
 }
 
@@ -64,9 +70,10 @@ main{ /*Je crée les différentes section du main*/
   color: var(--first-color);
 }
 
-.home_infos   {
+.home_titre   {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   width: 90vw;
   margin-left: 5vw;
 }
@@ -89,10 +96,7 @@ main{ /*Je crée les différentes section du main*/
   max-width: 1080px;
 }
 
-.home_produits{
-  display:flex;
-  flex-direction: column;
-}
+
 
 .home_produits_container{
   display: grid;
