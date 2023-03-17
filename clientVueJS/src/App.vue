@@ -5,13 +5,12 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
   <header>
         <div class="home_logo">
-          <img class="logo_miliboo" src="./assets/logo.png" alt="">
+          <img class="logo_miliboo"  src="./assets/logo.png" alt="">
         </div>
 
         <nav class="home_navigation">
           <RouterLink to="/">Home</RouterLink>
           <RouterLink to="/about">A Propos</RouterLink>
-          <RouterLink to="/collections"> Les Collections</RouterLink>
           <RouterLink to="/produits">Nos Produits</RouterLink>
           </nav>
 

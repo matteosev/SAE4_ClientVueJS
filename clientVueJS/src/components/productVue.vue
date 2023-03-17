@@ -70,7 +70,7 @@ import { RouterLink, RouterView } from "vue-router"
                 <option value="canapé">Canapé</option>
             </select>
         </div>
-        <div class="block_filtres">
+        <div class="block_filtre">
             <h2>Trier par prix</h2>
             <select v-model="selectedPrice">
                 <option value="all">Tous les prix</option>
@@ -112,7 +112,7 @@ img{
     height: 10%;
 }
 .Bien{
-    background-color: var(--second-color);
+    background-color: #dddddd;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -121,12 +121,10 @@ img{
     border-radius: 3%;
 }
 .Bien:hover{
-    background-color: #a6a6a6de;
     cursor: pointer;
 }
 
 .Bien p{
-    color: rgba(229, 160, 1, 1) ;
     text-align: center;
 }
 
@@ -148,6 +146,7 @@ img{
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
     justify-content: center;
     margin: 2vw;
 }
