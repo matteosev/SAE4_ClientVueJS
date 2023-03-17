@@ -11,14 +11,14 @@ import Data from '../assets/json/achat.json'
     <div class="home_container">
       <div class="home_titre">
         <h1 class="home_collections_titre">
-          Collections
+          Miliboo
         </h1>
         <h2 id="home_collections_texte">Miliboo propose plusieurs collections de meubles de haute qualité, allant des styles classiques aux designs modernes et contemporains, en utilisant des matériaux nobles, alliant à la fois fonctionnalité et esthétique.</h2>
       </div>
       <div class="home_collections_images">
         <img src="../assets/chaises.png" alt="">
       </div>
-      <RouterLink id="home_collections_button" to="/collections">Découvrir</RouterLink>
+      <RouterLink id="home_collections_button" to="/produits">Découvrir nos produits</RouterLink>
     </div>
       
 
@@ -27,7 +27,7 @@ import Data from '../assets/json/achat.json'
         <h1 class="home_collections_titre">Nos best sellers</h1>
       </div>
       <div class="home_produits_container">
-        <productItem v-bind:achats="Data" />
+        <!-- <productItem v-bind:achats="Data" /> -->
       </div>
     </div>
 
@@ -37,7 +37,7 @@ import Data from '../assets/json/achat.json'
         <h1 class="home_collections_titre">Promotions</h1>
       </div>
       <div class="home_produits_container">
-        <productItem v-bind:achats="Data" />
+        <!-- <productItem v-bind:achats="Data" /> -->
       </div>
     </div>
 
@@ -45,6 +45,7 @@ import Data from '../assets/json/achat.json'
 </template>
 
 <style scoped>
+
 main{ /*Je crée les différentes section du main*/
   display: grid;
   grid-template-columns: repeat(1, 1fr);
@@ -58,7 +59,7 @@ main{ /*Je crée les différentes section du main*/
 #home_collections_button{
   position: absolute;
   top: 45%;
-  right: 25%;
+  right: 9%;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -66,8 +67,15 @@ main{ /*Je crée les différentes section du main*/
   cursor: pointer;
   font-size: 40px;
   height: 40px;
-  width: 100px;
+  width: fit-content;
   color: var(--first-color);
+  padding: 10px;
+  border-radius: 9px;
+  border: solid var(--first-color);
+}
+#home_collections_button:hover{
+  background-color: var(--first-color);
+  color: #FFF;
 }
 
 .home_titre   {
@@ -98,12 +106,6 @@ main{ /*Je crée les différentes section du main*/
 
 
 
-.home_produits_container{
-  display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 40px;
-    grid-auto-rows: minmax(10px, auto);
-}
 
 
 

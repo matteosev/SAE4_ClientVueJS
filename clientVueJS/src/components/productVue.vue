@@ -6,40 +6,106 @@
 import { RouterLink, RouterView } from "vue-router"
 </script>
 
-<script >
+<script>
     export default{
-        props:{
-            achats:[]
+        props: {
+            achats: []
+        },
+        data() {
+            return {
+            sortedAchats: [],
+            selectedType: 'all',
+            selectedPrice: 'all',
+            selectedNote:'all'
+            }
+        },
+        methods: {
+            filterByTypePriceAndNote() {
+                if (this.selectedType === 'all' && this.selectedPrice === 'all' && this.selectedNote === 'all') {
+                    this.sortedAchats = [...this.achats];
+                } else if (this.selectedType === 'all' && this.selectedPrice === 'all') {
+                    this.sortedAchats = this.achats.filter(achat => achat.note === parseInt(this.selectedNote));
+                } else if (this.selectedType === 'all' && this.selectedNote === 'all') {
+                    this.sortedAchats = this.achats.filter(achat => achat.price <= parseFloat(this.selectedPrice));
+                } else if (this.selectedPrice === 'all' && this.selectedNote === 'all') {
+                    this.sortedAchats = this.achats.filter(achat => achat.type === this.selectedType);
+                } else if (this.selectedType === 'all') {
+                    this.sortedAchats = this.achats.filter(achat => achat.price <= parseFloat(this.selectedPrice) && achat.note >= parseInt(this.selectedNote));
+                } else if (this.selectedPrice === 'all') {
+                    this.sortedAchats = this.achats.filter(achat => achat.type === this.selectedType && achat.note >= parseInt(this.selectedNote));
+                } else if (this.selectedNote === 'all') {
+                    this.sortedAchats = this.achats.filter(achat => achat.type === this.selectedType && achat.price <= parseFloat(this.selectedPrice));
+                } else {
+                    this.sortedAchats = this.achats.filter(achat => achat.type === this.selectedType && achat.price <= parseFloat(this.selectedPrice) && achat.note >= parseInt(this.selectedNote));
+                }
+            }
+        },
+        created() {
+            this.sortedAchats = [...this.achats];
+        },
+        watch: {
+            selectedType() {
+                this.filterByTypePriceAndNote();
+            },
+            selectedPrice(){
+                this.filterByTypePriceAndNote();
+            },
+            selectedNote(){
+                this.filterByTypePriceAndNote();
+            }
         }
     }
-    // CODE DE TEST POUR LES FILTRES MAIS JE GALERE ZBI
-    // actions:{    
-    //         async fetchProducts(){
-    //             const {$contentful} = useNuxtApp();
-    //             const entries = await $contentful.GetEntries({
-    //                 content_type:"product",
-    //                 "fields.heatLevel": "Hot"
-    //             });
-    //             this.achats = entries.items;
-    //             return this.achats
-    //         },
-    //         async fetchProduct(id){
-    //             const {$contentful} = useNuxtApp();
-    //             this.achat = await $contentful.GetEntry(id);
-    //             return this.achat;
-    //         },
-    // }
 </script>
 
-<template>
-    <div v-bind:key="achat.etat" v-for="achat in achats" class="Bien">
-        <img v-bind:src=achat.photo alt="">
-        <h1>{{ achat.price }}</h1>
-        <h2>{{ achat.state }}</h2> 
-        <p>{{ achat.info }}</p> 
-     </div>
-</template>
 
+<template>
+    <div class="produits_titre">
+        <div class="block_filtre">
+            <h2>Trier par type</h2>
+            <select v-model="selectedType">
+                <option value="all">Tous les types</option>
+                <option value="table">Table</option>
+                <option value="chaise">Chaise</option>
+                <option value="tabouret">Tabouret</option>
+                <option value="canapé">Canapé</option>
+            </select>
+        </div>
+        <div class="block_filtres">
+            <h2>Trier par prix</h2>
+            <select v-model="selectedPrice">
+                <option value="all">Tous les prix</option>
+                <option value="140">Moins de 150€</option>
+                <option value="250">Moins de 250€</option>
+                <option value="300">Moins de 300€</option>
+                <option value="800">Moins de 800€</option>
+            </select>
+        </div>
+        <div class="block_filtre">
+            <h2>Trier par note</h2>
+            <select v-model="selectedNote">
+                <option value="all">Toutes les notes</option>
+                <option value="1">1/5</option>
+                <option value="2">2/5</option>
+                <option value="3">3/5</option>
+                <option value="4">4/5</option>
+                <option value="5">5/5</option>
+            </select>
+        </div>
+        
+    </div>
+    <div class="produits_container">
+        <div v-for="achat in sortedAchats" :key="achat.id" class="Bien">
+            <h1>{{ achat.price }}</h1>
+            <h2>{{ achat.titre }}</h2>
+            <h2>Collection : {{ achat.collection }}</h2>
+            <h3>Note : {{ achat.note }}</h3>
+            <h2>{{ achat.state }} </h2> 
+            <p>{{ achat.info }}</p> 
+        </div>
+    </div>
+    
+</template>
+    
 
 <style scoped>
 img{
@@ -62,6 +128,28 @@ img{
 .Bien p{
     color: rgba(229, 160, 1, 1) ;
     text-align: center;
+}
+
+.produits_container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 40px;
+    grid-auto-rows: minmax(10px, auto);
+}
+
+.produits_titre{
+    display: flex;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+}
+
+.block_filtre{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 2vw;
 }
 
 @media (max-width: 1250px) { 
