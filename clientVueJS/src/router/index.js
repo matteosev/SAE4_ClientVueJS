@@ -33,16 +33,15 @@ const routes =
       component: () => import('../views/CreerCompteView.vue')
     },
 
-    {
-      path: '/profil',
-      name: 'profil',
-      component: () => import('../views/ProfilView.vue')
-    },
-
-    {
+      {
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/profil',
+      name:'profil',
+      component: () => import('../views/Profil/ProfilUtilisateur.vue')
     }
   ];
 const router = createRouter({
