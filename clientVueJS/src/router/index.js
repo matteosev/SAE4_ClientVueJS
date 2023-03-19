@@ -1,9 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AccueilView from '../views/AccueilView.vue'
 
-const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
+const routes = 
+[
     {
       path: '/',
       name: 'accueil',
@@ -45,6 +44,24 @@ const router = createRouter({
       name: 'about',
       component: () => import('../views/AboutView.vue')
     }
-  ]
-})
-export default router
+  ];
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes,
+});
+
+import { createPinia } from 'pinia';
+import { useAuthStore } from '../api/auth';
+
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const pinia = createPinia();
+  const authStore = useAuthStore(pinia);
+  if (requiresAuth && !authStore.isAuthenticated) {
+    next('/se-connecter');
+  } else {
+    next();
+  }
+});
+
+export default router;

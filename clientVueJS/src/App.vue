@@ -1,30 +1,44 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-</script>
-
 <template>
   <header>
-        <div class="home_logo">
-          <img class="logo_miliboo"  src="./assets/logo.png" alt="">
-        </div>
+    <div class="home_logo">
+      <img class="logo_miliboo" src="./assets/logo.png" alt="" />
+    </div>
 
-        <nav class="home_navigation">
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/about">A Propos</RouterLink>
-          <RouterLink to="/produits">Nos Produits</RouterLink>
-          </nav>
+    <nav class="home_navigation">
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/about">A Propos</RouterLink>
+      <RouterLink to="/produits">Nos Produits</RouterLink>
+    </nav>
 
-        <div class="home_logs">
-          <RouterLink to="/se-connecter">Se Connecter</RouterLink>
-          <RouterLink to="/creer-compte">Créer Un Compte</RouterLink>
-        </div>
+    <div class="home_logs">
+      <RouterLink v-if="!isConnected" to="/se-connecter">Se Connecter</RouterLink>
+      <RouterLink v-if="!isConnected" to="/creer-compte">Créer Un Compte</RouterLink>
+      <button v-if="isConnected" @click="handleLogout">Déconnexion</button>
+    </div>
   </header>
-
-
-  
 
   <RouterView />
 </template>
+
+<script setup>
+import { RouterLink, RouterView } from 'vue-router';
+import { ref, provide, watchEffect } from 'vue';
+import { useAuthStore } from './api/auth';
+
+const authStoreInstance = useAuthStore();
+const isConnected = ref(authStoreInstance.isAuthenticated);
+
+// Mettre à jour la valeur isConnected en temps réel
+watchEffect(() => {
+  isConnected.value = authStoreInstance.isAuthenticated;
+});
+
+function handleLogout() {
+  isConnected.value = false;
+  authStoreInstance.logout(); // Appel de la méthode logout du store
+}
+</script>
+
 
 <style scoped>
 
