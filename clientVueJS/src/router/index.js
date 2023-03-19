@@ -1,14 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import AccueilView from '../views/AccueilView.vue'
 
-const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
+const routes = 
+[
     {
       path: '/',
       name: 'accueil',
-      component: () => import('../views/AccueilView.vue')
+      component: AccueilView
     },
-
+    
     {
       path: '/produits',
       name: 'produits',
@@ -17,7 +17,7 @@ const router = createRouter({
 
     {
       path: '/collections',
-      name: 'accueil',
+      name: 'collections', //le nom etait "accueil ça bugait"
       component: () => import('../views/CollectionsView.vue')
     },
 
@@ -44,7 +44,24 @@ const router = createRouter({
       name: 'about',
       component: () => import('../views/AboutView.vue')
     }
-  ]
-})
+  ];
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes,
+});
 
-export default router
+import { createPinia } from 'pinia';
+import { useAuthStore } from '../api/auth';
+
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const pinia = createPinia();
+  const authStore = useAuthStore(pinia);
+  if (requiresAuth && !authStore.isAuthenticated) {
+    next('/se-connecter');
+  } else {
+    next();
+  }
+});
+
+export default router;

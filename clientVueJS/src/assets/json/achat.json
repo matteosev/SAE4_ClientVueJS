@@ -1,0 +1,57 @@
+[
+    { 
+        "id":0,
+        "type":"table",
+        "collection":"Moscou",
+        "price":300, 
+        "note":3,
+        "nb_avis":8,
+        "titre":"Table moderne 'wagner'", 
+        "info":"Bleu - dimensions xyxyz"
+    },{ 
+        "id":1,
+        "type":"chaise",
+        "collection":"Moscou",
+        "price":250, 
+        "note":4,
+        "nb_avis":2,
+        "titre":"chaise moderne 'wagner'", 
+        "info":"Bleu - dimensions xyxyz"
+    },{ 
+        "id":2,
+        "type":"tabouret",
+        "collection":"Moscou",
+        "price":140, 
+        "note":2,
+        "nb_avis":1,
+        "titre":"tabouret moderne 'wagner'  ", 
+        "info":"Bleu - dimensions xyxyz"
+    },{ 
+        "id":3,
+        "type":"canapé",
+        "collection":"Moscou",
+        "price":800, 
+        "note":5,
+        "nb_avis":12,
+        "titre":"canapé moderne 'spoutnik", 
+        "info":"Bleu - dimensions xyxyz"
+    },{ 
+        "id":4,
+        "type":"chaise",
+        "collection":"Moscou",
+        "price":250, 
+        "note":2,
+        "nb_avis":2,
+        "titre":"chaise moderne 'wagner'", 
+        "info":"Rouge - dimensions xyxyz"
+    },{ 
+        "id":5,
+        "type":"table",
+        "collection":"Moscou",
+        "price":140, 
+        "note":3,
+        "nb_avis":8,
+        "titre":"Table moderne 'wagner'", 
+        "info":"Bleu - dimensions xyxyz"
+    }
+  ]
