@@ -12,7 +12,7 @@
             <h1>Nos Produits</h1>
         </div>
         <div >
-            <productItem v-bind:achats="Data" />
+            <productItem/>
         </div>
     </main>
 </template>

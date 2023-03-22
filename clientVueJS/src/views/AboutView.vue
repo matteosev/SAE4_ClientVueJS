@@ -1,10 +1,7 @@
+<script setup>
+import about from '../components/aboutVue.vue';
+</script>
+
 <template>
-  <div class="about">
-    <h1>dzd</h1>
-  </div>
+  <about></about>
 </template>
-
-<style>
-
-</style>
-
