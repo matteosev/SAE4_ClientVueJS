@@ -5,7 +5,6 @@ export default {
     data() 
     {
         return {
-            urlProduit: "/produit/" + this.id
         };
     }
 }
@@ -14,6 +13,6 @@ export default {
 <template>
     <div>
         <h1>{{ libelle }}</h1>
-        <a href="{{urlProduit}}">Voir le produit</a>
+        <RouterLink :to="{ name: 'produit', params: { id: this.id }}">Voir le produit</RouterLink>
     </div>
 </template>

@@ -8,20 +8,12 @@ export default {
     data() 
     {
         return {
-
+            produit: {}
         };
     },
     mounted()
     {
-        axios.get('https://localhost:7259/api/Produits/GetById/' + this.id)
-        .then(response => 
-        {
-            this.produits = response.data;
-            console.log(this.produits)
-        })
-        .catch(error => {
-            console.error(error);
-        });
+        axios.get('https://localhost:7259/api/Produits/GetById/' + this.id).then(response => this.produit = response.data).catch(error => console.error(error));
     },
     computed:
     {
@@ -36,7 +28,8 @@ export default {
 
 <template>
     <main>
-
+        <h1>{{ this.produit.libelle }}</h1>
+        <p>{{  this.produit.description }}</p>
     </main>
 </template>
   

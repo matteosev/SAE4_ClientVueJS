@@ -18,6 +18,7 @@ const routes =
     {
       path: '/produit/:id',
       name: 'produit',
+      props: true,
       component: () => import('../views/UnProduitView.vue')
     },
 
