@@ -1,58 +1,50 @@
-    <!-- component CREE POUR LES BEST SELLERS, J'ai pas encore fait le carousel 
-    et je fais l'affichage d'un Json vu que j'ai pas la base (CSS non définitif, oui il est degueu) -->
-
-
-    <script setup>
-    import axios from 'axios';
-    </script>
-
-    <script>
-    export default {
-        data() {
-            return {
-            categories: [],
-            categoriesParent:[],
-            };
-        },
-        mounted() {
-            this.getAllCategories();
-        },
-        computed:{
-            CategoriesParent(){
-                let categoriesParent = [];
-                
-                for(let categorie of this.categories){
-                    console.log(categorie)
-                    if(categorie.categorieParentId==null){
-                        categoriesParent.push(categorie.libelle);
-                    }
-                }
-                console.log(categoriesParent)
-                return categoriesParent;
-            }
-        },
-        methods: {
-            getAllCategories() {
-            axios.get('https://localhost:7259/api/Categories/GetAll')
-                .then(response => {
-                this.categories = response.data;
-                })
-                .catch(error => {
-                console.error(error);
-                });
-            },
-            
-        },
-    };
+<script setup>
+import axios from 'axios';
+import CardProduit from '../components/CardProduit.vue';
 </script>
 
+<script>
+export default {
+    data() 
+    {
+        return {
+            categories: [],
+            categoriesParent:[],
+            produits: []
+        };
+    },
+    mounted()
+    {
+        axios.get('https://localhost:7259/api/Categories/GetAll').then(response => this.categories = response.data).catch(error => console.error(error));
+        axios.get('https://localhost:7259/api/Produits/GetAll').then(response => this.produits = response.data).catch(error => console.error(error));
+        console.log(this.produits)
+    },
+    computed:
+    {
+        CategoriesParent()
+        {
+            let categoriesParent = [];
+                
+            for(let categorie of this.categories){
+                //console.log(categorie)
+                if(categorie.categorieParentId==null){
+                    categoriesParent.push(categorie.libelle);
+                }
+            }
+            //console.log(categoriesParent)
+            return categoriesParent;
+        }
+    },
+    methods: 
+    {
+    }
+}
+</script>
 
-
-
-    <template>
+<template>
+    <main>
         <div class="produits_titre">    
         </div>
-
         
         <div class="produits_container">
             <div  v-for="catParent in this.CategoriesParent" :key="catParent.categorieId"  class="Bien">
@@ -60,12 +52,21 @@
                 
             </div>
         </div>
-        
-    </template>
-        
 
-    <style scoped>
-    img{
+        <CardProduit v-for="produit in produits" :key="produit.produitId" :id="produit.produitId" :libelle="produit.libelle"/>
+
+    </main>
+</template>
+  
+<style>
+.produits_titre{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+ 
+img{
         height: 10%;
     }
     .Bien{
@@ -119,4 +120,4 @@
         width: 90vw;
     }
     }
-    </style>
+</style>
