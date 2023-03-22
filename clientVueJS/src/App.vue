@@ -6,15 +6,11 @@
 
     <nav class="home_navigation">
       <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">A Propos</RouterLink>
       <RouterLink to="/produits">Nos Produits</RouterLink>
-    </nav>
-
-    <div class="home_logs">
       <RouterLink v-if="!isConnected" to="/se-connecter">Se Connecter</RouterLink>
       <RouterLink v-if="!isConnected" to="/creer-compte">Créer Un Compte</RouterLink>
       <button v-if="isConnected" @click="handleLogout">Déconnexion</button>
-    </div>
+    </nav>
   </header>
 
   <RouterView />
@@ -39,10 +35,7 @@ function handleLogout() {
 }
 </script>
 
-
 <style scoped>
-
-
 *{
   font-family: 'Space-Grotesk-Bold';
   overflow: hidden  ;
@@ -60,17 +53,13 @@ header{
   max-width: 12vw;
   margin-left: 2vw;
 }
-.home_logs{margin-right: 2vw;}
-.logo_accounts{
-  margin-right: 1vw;
-  max-height: 5vh;
-}
 .home_navigation{
   display: flex;
   justify-content: space-between;
-  width:25vw;
+  width: 60vw;
+  margin-right: 2vw;
 }
-.home_navigation a{
+.home_navigation a, .home_navigation button{
   text-decoration: none;
   color:var(--second-color) ;
 }
@@ -80,11 +69,10 @@ header{
 
 @media (max-width: 1250px) { 
   .home_navigation {
-    width:40vw;
+    width: 75vw;
     
   }   
  }
-
 
  @media (max-width: 915px) { 
   .home_navigation {
@@ -92,6 +80,5 @@ header{
     
   }
  }
-
 
 </style>

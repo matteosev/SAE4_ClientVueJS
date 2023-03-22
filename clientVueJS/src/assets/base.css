@@ -3,6 +3,10 @@
     --second-color:#9b9b9b;
   }
 
+  *{
+    font-family: 'Space-Grotesk', sans-serif;
+  }
+
   @font-face {
     font-family: 'Space-Grotesk-Bold';
     src:url('Space-Grotesk-Bold.ttf.woff') format('woff'),
