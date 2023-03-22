@@ -12,8 +12,9 @@
       <button v-if="isConnected" @click="handleLogout">Déconnexion</button>
     </nav>
   </header>
+  <RouterView/>
 
-  <RouterView />
+
 </template>
 
 <script setup>
