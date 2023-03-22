@@ -66,9 +66,6 @@ export default {
     align-items: center;
 }
  
-img{
-        height: 10%;
-    }
     .Bien{
         background-color: #dddddd;
         display: flex;
