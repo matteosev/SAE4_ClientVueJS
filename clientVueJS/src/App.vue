@@ -41,57 +41,66 @@ function handleLogout() {
 
 
 <style scoped>
-
-
-*{
+* {
   font-family: 'Space-Grotesk-Bold';
-  overflow: hidden  ;
+  overflow: hidden;
 }
 
-header{
+header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 5vh;
+  height: 80px;
   width: 99;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: white;
 }
 
-.logo_miliboo{
+.logo_miliboo {
   max-width: 12vw;
   margin-left: 2vw;
 }
-.home_logs{margin-right: 2vw;}
-.logo_accounts{
+
+.home_logs {
+  margin-right: 2vw;
+}
+
+.logo_accounts {
   margin-right: 1vw;
   max-height: 5vh;
 }
-.home_navigation{
+
+.home_navigation {
   display: flex;
   justify-content: space-between;
-  width:25vw;
+  width: 25vw;
+  position: sticky;
+  top: 0px;
 }
-.home_navigation a{
+
+.home_navigation a {
   text-decoration: none;
-  color:var(--second-color) ;
+  color: var(--second-color);
 }
+
 .home_navigation a.router-link-exact-active {
   color: var(--first-color);
 }
 
-@media (max-width: 1250px) { 
+@media (max-width: 1250px) {
   .home_navigation {
-    width:40vw;
-    
-  }   
- }
+    width: 40vw;
+
+  }
+}
 
 
- @media (max-width: 915px) { 
+@media (max-width: 915px) {
   .home_navigation {
     font-size: 0px;
-    
+
   }
- }
-
-
+}
 </style>
