@@ -1,8 +1,17 @@
 <script setup>
 
-const handleclick = () => {
-    console.log(1);
-}
+import axios from '../../api/axios.js';
+import { ref, onMounted } from 'vue';
+
+const client = ref({})
+
+onMounted(async () => {
+      const res = await axios.get("api/Clients/getbyid/1");
+      client.value = res.data;
+    });
+    
+
+
 </script>
 
 <template>
@@ -16,25 +25,30 @@ const handleclick = () => {
         <div class="info-left">
             <div class="info-card">
                 <p class="info-card-title"> Nom </p>
-                <input type="text" class="text-input">
+                <input type="text" class="text-input" />
             </div>
             <div class="info-card">
                 <p class="info-card-title"> Prenom </p>
-                <input type="text" class="text-input">
+                <input type="text" class="text-input" v-bind="client.value.portable"/>
             </div>
             <div class="info-card">
                 <p class="info-card-title"> Numero télphone </p>
-                <input type="text" class="text-input">
+                <input type="text" class="text-input"/>
             </div>
         </div>
         <div class="info-right">
             <div class="info-card">
                 <p class="info-card-title"> Civilité </p>
-                <input type="text" class="text-input">
+                <select class="text-input">
+                    <option disabled value=""> Quel est votre civilité ?</option>
+                    <option> Homme</option>
+                    <option> Femme</option>
+                    <option> Autre</option>
+                </select>
             </div>
             <div class="info-card">
                 <p class="info-card-title"> Date de naissance </p>
-                <input type="text" class="text-input">
+                <input type="text" class="text-input"/>
             </div>
         </div>
     </div>
@@ -98,11 +112,11 @@ const handleclick = () => {
     visibility: visible;
     opacity: 1;
     transition: all 0.3s ease-in-out;
+    
 }
 
 .button-modif:hover {
     background-color: #3B5C37;
-
 }
 
 .text-input {
@@ -110,5 +124,17 @@ const handleclick = () => {
     border: solid 2px #3B5C37;
     font-size: 18px;
     margin-top: 9px;
+    border-radius: 4px;
 }
+
+.text-input:focus{
+    outline: none;
+}
+
+.container-button-radio{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
 </style>
