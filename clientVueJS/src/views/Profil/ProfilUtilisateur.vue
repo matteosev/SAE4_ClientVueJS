@@ -82,7 +82,7 @@ const currentNav = ref('Informations')
     padding: 10px;
     margin-top: 20px;
     height: 30px;
-    width: 80%;
+    width: 50%;
     border-radius: 30px;
     text-align: center;
     transition: 0.3s ease-in-out;
@@ -113,9 +113,12 @@ const currentNav = ref('Informations')
 .content-nav {
     width: 70%;
     max-width: 100vw;
-    background-color: blue;
     height: 200vh;
     position: relative;
     top: 0;
+    box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+    border-left: solid 3px #6F9575;
+    border-top: solid 3px #6F9575;
+    border-radius: 10px;
 }
 </style>
