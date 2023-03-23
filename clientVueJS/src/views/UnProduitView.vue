@@ -34,7 +34,6 @@ export default {
     },
     methods: 
     {
-
     }
 }
 </script>
@@ -57,7 +56,7 @@ export default {
                 <h1>{{ this.produit.libelle }}</h1>
                 <p>Prix : {{ selectedVariante.prix }}€</p>
                 <div id="container-product-colors">
-                    <div v-for="variante of this.variantes" :key="variante.varianteId" :style="{width:30 +'px', height:30 + 'px', backgroundColor:variante.couleurHexa}"></div>
+                    <div v-for="variante of this.variantes" v-on:click="this.selectedVariante = variante;" :key="variante.varianteId" :style="{width:30 +'px', height:30 + 'px', backgroundColor:variante.couleurHexa}"></div>
                 </div>
             </div>
         </div>
@@ -81,8 +80,21 @@ export default {
 #container-overview #container-product-sidepane { width: 30%; }
 
 #container-product-colors {
-    display: flex; 
-    justify-content: space-evenly;
+    background-color: aliceblue;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
+
+#container-product-colors > div {
+    cursor: pointer;
+    transform: scale(1);
+    transition-duration: 0.3s;
+    transition-property: transform;
+    transition-timing-function: ease-in-out;
+}
+
+#container-product-colors > div:hover { transform: scale(1.2); }
 
 </style>
