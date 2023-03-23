@@ -1,27 +1,11 @@
-<template>
-  <header>
-    <div class="home_logo">
-      <img class="logo_miliboo" src="./assets/logo.png" alt="" />
-    </div>
-
-    <nav class="home_navigation">
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/produits">Nos Produits</RouterLink>
-      <RouterLink v-if="!isConnected" to="/se-connecter">Se Connecter</RouterLink>
-      <RouterLink v-if="!isConnected" to="/creer-compte">Créer Un Compte</RouterLink>
-      <button v-if="isConnected" @click="handleLogout">Déconnexion</button>
-    </nav>
-  </header>
-  <RouterView />
-</template>
-
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
-import { ref, provide, watchEffect } from 'vue';
+import { ref, provide, watchEffect, onUnmounted } from 'vue';
 import { useAuthStore } from './api/auth';
 
 const authStoreInstance = useAuthStore();
 const isConnected = ref(authStoreInstance.isAuthenticated);
+
 
 // Mettre à jour la valeur isConnected en temps réel
 watchEffect(() => {
@@ -34,10 +18,30 @@ function handleLogout() {
 }
 </script>
 
+<template>
+  <header>
+    <div class="home_logo">
+      <img class="logo_miliboo" src="./assets/logo.png" alt="" />
+    </div>
+    <nav class="home_navigation">
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/produits">Nos Produits</RouterLink>
+      <RouterLink v-if="!isConnected" to="/se-connecter">Se Connecter</RouterLink>
+      <RouterLink v-if="!isConnected" to="/creer-compte">Créer Un Compte</RouterLink>
+      <button v-if="isConnected" @click="handleLogout">Déconnexion</button>
+    </nav>
+  </header>
+  <RouterView />
+</template>
+
+
+
 <style scoped>
 * {
   font-family: 'Space-Grotesk-Bold';
   overflow: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 header {
@@ -50,7 +54,10 @@ header {
   top: 0;
   z-index: 10;
   background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
 }
+
 
 .logo_miliboo {
   max-width: 12vw;
@@ -72,6 +79,7 @@ header {
   width: 25vw;
   position: sticky;
   top: 0px;
+
 }
 
 .home_navigation a {
