@@ -50,6 +50,7 @@ header {
   top: 0;
   z-index: 10;
   background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .logo_miliboo {

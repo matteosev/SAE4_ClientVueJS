@@ -1,4 +1,8 @@
 <script setup>
+
+const handleclick = () => {
+    console.log(1);
+}
 </script>
 
 <template>
@@ -12,30 +16,30 @@
         <div class="info-left">
             <div class="info-card">
                 <p class="info-card-title"> Nom </p>
-                <input type="text" class="">
+                <input type="text" class="text-input">
             </div>
             <div class="info-card">
                 <p class="info-card-title"> Prenom </p>
-                <input type="text">
+                <input type="text" class="text-input">
             </div>
             <div class="info-card">
                 <p class="info-card-title"> Numero télphone </p>
-                <input type="text">
+                <input type="text" class="text-input">
             </div>
         </div>
         <div class="info-right">
             <div class="info-card">
                 <p class="info-card-title"> Civilité </p>
-                <input type="text">
+                <input type="text" class="text-input">
             </div>
             <div class="info-card">
                 <p class="info-card-title"> Date de naissance </p>
-                <input type="text">
+                <input type="text" class="text-input">
             </div>
         </div>
     </div>
     <div class="button-container">
-        <button type="submit"> Modifier </button>
+        <button type="submit" class="button-modif" @click="handleclick"> Modifier </button>
     </div>
 </template>
 
@@ -74,5 +78,37 @@
 
 .info-card-title {
     font-size: 18px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-modif {
+    text-decoration: none;
+    outline-style: none;
+    background-color: #6F9575;
+    color: white;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    text-transform: uppercase;
+    visibility: visible;
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+}
+
+.button-modif:hover {
+    background-color: #3B5C37;
+
+}
+
+.text-input {
+    padding: 10px;
+    border: solid 2px #3B5C37;
+    font-size: 18px;
+    margin-top: 9px;
 }
 </style>

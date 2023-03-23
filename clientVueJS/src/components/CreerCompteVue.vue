@@ -1,5 +1,5 @@
 <template>
-    <div class="center-form">
+  <div class="center-form">
     <div class="form_container">
       <form @submit.prevent="handleSubmit">
         <h3>Inscription</h3>
@@ -45,8 +45,8 @@
         <button type="submit">S'inscrire</button>
       </form>
     </div>
-</div>
-  </template>
+  </div>
+</template>
 
 <script setup>
 import { ref } from 'vue';
@@ -54,10 +54,10 @@ import axios from '../api/axios';
 
 const registrationData = ref({
   email: '',
-  roleClient: 'Admin',
+  roleClient: 'Client',
   password: '',
   nomClient: '',
-  prenomClient: '',   
+  prenomClient: '',
   portable: '',
   newsletterMiliboo: false,
   newsletterPartenaire: false,
@@ -89,50 +89,50 @@ async function handleSubmit() {
     alert("Une erreur est survenue lors de l'inscription.");
   }
 }
-
 </script>
 
 <style scoped>
-    .center-form {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+.center-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-main{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .form_container {
   width: fit-content;
   margin: 15px;
 }
 
-form{
-        width: fit-content;
-        padding: 2%;
-        border-radius: 7px;
-        background-color: var(--third-color);
-        border: solid 2px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+form {
+  width: fit-content;
+  padding: 2%;
+  border-radius: 7px;
+  background-color: var(--third-color);
+  border: solid 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-    .form-group{
-        display: flex;
-        justify-content: space-between;
-        margin: 4px;
-    }
-    input{
-        border-radius: 7px;
-        border: solid var(--first-color);
-    }
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  margin: 4px;
+}
 
-    button{
-        background-color: var(--first-color);
-        color: #FFF;
-    }
+input {
+  border-radius: 7px;
+  border: solid var(--first-color);
+}
 
+button {
+  background-color: var(--first-color);
+  color: #FFF;
+}
 </style>
