@@ -58,7 +58,7 @@ export default {
     </main>
 </template>
   
-<style>
+<style scoped>
 .produits_titre{
     width: 100vw;
     display: flex;

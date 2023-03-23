@@ -8,6 +8,10 @@
     font-family: 'Space-Grotesk', sans-serif;
   }
 
+  body {
+    margin: 0;
+  }
+
   @font-face {
     font-family: 'Space-Grotesk-Bold';
     src:url('Space-Grotesk-Bold.ttf.woff') format('woff'),

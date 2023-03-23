@@ -37,8 +37,8 @@ function handleLogout() {
 <style scoped>
 * {
   font-family: 'Space-Grotesk-Bold';
-  overflow: hidden;
 }
+
 
 header {
   display: flex;
