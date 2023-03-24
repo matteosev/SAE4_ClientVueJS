@@ -8,16 +8,17 @@
 
 <template>
     <main>
-        <div class="produits_titre">
-            <h1>Nos Produits</h1>
-        </div>
         <div >
             <productItem/>
         </div>
+        
     </main>
 </template>
   
 <style>
+main{
+    height: 100vh;
+}
 .produits_titre{
     width: 100vw;
     display: flex;
