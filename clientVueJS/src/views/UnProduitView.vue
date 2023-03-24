@@ -34,10 +34,7 @@ export default {
     },
     mounted()
     {
-        //this.$nextTick(() => {console.log(this.$refs.container_colors.children.length); // eslint-disable-line no-console
-            //console.log("h" + this.$refs.container_colors.children.length) // eslint-disable-line no-console
-        //this.$refs.container_colors.children[0].style.borderRadius = "100%"
-        //});
+
     },
     computed:
     {
