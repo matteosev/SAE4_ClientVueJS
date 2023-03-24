@@ -2,6 +2,13 @@
 import axios from 'axios';
 import { Navigation} from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
+import { useAuthStore } from '../api/auth';
+import { ref, watchEffect } from 'vue';
+
+const authStoreInstance = useAuthStore();
+const isConnected = ref(authStoreInstance.isAuthenticated);
+// Mettre à jour la valeur isConnected en temps réel
+watchEffect(() => isConnected.value = authStoreInstance.isAuthenticated);
 </script>
 
 <script>
@@ -34,23 +41,37 @@ export default {
     },
     mounted()
     {
-        //this.$nextTick(() => {console.log(this.$refs.container_colors.children.length); // eslint-disable-line no-console
-            //console.log("h" + this.$refs.container_colors.children.length) // eslint-disable-line no-console
-        //this.$refs.container_colors.children[0].style.borderRadius = "100%"
-        //});
     },
     computed:
     {
     },
     methods: 
     {
-        colorClickHandler(event, newSelectedVariante){
+        colorClickHandler(event, newSelectedVariante)
+        {
             this.selectedVariante = newSelectedVariante;
-            //event.target.style.boxShadow = "box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px";
             for (let divColor of event.target.parentNode.children)
                 divColor.style.borderRadius = ""
             event.target.style.borderRadius = "100%"
             //console.log(event.target.parentNode) // eslint-disable-line no-console
+        },
+        quantityClickHandler(event, intChange)
+        {
+            for (let child of event.target.parentNode.parentNode.children)
+            {
+                if (child.type == "number")
+                {
+                    child.value = parseInt(child.value) + intChange;
+                    if (parseInt(child.value) <= 0)
+                        child.value = "1";
+                }
+            }
+        },
+        addToCart(event, isConnected)
+        {
+            console.log(isConnected) // eslint-disable-line no-console
+            if (!isConnected)
+                alert("T'es une merde");
         }
     }
 }
@@ -97,10 +118,16 @@ export default {
                         <div v-for="variante of this.variantes" v-on:click="$event => colorClickHandler($event, variante)" :key="variante.varianteId" :style="{width:30 +'px', height:30 + 'px', backgroundColor:variante.couleurHexa}"></div>
                     </div>
 
-                    <div>
-
+                    <!-- Call To Action -->
+                    <div id="container-buy">
+                        <input type="number" min="0" value="1">
+                        <div id="container-quantity">
+                            <button v-on:click="$event => quantityClickHandler($event, 1)">+</button>
+                            <button v-on:click="$event => quantityClickHandler($event, -1)">-</button>
+                        </div>
+                        <div style="width: 5%;"></div>
+                        <button v-on:click="$event => addToCart($event, isConnected)">Ajouter au Panier</button>
                     </div>
-
                 </div>
 
             </div>
@@ -123,6 +150,10 @@ export default {
 </template>
   
 <style scoped>
+
+* {
+  font-family: sans-serif;
+}
 
 #product-col-1{ width: 70%; padding-left: 10px;}
 
@@ -151,8 +182,24 @@ export default {
     top: 90px;                                                  /* navbar height + margin */
 }
 
+#sidepane > * {
+    margin-bottom: 10px;
+}
+
 #sidepane > h1{ 
     margin-top: 0;
+}
+
+#sidepane button {
+    border-width: 1px;
+    border-color: rgba(0,0,0, 0.2);
+    border-style: solid;
+    background-color: aliceblue;
+    transition: box-shadow 0.1s ease-in-out;
+}
+
+#sidepane button:active{
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
 
 #container-colors {
@@ -172,6 +219,45 @@ export default {
 }
 
 #container-colors > div:hover { transform: scale(1.1);}
+
+#container-buy { width: 100%; display: flex;}
+
+#container-buy input[type=number]{
+    width: 20%; 
+    text-align: center;
+    border-color: rgba(0,0,0, 0.2);
+    border-style: solid;
+    border-width: 1px 0px 1px 1px;
+}
+
+#container-buy input[type=number]::-webkit-inner-spin-button,
+#container-buy input[type=number]::-webkit-outer-spin-button{
+    -webkit-appearance: none; 
+    margin: 0;
+}
+
+#container-quantity{
+    width: 10%;
+    border-color: rgba(0,0,0, 0.2);
+    border-style: solid;
+    border-width: 1px 1px 1px 0px;
+}
+
+#container-quantity > button {
+    text-align: center;
+    padding: 0px;
+    width: 100%;
+    font-size: 120%;
+    border-width: 0px 0px 0px 1px;
+}
+
+#container-quantity > button:first-child {
+    border-bottom: 1px solid rgba(0,0,0, 0.2);
+}
+
+#container-buy > button {
+    width: 65%;
+}
 
 footer{
     height: 10vh;
