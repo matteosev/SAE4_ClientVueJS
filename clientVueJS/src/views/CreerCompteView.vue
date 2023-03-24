@@ -1,9 +1,7 @@
-<script setup>
-import creerCompte from '../components/CreerCompteVue.vue';
+<script setup>  
+    import Register from '../components/connexion/Register.vue';
 </script>
 
-
-
 <template>
-  <creerCompte></creerCompte>
+  <Register></Register>
 </template>

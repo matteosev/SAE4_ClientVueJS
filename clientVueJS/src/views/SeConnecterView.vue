@@ -1,9 +1,9 @@
-<script setup>
-import connexion from '../components/ConnexionVue.vue';
+
+<script setup>  
+    import Login from '../components/connexion/login.vue';
 </script>
 
-
-
 <template>
-  <connexion></connexion>
+  <Login></Login>
+
 </template>
