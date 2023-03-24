@@ -4,15 +4,18 @@
       <div class="overlay">
         <h1>Miliboo</h1>
         <span>
-          <p>Connexion</p>
-          <a href="#"><i class="fa fa-google" aria-hidden="true"></i> Se connecter avec google</a>
+          <a href="#" @click.prevent="handleGoogleLogin">
+            <i class="fa fa-google" aria-hidden="true"></i> Se connecter avec google
+          </a>
         </span>
       </div>
     </div>
 
     <div class="right">
-      <h5>Connexion</h5>
-      <p>Toujours pas de compte? <a href="/creer-compte">Créer un compte</a> cela ne prend qu'une minute !</p>
+      <div>
+        <h5>Connexion</h5><br>
+        <p>Toujours pas de compte? <a href="/creer-compte">Créer un compte</a> cela ne prend qu'une minute !</p>
+      </div>
       <form @submit.prevent="handleSubmit">
         <div class="inputs">
           <input type="email" v-model="credentials.email" placeholder="Email">
@@ -38,6 +41,9 @@ import { useRouter } from 'vue-router';
 import { useAuthStore } from '../../api/auth.js';
 import axios from '../../api/axios.js';
 import Swal from 'sweetalert2';
+import { gapi } from "gapi-script";
+import { onMounted } from 'vue';
+
 
 export default {
   data() {
@@ -52,7 +58,14 @@ export default {
   setup() {
     const router = useRouter();
     const auth = useAuthStore();
-
+    onMounted(async () => {
+      await gapi.load('client:auth2', async () => {
+        await gapi.client.init({
+          clientId: '175838006198-4o9nb34echkd7f83pufc00s2uegi7dle.apps.googleusercontent.com',
+          scope: 'profile email',
+        });
+      });
+    });
     return { router, auth };
   },
   methods: {
@@ -79,9 +92,41 @@ export default {
         })
       }
     },
+    async handleGoogleLogin() {
+      try {
+        const googleUser = await gapi.auth2.getAuthInstance().signIn();
+        const profile = googleUser.getBasicProfile();
+        const id_token = googleUser.getAuthResponse().id_token;
 
+        // Envoyer l'ID token au serveur pour vérifier l'existence du client
+        const response = await axios.post('/api/login/GoogleResponse', {
+          email: profile.getEmail(),
+        });
+
+        if (response.status === 200) {
+          // Si l'utilisateur existe déjà, connectez-vous
+          if (response.data.userExists) {
+            // Stocker le token JWT et les détails de l'utilisateur
+            this.auth.token = response.data.token;
+            this.auth.userDetails = response.data.userDetails;
+            localStorage.setItem('token', this.auth.token);
+
+            // Rediriger l'utilisateur vers la page d'accueil
+            this.router.push('/');
+          }
+        } else {
+          // Si l'utilisateur n'existe pas, redirigez-le vers la page d'inscription
+          this.router.push('/creer-compte');
+        }
+      } catch (error) {
+        console.error('Error during Google login:', error);
+      }
+    }
   },
 };
+
+
+
 </script>
 
 
@@ -151,6 +196,8 @@ body {
   font-weight: 500;
   margin-top: 20px;
   margin-bottom: 10px;
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 10px;
 }
 
 .box-form .left .overlay span p {
@@ -298,8 +345,7 @@ label input[type="checkbox"] {
   font-weight: bold;
 }
 
-.swal2-popup{
+.swal2-popup {
   font-family: 'Space-Grotesk-Bold' !important;
 }
-
 </style>
