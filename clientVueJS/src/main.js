@@ -1,3 +1,4 @@
+// main.js
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
@@ -13,5 +14,6 @@ const pinia = createPinia();
 app.use(router);
 app.use(pinia);
 app.use(VueSweetAlert2);
+
 
 app.mount('#app');
