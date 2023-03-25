@@ -50,6 +50,11 @@ const routes =
       path: '/profil',
       name:'profil',
       component: () => import('../views/Profil/ProfilUtilisateur.vue')
+    },
+    {
+      path: '/updateGoogle',
+      name:'updateGoogle',
+      component: () => import('../views/UpdateAfterGoogle.vue')
     }
   ];
 const router = createRouter({
