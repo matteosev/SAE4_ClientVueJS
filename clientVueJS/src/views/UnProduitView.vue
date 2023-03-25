@@ -69,9 +69,12 @@ export default {
         },
         addToCart(event, isConnected)
         {
-            console.log(isConnected) // eslint-disable-line no-console
             if (!isConnected)
-                alert("T'es une merde");
+            {
+                let p_redirectURL = encodeURIComponent('/produit/' + this.id)
+                console.log(p_redirectURL) // eslint-disable-line no-console
+                this.$router.push({ path: '/se-connecter', query: { redirectURL: p_redirectURL } })
+            }
         }
     }
 }

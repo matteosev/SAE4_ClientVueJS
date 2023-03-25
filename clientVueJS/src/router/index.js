@@ -31,7 +31,8 @@ const routes =
     {
       path: '/se-connecter',
       name: 'se-connecter',
-      component: () => import('../views/SeConnecterView.vue')
+      component: () => import('../views/SeConnecterView.vue'),
+      query: { redirectURL: encodeURIComponent("/") }
     },
 
     {

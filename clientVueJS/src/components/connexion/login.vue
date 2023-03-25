@@ -40,6 +40,7 @@ import axios from '../../api/axios.js';
 import Swal from 'sweetalert2';
 
 export default {
+  props: ['redirectURL'],
   data() {
     return {
       credentials: {
@@ -68,9 +69,11 @@ export default {
         await this.auth.login(encodedCredentials);
 
         if (this.auth.isAuthenticated) {
-          this.router.push('/');
+          this.$router.push({ path: decodeURIComponent(this.$route.query.redirectURL)})
         }
+        
       } catch (error) {
+        console.log(error)
         Swal.fire({
           title: 'Erreur!',
           text: 'Identifiants ou mot de passe inccorect(s)',
