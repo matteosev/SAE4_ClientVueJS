@@ -3,12 +3,7 @@ import axios from 'axios';
 import { Navigation} from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { useAuthStore } from '../api/auth';
-import { ref, watchEffect } from 'vue';
-
-const authStoreInstance = useAuthStore();
-const isConnected = ref(authStoreInstance.isAuthenticated);
-// Mettre à jour la valeur isConnected en temps réel
-watchEffect(() => isConnected.value = authStoreInstance.isAuthenticated);
+import { useCartStore } from '../stores/cart';
 </script>
 
 <script>
@@ -17,9 +12,12 @@ export default {
     data() 
     {
         return {
+            authStore: useAuthStore(),
+            cartStore: useCartStore(),
             produit: {},
             variantes: [],
-            selectedVariante: {}
+            selectedVariante: {},
+            quantity: 1
         };
     },
     created()
@@ -29,7 +27,7 @@ export default {
         axios.get('https://localhost:7259/api/Variantes/GetAllVariantesByProduitIdAsync/' + this.id)
         .then(response => 
         {
-            console.log(this.produit) // eslint-disable-line no-console
+            //console.log(this.produit) // eslint-disable-line no-console
             this.variantes = response.data
             this.selectedVariante = this.variantes[0];
             for (let variante of this.variantes)
@@ -53,28 +51,13 @@ export default {
             for (let divColor of event.target.parentNode.children)
                 divColor.style.borderRadius = ""
             event.target.style.borderRadius = "100%"
-            //console.log(event.target.parentNode) // eslint-disable-line no-console
         },
-        quantityClickHandler(event, intChange)
+        addToCart(event)
         {
-            for (let child of event.target.parentNode.parentNode.children)
-            {
-                if (child.type == "number")
-                {
-                    child.value = parseInt(child.value) + intChange;
-                    if (parseInt(child.value) <= 0)
-                        child.value = "1";
-                }
-            }
-        },
-        addToCart(event, isConnected)
-        {
-            if (!isConnected)
-            {
-                let p_redirectURL = encodeURIComponent('/produit/' + this.id)
-                console.log(p_redirectURL) // eslint-disable-line no-console
-                this.$router.push({ path: '/se-connecter', query: { redirectURL: p_redirectURL } })
-            }
+            if (!this.authStore.isAuthenticated)
+                this.$router.push({ path: '/se-connecter', query: { redirectURL: encodeURIComponent('/produit/' + this.id) } });
+            else
+                this.cartStore.addItem(this.selectedVariante, this.quantity);
         }
     }
 }
@@ -117,19 +100,19 @@ export default {
                     <p v-else style="color: red">En rupture</p>
                     <p>Prix : {{ selectedVariante.prix }}€</p>
 
-                    <div id="container-colors" ref="container_colors">
+                    <div id="container-colors" v-if="this.variantes.length > 1">
                         <div v-for="variante of this.variantes" v-on:click="$event => colorClickHandler($event, variante)" :key="variante.varianteId" :style="{width:30 +'px', height:30 + 'px', backgroundColor:variante.couleurHexa}"></div>
                     </div>
 
                     <!-- Call To Action -->
                     <div id="container-buy">
-                        <input type="number" min="0" value="1">
+                        <input type="number" min="0" v-model="quantity">
                         <div id="container-quantity">
-                            <button v-on:click="$event => quantityClickHandler($event, 1)">+</button>
-                            <button v-on:click="$event => quantityClickHandler($event, -1)">-</button>
+                            <button v-on:click="$event => this.quantity += 1">+</button>
+                            <button v-on:click="$event => (this.quantity - 1 > 0)? this.quantity -= 1 : 0">-</button>
                         </div>
                         <div style="width: 5%;"></div>
-                        <button v-on:click="$event => addToCart($event, isConnected)">Ajouter au Panier</button>
+                        <button v-on:click="$event => addToCart($event)">Ajouter au Panier</button>
                     </div>
                 </div>
 
@@ -162,9 +145,7 @@ export default {
 
 #product-col-2{ width: 30%; }
 
-.swiper {
-    height: calc(100vh - 80px);  /* full height - navbar heigt*/
-}
+.swiper { height: calc(100vh - 80px);  /* full height - navbar heigt*/ }
 
 .swiper img { 
     max-height: 100%;
@@ -185,13 +166,9 @@ export default {
     top: 90px;                                                  /* navbar height + margin */
 }
 
-#sidepane > * {
-    margin-bottom: 10px;
-}
+#sidepane > * { margin-bottom: 10px; }
 
-#sidepane > h1{ 
-    margin-top: 0;
-}
+#sidepane > h1{ margin-top: 5px; }
 
 #sidepane button {
     border-width: 1px;
@@ -260,11 +237,5 @@ export default {
 
 #container-buy > button {
     width: 65%;
-}
-
-footer{
-    height: 10vh;
-    text-align: center;
-    background-color: aliceblue;
 }
 </style>
