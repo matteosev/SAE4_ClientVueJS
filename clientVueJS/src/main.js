@@ -19,6 +19,6 @@ app.use(VueSweetAlert2);
 watch(
     pinia.state,    // TODO : à chaque fois que le state change, on envoie le panier à la BD = PAS BESOIN DE LOCALSTORAGE
     (state) => { console.log(localStorage); localStorage.setItem("cartLines", JSON.stringify(useCartStore().lines)); },
-    { deep: true } );
+    { deep: true });
 
 app.mount('#app');

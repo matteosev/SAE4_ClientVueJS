@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 export const useCartStore = defineStore("cart", {
     state: () => {
         return {
-            lines: localStorage.getItem('cartLines') == "undefined" || "null" ? [] : JSON.parse(localStorage.getItem('cartLines'))
+            lines: localStorage.getItem('cartLines') == "undefined" || localStorage.getItem('cartLines') == "null" ? [] : JSON.parse(localStorage.getItem('cartLines'))
         };
     },
     actions:
