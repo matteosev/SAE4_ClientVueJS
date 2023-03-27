@@ -1,20 +1,3 @@
-<template>
-  <header>
-    <div class="home_logo">
-      <img class="logo_miliboo" src="./assets/logo.png" alt="" />
-    </div>
-
-    <nav class="home_navigation">
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/produits">Nos Produits</RouterLink>
-      <RouterLink v-if="!isConnected" to="/se-connecter">Se Connecter</RouterLink>
-      <RouterLink v-if="!isConnected" to="/creer-compte">Créer Un Compte</RouterLink>
-      <RouterLink v-if="isConnected" to="/profil">Profil</RouterLink>
-      <RouterLink v-if="isConnected" @click="handleLogout" to="/">Déconnexion</RouterLink>
-    </nav>
-  </header>
-  <RouterView />
-</template>
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
@@ -41,12 +24,14 @@ function handleLogout() {
     <div class="home_logo">
       <img class="logo_miliboo" src="./assets/logo.png" alt="" />
     </div>
+
     <nav class="home_navigation">
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/produits">Nos Produits</RouterLink>
-      <RouterLink v-if="!isConnected" to="/se-connecter?redirectURL=%2F">Se Connecter</RouterLink>
+      <RouterLink v-if="!isConnected" to="/se-connecter">Se Connecter</RouterLink>
       <RouterLink v-if="!isConnected" to="/creer-compte">Créer Un Compte</RouterLink>
-      <button v-if="isConnected" @click="handleLogout">Déconnexion</button>
+      <RouterLink v-if="isConnected" to="/profil">Profil</RouterLink>
+      <RouterLink v-if="isConnected" @click="handleLogout" to="/">Déconnexion</RouterLink>
     </nav>
   </header>
   <RouterView />
