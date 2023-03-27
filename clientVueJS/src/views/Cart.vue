@@ -11,7 +11,9 @@ export default {
     data() 
     {
         return {
-            cartStore: useCartStore()
+            cartStore: useCartStore(),
+            civilite: JSON.parse(localStorage.getItem("client")).civilite,
+            nom: JSON.parse(localStorage.getItem("client")).nomClient
         };
     },
     created()
@@ -31,15 +33,15 @@ export default {
 
 <template>
     <main>
-        <h1 class="cart-title">Votre Panier Civilité Nom</h1>
-    <div class="cart-wrapper">
-      <div class="cart-container">
-        <CartItem v-for="line of cartStore.lines" :variante="line.variante" :quantity="line.quantity"></CartItem>
-      </div>
-      <div class="checkout">
-        <button @click="purchase" class="buy-now-btn">Acheter maintenant</button>
-      </div>
-    </div>
+        <h1 class="cart-title">Votre Panier {{ civilite }} {{ nom }} </h1>
+        <div class="cart-wrapper">
+            <div class="cart-container">
+                <CartItem v-for="line of cartStore.lines" :variante="line.variante" :quantity="line.quantity"></CartItem>
+            </div>
+            <div class="checkout">
+                <button @click="purchase" class="buy-now-btn">Acheter maintenant</button>
+            </div>
+        </div>
   </main>
     <footer>
         footer

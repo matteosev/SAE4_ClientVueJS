@@ -84,6 +84,8 @@ export default {
         if (this.auth.isAuthenticated) {
           //axios.get('https://localhost:7259/api/LignePaniers/GetLignePanierByClientId/' + this.id).then(response => this.produit = response.data).catch(error => console.error(error));
 
+          if (this.$route.query.redirectURL == undefined)
+            this.$route.query.redirectURL = "/"
           this.$router.push({ path: decodeURIComponent(this.$route.query.redirectURL)})
         }
         
