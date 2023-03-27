@@ -16,6 +16,10 @@ app.use(router);
 app.use(pinia);
 app.use(VueSweetAlert2);
 
+let cartStore = useCartStore();
+
+if (useAuthStore().isAuthenticated)
+    cartStore.getFromDb(JSON.parse(localStorage.getItem("client")).clientId)
 watch(
     pinia.state,    // TODO : à chaque fois que le state change, on envoie le panier à la BD = PAS BESOIN DE LOCALSTORAGE
     (state) => { console.log(localStorage); localStorage.setItem("cartLines", JSON.stringify(useCartStore().lines)); },

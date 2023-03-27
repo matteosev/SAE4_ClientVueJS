@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import axios from 'axios';
 
 export const useCartStore = defineStore("cart", {
     state: () => {
@@ -8,6 +9,12 @@ export const useCartStore = defineStore("cart", {
     },
     actions:
     {
+        getFromDb(clientId){
+            axios.get('https://localhost:7259/api/LignePaniers/GetLignePanierByClientId/' + clientId).then(response => console.log(response.data)).catch(error => console.error(error));
+        },
+        postToDb(clientId){
+            
+        },
         addLine(line) {
             this.lines.push(line)   // line : {variante, quantity}
         },
