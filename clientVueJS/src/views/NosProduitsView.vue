@@ -1,87 +1,201 @@
-<script setup>
-import axios from 'axios';
-import CardProduit from '../components/CardProduit.vue';
+<script setup>  
+    import productItem from '../components/cardProduit.vue';
+    import Data from '../assets/json/achat.json';
+    import axios from 'axios';
 </script>
 
 <script>
-export default {
-    data() 
-    {
-        return {
+    export default {
+        data() {
+            return {
             categories: [],
             categoriesParent:[],
-            produits: []
-        };
-    },
-    mounted()
-    {
-        axios.get('https://localhost:7259/api/Categories/GetAll').then(response => this.categories = response.data).catch(error => console.error(error));
-        axios.get('https://localhost:7259/api/Produits/GetAll').then(response => this.produits = response.data).catch(error => console.error(error));
-        console.log(this.produits)
-    },
-    computed:
-    {
-        CategoriesParent()
-        {
+            categoriesEnfant:[],
+            produits: [],
+            selectedCategory: null
+            };
+        },
+        mounted() {
+            this.getAllCategories();
+            this.getAllProducts();
+        },
+        computed:{
+            CategoriesParent(){
             let categoriesParent = [];
-                
             for(let categorie of this.categories){
-                //console.log(categorie)
                 if(categorie.categorieParentId==null){
-                    categoriesParent.push(categorie.libelle);
+                categoriesParent.push(categorie);
                 }
             }
-            //console.log(categoriesParent)
             return categoriesParent;
-        }
-    },
-    methods: 
-    {
-    }
-}
+            }
+        },
+        methods: {
+
+            getAllCategories() {
+            axios.get('https://localhost:7259/api/Categories/GetAll')
+            .then(response => {
+                console.log(response.data)
+                this.categories = response.data;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+            },
+
+            getAllProducts() {
+            axios.get('https://localhost:7259/api/Produits/GetAll')
+            .then(response => {
+                console.log(response.data)
+                this.produits = response.data;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+            },
+
+            getCategoriesEnfant(categorieParent){
+            let categoriesEnfant = [];
+            for(let categorie of this.categories){
+                if(categorie.categorieParentId == categorieParent.categorieId ){
+                categoriesEnfant.push(categorie);
+                }
+            }
+            return categoriesEnfant;
+            },
+
+            selectCategory(category) {
+            this.selectedCategory = category;
+            this.getAllProducts();
+            },
+
+            filterProducts() {
+            if (!this.selectedCategory) {
+                return this.produits;
+            }
+            return this.produits.filter((produit) => {
+                return produit.categorieId === this.selectedCategory.categorieId;
+            });
+            },
+            
+        },
+    };
 </script>
 
 <template>
-    <main>
-        <div class="produits_titre">    
-        </div>
-        
-        <div class="produits_container">
-            <div  v-for="catParent in this.CategoriesParent" :key="catParent.categorieId"  class="Bien">
-                <h1 >{{ catParent}}</h1>
-                
-            </div>
-        </div>
+    <nav>
+    <ul>
+      <li class="deroulant" v-for="catParent in CategoriesParent" :key="catParent.categorieId">
+        <a>{{ catParent.libelle }}</a>
 
-        <CardProduit v-for="produit in produits" :key="produit.produitId" :id="produit.produitId" :libelle="produit.libelle"/>
+        <ul class="sous">
+          <li v-for="catEnfant in getCategoriesEnfant(catParent)" :key="catEnfant.categorieId">
+            <a @click="selectCategory(catEnfant)">{{ catEnfant.libelle }}</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="produits_container">
 
-    </main>
+    <productItem v-for="produit in filterProducts()" :key="produit.produitId" :libelle="produit.libelle"></productItem>
+
+  </div>
 </template>
   
-<style scoped>
+<style>
+main{
+    height: 100vh;
+}
 .produits_titre{
     width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
 }
- 
-    .Bien{
-        background-color: #dddddd;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 25vw;
-        padding: 5%;
-        border-radius: 3%;
+body{
+        height: 100vh;
     }
-    .Bien:hover{
+    img{
+        height: 10%;
+    }
+    nav{
+        width: 100%;
+        background-color: #fff;
+        top: 0px;
+    }
+
+    nav ul{
+        width: 92vw;
+        display: flex;
+        justify-content: space-around;
+        
+        
+    }
+
+    nav ul li{
+        display: flex;
+        width:fit-content;
+        text-align: center;
+        align-items: center;
+        position: relative;
+        margin: 12px;
+    }
+
+    nav ul::after{
+        content:"";
+        clear: both;
+    }
+
+    nav a{
+        text-decoration: none;
+        color: black;
+        border-bottom: 2px solid transparent;
+    }
+
+    nav a:hover{
+        color: var(--first-color);
+        border-bottom: 2px solid rgb(1, 46, 0);
+    }
+
+    .sous{
+        display: none;
+        box-shadow: 0px 1px 2px #CCC;
+        background-color: #fff;
+        position: absolute;
+        width: 200px;
+        height: fit-content;
+        top:100%;
+        z-index: 1000;
+    }
+
+    nav > ul li:hover .sous{
+        display: block;
+    }
+
+    .sous li{
+        float: none;
+        width: fit-content;
+        text-align:left;
         cursor: pointer;
     }
 
-    .Bien p{
-        text-align: center;
+    .sous li:hover{
+        border-bottom: 1px solid rgb(1, 46, 0);
     }
+
+    .sous a{
+        padding:10px;
+        border-bottom:none;
+    }
+
+    .sous a:hover{
+        border-bottom: none;
+        background-color: #fff;
+    }
+
+    
+    
 
     .produits_container{
         display: grid;
@@ -117,4 +231,5 @@ export default {
         width: 90vw;
     }
     }
+    
 </style>
