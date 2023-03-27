@@ -1,5 +1,5 @@
 <script setup>  
-    import productItem from '../components/cardProduit.vue';
+    import productItem from '../components/CardProduit.vue';
     import Data from '../assets/json/achat.json';
     import axios from 'axios';
 </script>
@@ -98,7 +98,7 @@
   </nav>
   <div class="produits_container">
 
-    <productItem v-for="produit in filterProducts()" :key="produit.produitId" :libelle="produit.libelle"></productItem>
+    <productItem v-for="produit in filterProducts()" :key="produit.produitId" :libelle="produit.libelle" :produit="produit" ></productItem>
 
   </div>
 </template>
