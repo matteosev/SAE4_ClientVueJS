@@ -28,6 +28,7 @@ function handleLogout() {
       <RouterLink to="/produits">Nos Produits</RouterLink>
       <RouterLink v-if="!isConnected" to="/se-connecter?redirectURL=%2F">Se Connecter</RouterLink>
       <RouterLink v-if="!isConnected" to="/creer-compte">Créer Un Compte</RouterLink>
+      <RouterLink v-if="isConnected" to="/panier">Panier</RouterLink>
       <button v-if="isConnected" @click="handleLogout">Déconnexion</button>
     </nav>
   </header>

@@ -14,6 +14,12 @@
     margin: 0;
   }
 
+footer{
+  height: 10vh;
+  text-align: center;
+  background-color: aliceblue;
+}
+
   @font-face {
     font-family: 'Space-Grotesk-Bold';
     src:url('/Space-Grotesk-Bold.ttf.woff') format('woff'),

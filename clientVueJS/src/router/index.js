@@ -41,6 +41,12 @@ const routes =
       component: () => import('../views/CreerCompteView.vue')
     },
 
+    {
+      path: '/panier',
+      name: 'panier',
+      component: () => import('../views/Cart.vue')
+    },
+
       {
       path: '/about',
       name: 'about',
