@@ -298,8 +298,7 @@ label input[type="checkbox"] {
   font-weight: bold;
 }
 
-.swal2-popup{
+.swal2-popup {
   font-family: 'Space-Grotesk-Bold' !important;
 }
-
 </style>
