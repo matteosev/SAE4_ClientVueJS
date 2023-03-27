@@ -10,16 +10,12 @@
   padding: 0;
 }
 
-  body {
-    margin: 0;
-  }
-
-  @font-face {
-    font-family: 'Space-Grotesk-Bold';
-    src:url('/Space-Grotesk-Bold.ttf.woff') format('woff'),
-        url('/Space-Grotesk-Bold.ttf.svg#Space-Grotesk-Bold') format('svg'),
-        url('/Space-Grotesk-Bold.ttf.eot'),
-        url('/Space-Grotesk-Bold.ttf.eot?#iefix') format('embedded-opentype'); 
-    font-weight: normal;
-    font-style: normal;
+@font-face {
+  font-family: 'Space-Grotesk-Bold';
+  src: url('Space-Grotesk-Bold.ttf.woff') format('woff'),
+    url('Space-Grotesk-Bold.ttf.svg#Space-Grotesk-Bold') format('svg'),
+    url('Space-Grotesk-Bold.ttf.eot'),
+    url('Space-Grotesk-Bold.ttf.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
 }
