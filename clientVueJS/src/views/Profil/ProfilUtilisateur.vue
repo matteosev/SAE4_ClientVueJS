@@ -90,7 +90,9 @@ const currentNav = ref('Informations')
     text-transform: uppercase;
     font-size: 18px;
     z-index: 9;
-    align-items: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
 }
 
@@ -105,10 +107,6 @@ const currentNav = ref('Informations')
     background-color: #9FCDA6;
 }
 
-/* .nav-button-profil {
-    border-right: solid 3px #9FCDA6;
-    background-color: #9FCDA6;
-} */
 
 .content-nav {
     width: 70%;
