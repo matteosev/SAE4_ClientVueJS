@@ -17,9 +17,13 @@ export default {
     },
     created()
     {
-        console.log(this.cartStore.lines)
-        axios.get('https://localhost:7259/api/Produits/GetById/' + this.variante.produitId).then(response => this.libelle = response.data.libelle).catch(error => console.error(error));
-        axios.get('https://localhost:7259/api/Variantes/GetAllVariantePhotosAsync/' + this.variante.varianteId).then(response => this.photo = response.data[0].chemin).catch(error => console.error(error));
+        axios.get('https://localhost:7259/api/Produits/GetById/' + this.variante.produitId)
+        .then(response => this.libelle = response.data.libelle)
+        .catch(error => console.error(error));
+
+        axios.get('https://localhost:7259/api/Variantes/GetAllVariantePhotosAsync/' + this.variante.varianteId)
+        .then(response => this.photo = response.data[0].chemin)
+        .catch(error => console.error(error));
     },
     mounted()
     {
@@ -44,7 +48,7 @@ export default {
         </div>
         <div class="container-buttons">
             <button v-on:click="this.$router.push({ path: '/produit/' + variante.produitId });">Voir le Produit</button>
-            <button v-on:click="cartStore.deleteLine(cartStore.findLineId(variante.varianteId))">Supprimer</button>
+            <button v-on:click="cartStore.deleteItem(variante)">Supprimer</button>
         </div>
     </div>
     
