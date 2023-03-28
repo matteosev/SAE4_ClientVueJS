@@ -138,7 +138,7 @@ export default {
 <style scoped>
 
 * {
-  font-family: sans-serif;
+    font-family: 'Space-Grotesk-Bold';
 }
 
 #product-col-1{ width: 70%; padding-left: 10px;}

@@ -19,6 +19,8 @@ export default {
 </template>
 
 <style>
+
+
   .Bien{
           background-color: #dddddd;
           display: flex;

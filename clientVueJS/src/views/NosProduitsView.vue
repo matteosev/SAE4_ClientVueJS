@@ -1,10 +1,7 @@
-<script setup>  
+<script>  
     import productItem from '../components/cardProduit.vue';
-    import Data from '../assets/json/achat.json';
     import axios from 'axios';
-</script>
 
-<script>
     export default {
         data() {
             return {

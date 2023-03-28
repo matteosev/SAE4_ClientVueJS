@@ -51,7 +51,9 @@ export default {
 </template>
 
 <style scoped>
-
+* {
+    font-family: 'Space-Grotesk-Bold';
+}
 
 .cartItem {
     display: flex;
