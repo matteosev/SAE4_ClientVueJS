@@ -83,10 +83,11 @@ export default {
 
         if (this.auth.isAuthenticated) {
           //axios.get('https://localhost:7259/api/LignePaniers/GetLignePanierByClientId/' + this.id).then(response => this.produit = response.data).catch(error => console.error(error));
-
-          this.$router.push({ path: decodeURIComponent(this.$route.query.redirectURL)})
+          if (this.$route.query.redirectURL == undefined)
+            this.$router.push('/')
+          this.$router.push({ path: decodeURIComponent(this.$route.query.redirectURL) })
         }
-        
+
       } catch (error) {
         console.log(error)
         Swal.fire({
