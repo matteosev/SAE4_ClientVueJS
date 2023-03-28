@@ -1,6 +1,5 @@
 <script setup>  
 import CardProduit from '../components/CardProduit.vue';
-import Data from '../assets/json/achat.json';
 import axios from 'axios';
 </script>
 
