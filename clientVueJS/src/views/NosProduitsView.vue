@@ -1,8 +1,11 @@
-<script>  
-    import productItem from '../components/cardProduit.vue';
-    import axios from 'axios';
+<script setup>  
+import CardProduit from '../components/CardProduit.vue';
+import Data from '../assets/json/achat.json';
+import axios from 'axios';
+</script>
 
-    export default {
+<script>
+   export default {
         data() {
             return {
             categories: [],
@@ -95,7 +98,7 @@
   </nav>
   <div class="produits_container">
 
-    <productItem v-for="produit in filterProducts()" :key="produit.produitId" :produit="produit"></productItem>
+    <CardProduit v-for="produit in filterProducts()" :key="produit.produitId" :produit="produit"></CardProduit>
 
   </div>
 </template>
