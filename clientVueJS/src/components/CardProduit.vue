@@ -1,9 +1,10 @@
 <script>
 export default {
-    props: ['id', 'libelle'],
+    props: ['produit'],
     data() 
     {
         return {
+            urlProduit: "/produit/" + this.produit.produitId
         };
     }
 }
@@ -11,12 +12,9 @@ export default {
 
 <template>
     <div class="Bien">
-      <div>
-        <p>{{ libelle }}</p>
-      </div>
-      <div>
-        <p>{{ libelle }}</p>
-      </div>
+        <p>{{ produit.libelle }}</p>
+        <a :href="urlProduit">Voir le produit</a>
+
     </div>
 </template>
 

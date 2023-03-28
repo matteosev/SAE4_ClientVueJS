@@ -18,8 +18,6 @@
     :space-between="1"
     navigation
     :scrollbar="{ draggable: true }"
-    @swiper="onSwiper"
-    @slideChange="onSlideChange"
   >
   
   <swiper-slide> <!--YA PLUS QU'A FAIRE UN V FOR AVEC LES PROMOS -->
@@ -38,9 +36,7 @@
         <h1>Slide 4</h1>
         <p>Ceci est une slide</p>
     </swiper-slide>
-    
-    <swiper-pagination />
-    
+
   </swiper>
 </template>
 

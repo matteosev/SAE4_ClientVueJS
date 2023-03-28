@@ -98,7 +98,7 @@
   </nav>
   <div class="produits_container">
 
-    <productItem v-for="produit in filterProducts()" :key="produit.produitId" :libelle="produit.libelle"></productItem>
+    <productItem v-for="produit in filterProducts()" :key="produit.produitId" :produit="produit"></productItem>
 
   </div>
 </template>
