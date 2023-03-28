@@ -81,11 +81,12 @@ export default {
         console.log(encodedCredentials);
         await this.auth.login(encodedCredentials);
 
-        if (this.auth.isAuthenticated) {
-          //axios.get('https://localhost:7259/api/LignePaniers/GetLignePanierByClientId/' + this.id).then(response => this.produit = response.data).catch(error => console.error(error));
+        console.log(this.$route.query.redirectURL)
+        if (this.$route.query.redirectURL == undefined)
+          this.$route.query.redirectURL = "/";
 
-          this.$router.push({ path: decodeURIComponent(this.$route.query.redirectURL)})
-        }
+        if (this.auth.isAuthenticated)
+          this.$router.push({ path: decodeURIComponent(this.$route.query.redirectURL)});
         
       } catch (error) {
         console.log(error)
@@ -115,13 +116,14 @@ export default {
             this.auth.token = response.data.token;
             this.auth.userDetails = response.data.userDetails;
             localStorage.setItem('token', this.auth.token);
-
-            // Rediriger l'utilisateur vers la page d'accueil
-            this.router.push('/');
+            console.log(this.$route.query.redirectURL)
+            if (this.$route.query.redirectURL == undefined)
+              this.$route.query.redirectURL = "/";
+            this.$router.push({ path: decodeURIComponent(this.$route.query.redirectURL)})
           }
         } else {
           // Si l'utilisateur n'existe pas, redirigez-le vers la page d'inscription
-          this.router.push('/creer-compte');
+          this.$router.push({ path: "/creer-compte"})
         }
       } catch (error) {
         console.error('Error during Google login:', error);
