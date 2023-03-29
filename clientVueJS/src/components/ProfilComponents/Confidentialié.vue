@@ -1,6 +1,7 @@
 <script setup>
 
 import { ref } from 'vue'
+
 const See = ref(false);
 const Modify = ref(false)
 
@@ -44,7 +45,6 @@ const ChangeType = () => {
             </div>
             <button class="button-confirm-password">Confirmer</button>
         </div>
-
     </div>
 </template>
 
