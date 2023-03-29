@@ -77,16 +77,23 @@ export default {
                 </swiper>
 
                 <div id="product-text">
-                    <h2>Description</h2>
-                    <p style="text-align: justify;">{{  this.produit.description }}</p>
-                    <h2>Entretien</h2>
-                    <p style="text-align: justify;">{{  this.produit.instructionsEntretien }}</p>
-                    <h2>Fiche Technique</h2>
-                    <p v-if="this.produit.matiere != null && this.produit.matiere != ''">Matière : {{  this.produit.matiere }}</p>
-                    <p v-if="this.produit.revetement != null && this.produit.revetement != ''">Revêtement : {{  this.produit.revetement }}</p>
-                    <p v-if="this.produit.poidsColis != null && this.produit.poidsColis != ''">Poids du colis : {{  this.produit.poidsColis }}</p>
-                    <p v-if="this.produit.dimensionsTotale != null && this.produit.dimensionsTotale != ''">Dimensions du produit : {{  this.produit.dimensionsTotale }}</p>
-                    <p v-if="this.produit.dimensionsColis != null && this.produit.dimensionsColis != ''">Dimensions du colis : {{  this.produit.dimensionsColis }}</p>
+                    <div class="product-text-partie">
+                        <h2>Description</h2>
+                        <p style="text-align: justify;">{{  this.produit.description }}</p>
+                    </div>
+                    <div class="product-text-partie">
+                        <h2>Entretien</h2>
+                        <p style="text-align: justify;">{{  this.produit.instructionsEntretien }}</p>
+                    </div>
+                    <div class="product-text-partie">
+                        <h2>Fiche Technique</h2>
+                        <p v-if="this.produit.matiere != null && this.produit.matiere != ''">Matière : {{  this.produit.matiere }}</p>
+                        <p v-if="this.produit.revetement != null && this.produit.revetement != ''">Revêtement : {{  this.produit.revetement }}</p>
+                        <p v-if="this.produit.poidsColis != null && this.produit.poidsColis != ''">Poids du colis : {{  this.produit.poidsColis }}</p>
+                        <p v-if="this.produit.dimensionsTotale != null && this.produit.dimensionsTotale != ''">Dimensions du produit : {{  this.produit.dimensionsTotale }}</p>
+                        <p v-if="this.produit.dimensionsColis != null && this.produit.dimensionsColis != ''">Dimensions du colis : {{  this.produit.dimensionsColis }}</p>
+                    </div>
+                                    
                 </div>
 
             </div>
@@ -131,7 +138,7 @@ export default {
         </section>
     </main>
     <footer>
-        footer
+        Miliboo
     </footer>
 </template>
   
@@ -144,6 +151,8 @@ export default {
 #product-col-1{ width: 70%; padding-left: 10px;}
 
 #product-col-2{ width: 30%; }
+
+
 
 .swiper { height: calc(100vh - 80px);  /* full height - navbar heigt*/ }
 
@@ -237,5 +246,12 @@ export default {
 
 #container-buy > button {
     width: 65%;
+}
+
+footer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 </style>
