@@ -152,7 +152,14 @@ export default {
 
 #product-col-2{ width: 30%; }
 
+.product-text-partie{
+    margin: 50px;
+}
 
+.product-text-partie h2{
+    margin-bottom: 10px;
+    color: var(--first-color);
+}
 
 .swiper { height: calc(100vh - 80px);  /* full height - navbar heigt*/ }
 
