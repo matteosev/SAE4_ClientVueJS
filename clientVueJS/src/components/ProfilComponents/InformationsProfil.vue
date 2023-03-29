@@ -40,7 +40,12 @@ const hasChanges = computed(() => {
 const nomClient = ref(handleNom(newUser.nomClient));
 const telClient = ref(handleTel(newUser.portable));
 
-console.log(newUser.prenomClient);
+const Adresse = ref(false)
+
+const toggleAdresse = () => {
+    Adresse.value = !Adresse.value
+}
+
 </script>
 
 <template>
@@ -82,9 +87,45 @@ console.log(newUser.prenomClient);
             </div>
         </div>
     </div>
-    <div class="button-container">
-        <button type="submit" class="button-modif" @click="toggleReadOnlyMode">{{ buttonLabel }} </button>
-        <button class="button-modif" @click="saveChanges" :disabled="!hasChanges">Enregistrer</button>
+    <div class="container-adresse">
+        <h3 class="title-adresse">Adresse</h3>
+        <div v-if="!Adresse">
+            <div class="content-no-adresse">
+                <p> Vous n'avez pas d'adresse d'enregistrer </p>
+                <div class="container-no-adresse">
+                    <p> Voulez-vous enregistrer votre adresse ? </p>
+                    <button class="button-adresse" @click="toggleAdresse"> Ajouter </button>
+                </div>
+            </div>
+        </div>
+        <div v-if="Adresse">
+            <div class="info-container">
+                <div class="info-left">
+                    <div class="info-card">
+                        <p class="info-card-title"> Rue </p>
+                        <input type="text" class="text-input" :readonly="isReadOnly" v-model="nomClient" />
+                    </div>
+                    <div class="info-card">
+                        <p class="info-card-title"> Ville </p>
+                        <input type="text" class="text-input" v-model="newUser.prenomClient" :readonly="isReadOnly" />
+                    </div>
+                </div>
+                <div class="info-right">
+                    <div class="info-card">
+                        <p class="info-card-title"> Code postal </p>
+                        <input type="text" class="text-input" :readonly="isReadOnly" v-model="nomClient" />
+                    </div>
+                    <div class="info-card">
+                        <p class="info-card-title"> Pays </p>
+                        <input type="text" class="text-input" v-model="newUser.prenomClient" :readonly="isReadOnly" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-container">
+            <button type="submit" class="button-modif" @click="toggleReadOnlyMode">{{ buttonLabel }} </button>
+            <button class="button-modif" @click="saveChanges" :disabled="!hasChanges">Enregistrer</button>
+        </div>
     </div>
 </template>
 
@@ -166,5 +207,25 @@ console.log(newUser.prenomClient);
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+
+.container-adresse {
+    margin-top: 30px;
+}
+
+.title-adresse {
+    text-align: center;
+}
+
+.content-no-adresse {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container-no-adresse {
+    display: flex;
+    margin-top: 15px;
 }
 </style>

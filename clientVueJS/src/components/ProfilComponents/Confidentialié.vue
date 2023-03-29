@@ -53,7 +53,9 @@ const CheckVerifModify = () => {
         </div>
     </div>
     <div v-if="Modify" class="modify-password">
-        <h3 class="title-modify"> Modification du Mot de passe </h3>
+        <div class="titre-modifier">
+            <h3 class="title-modify"> Modification du Mot de passe </h3>
+        </div>
         <div class="content-new-password">
             <div class="content-modify">
                 <p class="title-content-modify"> Nouveau mot de passe</p>
@@ -160,11 +162,18 @@ const CheckVerifModify = () => {
     margin-left: 10px;
 }
 
+.titre-modifier {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .title-modify {
-    margin-top: 30px;
-    text-align: left;
-    margin-left: 150px;
-
-
+    margin-top: 50px;
+    padding: 10px;
+    left: 37%;
+    width: 265px;
+    border-left: solid 2px #3B5C37;
+    border-right: solid 2px #3B5C37;
 }
 </style>
