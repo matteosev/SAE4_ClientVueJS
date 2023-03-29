@@ -58,10 +58,11 @@ const routes =
       component: () => import('../views/Profil/ProfilUtilisateur.vue')
     },
     {
-      path: '/updateGoogle',
-      name:'updateGoogle',
-      component: () => import('../views/UpdateAfterGoogle.vue')
-    }
+      path: '/adresse-client',
+      name:'adresse-client',
+      component: () => import('../views/Adresse.vue')
+    },
+    
   ];
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
