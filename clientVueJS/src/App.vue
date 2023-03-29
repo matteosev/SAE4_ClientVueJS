@@ -3,6 +3,7 @@
 import { RouterLink, RouterView } from 'vue-router';
 import { ref, provide, watchEffect, onUnmounted } from 'vue';
 import { useAuthStore } from './api/auth';
+import { useCartStore } from './stores/cart';
 
 const authStoreInstance = useAuthStore();
 const isConnected = ref(authStoreInstance.isAuthenticated);
@@ -15,6 +16,7 @@ watchEffect(() => {
 
 function handleLogout() {
   isConnected.value = false;
+  useCartStore().deleteAllLines();
   authStoreInstance.logout(); // Appel de la méthode logout du store
 }
 </script>

@@ -1,5 +1,5 @@
 // main.js
-import { createApp, watch } from 'vue';
+import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import { createPinia } from 'pinia';
@@ -16,9 +16,8 @@ app.use(router);
 app.use(pinia);
 app.use(VueSweetAlert2);
 
-watch(
-    pinia.state,    // TODO : à chaque fois que le state change, on envoie le panier à la BD = PAS BESOIN DE LOCALSTORAGE
-    (state) => { console.log(localStorage); localStorage.setItem("cartLines", JSON.stringify(useCartStore().lines)); },
-    { deep: true } );
+// si l'utilisateur est connecté en ouvrant l'app, on récupère son panier dans la BD
+if (useAuthStore().isAuthenticated)
+    useCartStore().getCartFromDb(JSON.parse(localStorage.getItem("client")).clientId);
 
 app.mount('#app');

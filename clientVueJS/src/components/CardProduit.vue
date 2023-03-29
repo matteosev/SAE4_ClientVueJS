@@ -1,18 +1,36 @@
-
 <script>
 export default {
-    props: ['id', 'libelle'],
+    props: ['produit'],
     data() 
     {
         return {
+            urlProduit: "/produit/" + this.produit.produitId
         };
     }
 }
 </script>
 
 <template>
-    <div>
-        <h1>{{ libelle }}</h1>
-        <RouterLink :to="{ name: 'produit', params: { id: this.id }}">Voir le produit</RouterLink>
+    <div class="Bien">
+        <p>{{ produit.libelle }}</p>
+        <a :href="urlProduit">Voir le produit</a>
+
     </div>
 </template>
+
+<style>
+
+
+  .Bien{
+          background-color: #dddddd;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 25vw;
+          height: 30vh;
+  }
+
+  .Bien:hover{
+    cursor: pointer;
+  }
+</style>

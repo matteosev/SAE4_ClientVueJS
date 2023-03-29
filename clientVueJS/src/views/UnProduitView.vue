@@ -137,7 +137,7 @@ export default {
   
 <style scoped>
 * {
-    font-family: sans-serif;
+    font-family: 'Space-Grotesk-Bold';
 }
 
 #product-col-1 {
@@ -255,4 +255,5 @@ export default {
 
 #container-buy>button {
     width: 65%;
-}</style>
+}
+</style>
