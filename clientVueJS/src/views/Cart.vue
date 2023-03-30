@@ -41,7 +41,7 @@ export default {
         <div class="cart-wrapper">
           <div class="cart-container">
             <p v-if="cartStore.lines.length == 0">Panier vide !</p>
-            <p v-else style="padding: 10px; margin-bottom: 10px; background-color: rgba(0, 0, 0, 0.1);">Montant total : {{ cartStore.totalAmount }}€</p>
+            <p v-else style="padding: 10px; margin-bottom: 10px; background-color: rgba(0, 0, 0, 0.1);">Montant total : {{ Math.round(cartStore.totalAmount * 100) / 100 }}€</p>
             <CartItem v-for="line of cartStore.lines" :variante="line.variante" :quantity="line.quantity"></CartItem>
           </div>
     </div>
