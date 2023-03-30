@@ -197,9 +197,10 @@ body{
     
 
     .produits_container{
+        width: 100vw;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        grid-gap: 40px;
+        grid-gap: 8.3vw;
         grid-auto-rows: minmax(10px, auto);
     }
 
