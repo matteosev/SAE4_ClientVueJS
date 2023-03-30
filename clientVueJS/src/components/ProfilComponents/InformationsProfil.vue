@@ -9,7 +9,7 @@ var user = JSON.parse(localStorage.getItem('client'))
 const newUser = reactive({})
 
 newUser.prenomClient = user.prenomClient
-newUser.nomClient = user.nomClient
+newUser.nomClient = handleNom(user.nomClient)
 newUser.portable = user.portable
 newUser.civilite = user.civilite
 newUser.adresseId = user.adresseId
@@ -35,18 +35,16 @@ const buttonLabel = computed(() => {
 });
 
 
-
-const nomClient = ref(handleNom(newUser.nomClient));
 const telClient = ref(handleTel(newUser.portable));
 
-const Adresse = ref(false)
+const addAdresse = ref(false)
 
 const toggleAdresse = () => {
-    Adresse.value = !Adresse.value
+    addAdresse.value = true
 }
 
 if (newUser.adresseId == "null" || newUser.adresseId == null) {
-    Adresse.value = false
+    addAdresse.value = false
 }
 
 
@@ -60,9 +58,8 @@ const saveChanges = () => {
         confirmButtonText: 'Modifier',
         denyButtonText: `Annuler`,
     }).then(async (result) => {
-        /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
-            console.log(newUser)
+            console.log(user)
             const response = await axios.put('api/clients/put/' + user.clientId, JSON.stringify(user))
             console.log(response);
             Swal.fire('Saved!', '', 'success')
@@ -75,13 +72,14 @@ const saveChanges = () => {
 }
 
 const ChangeData = () => {
-    user.prenomClient = newUser.prenomClient
-    user.nomClient = newUser.nomClient
-    user.portable = newUser.portable
+    user.prenomClient = newUser.prenomClient,
+    user.nomClient = newUser.nomClient,
+    user.portable = newUser.portable,
     user.civilite = newUser.civilite
 }
 
 // Adresse 
+
 
 
 const handleHasAdresse = () => {
@@ -90,6 +88,8 @@ const handleHasAdresse = () => {
     else
         return false
 }
+
+console.log(handleHasAdresse())
 
 
 </script>
@@ -105,7 +105,7 @@ const handleHasAdresse = () => {
         <div class="info-left">
             <div class="info-card">
                 <p class="info-card-title"> Nom </p>
-                <input type="text" class="text-input" :readonly="isReadOnly" v-model="nomClient" />
+                <input type="text" class="text-input" :readonly="isReadOnly" v-model="newUser.nomClient" />
             </div>
             <div class="info-card">
                 <p class="info-card-title"> Prenom </p>
@@ -114,7 +114,7 @@ const handleHasAdresse = () => {
             </div>
             <div class="info-card">
                 <p class="info-card-title"> Numero télphone </p>
-                <input type="text" class="text-input" v-model="telClient" :readonly="isReadOnly" />
+                <input type="text" class="text-input" v-model="newUser.portable" :readonly="isReadOnly" />
             </div>
         </div>
         <div class="info-right">
@@ -125,7 +125,7 @@ const handleHasAdresse = () => {
                     <option value="Monsieur"> Monsieur</option>
                     <option value="Madame"> Madame</option>
                 </select>
-                <input type="text" class="text-input" v-if="isReadOnly" v-model="newUser.civilite" readonly />
+                <input type="text" class="text-input" v-if="isReadOnly" v-model="user.civilite" readonly />
             </div>
             <div class="info-card">
                 <p class="info-card-title"> Date de naissance </p>
@@ -135,7 +135,7 @@ const handleHasAdresse = () => {
     </div>
     <div class="container-adresse">
         <h3 class="title-adresse">Adresse</h3>
-        <div v-if="!Adresse">
+        <div v-if="!handleHasAdresse()">
             <div class="content-no-adresse">
                 <p> Vous n'avez pas d'adresse d'enregistrer </p>
                 <div class="container-no-adresse">
@@ -144,26 +144,26 @@ const handleHasAdresse = () => {
                 </div>
             </div>
         </div>
-        <div v-if="Adresse">
+        <div v-if="addAdresse">
             <div class="info-container">
                 <div class="info-left">
                     <div class="info-card">
                         <p class="info-card-title"> Rue </p>
-                        <input type="text" class="text-input" :readonly="isReadOnly" v-model="nomClient" />
+                        <input type="text" class="text-input"  v-model="nomClient" />
                     </div>
                     <div class="info-card">
                         <p class="info-card-title"> Ville </p>
-                        <input type="text" class="text-input" v-model="newUser.prenomClient" :readonly="isReadOnly" />
+                        <input type="text" class="text-input" v-model="newUser.prenomClient" />
                     </div>
                 </div>
                 <div class="info-right">
                     <div class="info-card">
                         <p class="info-card-title"> Code postal </p>
-                        <input type="text" class="text-input" :readonly="isReadOnly" v-model="nomClient" />
+                        <input type="text" class="text-input"  v-model="nomClient" />
                     </div>
                     <div class="info-card">
                         <p class="info-card-title"> Pays </p>
-                        <input type="text" class="text-input" v-model="newUser.prenomClient" :readonly="isReadOnly" />
+                        <input type="text" class="text-input" v-model="newUser.prenomClient"  />
                     </div>
                 </div>
             </div>

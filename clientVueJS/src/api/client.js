@@ -35,3 +35,8 @@ export async function fetchDataAdresseClient() {
         throw error;
     }
 }
+
+export async function addAdresseClient(adresse, clientId){
+    
+    const responseAddAdresse = await axios.post("api/adresses/post/")
+}
