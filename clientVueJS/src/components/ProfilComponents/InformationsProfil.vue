@@ -1,6 +1,8 @@
 <script setup>
 
 import { ref, computed, reactive } from 'vue'
+import Swal from 'sweetalert2'
+import axios from '../../api/axios';
 
 
 
@@ -10,8 +12,13 @@ const newUser = reactive({})
 newUser.prenomClient = user.prenomClient
 newUser.nomClient = user.nomClient
 newUser.portable = user.portable
+newUser.civilite = user.civilite
+newUser.adresseId = user.adresseId
+
 
 console.log(newUser);
+
+
 
 function handleNom(string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -26,16 +33,13 @@ const isReadOnly = ref(true);
 
 const toggleReadOnlyMode = () => {
     isReadOnly.value = !isReadOnly.value;
-    console.log(isReadOnly.value);
 };
 
 const buttonLabel = computed(() => {
     return isReadOnly.value ? 'Modifier' : 'Annuler';
 });
 
-const hasChanges = computed(() => {
-    return user.value !== newUser.value;
-});
+
 
 const nomClient = ref(handleNom(newUser.nomClient));
 const telClient = ref(handleTel(newUser.portable));
@@ -44,6 +48,43 @@ const Adresse = ref(false)
 
 const toggleAdresse = () => {
     Adresse.value = !Adresse.value
+}
+
+if (newUser.adresseId == "null" || newUser.adresseId == null) {
+    Adresse.value = false
+}
+
+
+
+const saveChanges = () => {
+    ChangeData()
+    Swal.fire({
+        title: 'Etes-vous sur de vouloir modifier',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Modifier',
+        denyButtonText: `Annuler`,
+    }).then(async (result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            console.log(newUser)
+            const response = await axios.put('api/clients/put/' + user.clientId, JSON.stringify(user))
+            console.log(response);
+
+            Swal.fire('Saved!', '', 'success')
+            isReadOnly.value = true
+
+        } else if (result.isDenied) {
+            Swal.fire('Changes are not saved', '', 'info')
+        }
+    })
+}
+
+const ChangeData = () => {
+    user.prenomClient = newUser.prenomClient
+    user.nomClient = newUser.nomClient
+    user.portable = newUser.portable
+    user.civilite = newUser.civilite
 }
 
 </script>
@@ -74,16 +115,16 @@ const toggleAdresse = () => {
         <div class="info-right">
             <div class="info-card">
                 <p class="info-card-title"> Civilité </p>
-                <select class="text-input" :readonly="isReadOnly">
+                <select class="text-input" v-if="!isReadOnly" v-model="newUser.civilite">
                     <option disabled value=""> Quel est votre civilité ?</option>
-                    <option> Monsieur</option>
-                    <option> Madame</option>
-
+                    <option value="Monsieur"> Monsieur</option>
+                    <option value="Madame"> Madame</option>
                 </select>
+                <input type="text" class="text-input" v-if="isReadOnly" v-model="newUser.civilite" readonly />
             </div>
             <div class="info-card">
                 <p class="info-card-title"> Date de naissance </p>
-                <input type="text" class="text-input" :readonly="isReadOnly" />
+                <input type="date" class="text-input" :readonly="isReadOnly" />
             </div>
         </div>
     </div>
@@ -124,7 +165,7 @@ const toggleAdresse = () => {
         </div>
         <div class="button-container">
             <button type="submit" class="button-modif" @click="toggleReadOnlyMode">{{ buttonLabel }} </button>
-            <button class="button-modif" @click="saveChanges" :disabled="!hasChanges">Enregistrer</button>
+            <button class="button-modif" @click="saveChanges" v-if="!isReadOnly">Enregistrer</button>
         </div>
     </div>
 </template>
@@ -222,10 +263,11 @@ const toggleAdresse = () => {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin-top: 20px;
 }
 
 .container-no-adresse {
     display: flex;
-    margin-top: 15px;
+    margin-bottom: 35px;
 }
 </style>

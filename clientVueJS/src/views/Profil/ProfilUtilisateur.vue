@@ -15,6 +15,8 @@ const navNames = {
 }
 
 const currentNav = ref('Informations')
+
+
 </script>
 
 <template>

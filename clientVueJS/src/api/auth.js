@@ -29,7 +29,7 @@ const useAuthStore = defineStore('auth', {
       try {
         const decodeToken = jwtDecode(this.token)
 
-        const response = await axios.get("api/clients/getbyemail/" + decodeToken.sub)
+        const responseClient = await axios.get("api/clients/getbyemail/" + decodeToken.sub)
         this.user.push(response.data);
         localStorage.setItem('client', JSON.stringify(this.user[0]))
 
@@ -39,7 +39,6 @@ const useAuthStore = defineStore('auth', {
       }
 
     },
-
     logout() {
       this.token = null;
       this.userDetails = null;
