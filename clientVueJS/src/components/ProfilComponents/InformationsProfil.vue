@@ -3,8 +3,7 @@
 import { ref, computed, reactive } from 'vue'
 import Swal from 'sweetalert2'
 import axios from '../../api/axios';
-
-
+import fetchDataClient from '../../api/client.js'
 
 var user = JSON.parse(localStorage.getItem('client'))
 const newUser = reactive({})
@@ -14,10 +13,6 @@ newUser.nomClient = user.nomClient
 newUser.portable = user.portable
 newUser.civilite = user.civilite
 newUser.adresseId = user.adresseId
-
-
-console.log(newUser);
-
 
 
 function handleNom(string) {
@@ -59,7 +54,7 @@ if (newUser.adresseId == "null" || newUser.adresseId == null) {
 const saveChanges = () => {
     ChangeData()
     Swal.fire({
-        title: 'Etes-vous sur de vouloir modifier',
+        title: 'Êtes-vous sûr de vouloir modifier ?',
         showDenyButton: true,
         showCancelButton: true,
         confirmButtonText: 'Modifier',
@@ -70,12 +65,11 @@ const saveChanges = () => {
             console.log(newUser)
             const response = await axios.put('api/clients/put/' + user.clientId, JSON.stringify(user))
             console.log(response);
-
             Swal.fire('Saved!', '', 'success')
+            await fetchDataClient(localStorage.getItem('token'))
             isReadOnly.value = true
-
         } else if (result.isDenied) {
-            Swal.fire('Changes are not saved', '', 'info')
+            Swal.fire('Annulation des modifications', '', 'info')
         }
     })
 }
@@ -86,6 +80,17 @@ const ChangeData = () => {
     user.portable = newUser.portable
     user.civilite = newUser.civilite
 }
+
+// Adresse 
+
+
+const handleHasAdresse = () => {
+    if (localStorage.getItem('adresseClient'))
+        return true
+    else
+        return false
+}
+
 
 </script>
 
