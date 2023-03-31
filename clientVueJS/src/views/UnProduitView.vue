@@ -41,6 +41,7 @@ export default {
                         .catch(error => console.error(error));
                     console.log(this.avis);
                 }
+            }
             ).catch(error => console.error(error));
     },
     mounted() {
