@@ -12,7 +12,8 @@ export default {
         return {
             cartStore: useCartStore(),
             libelle: "",
-            photo: ""
+            photo: "",
+            itemQuantity: this.quantity
         };
     },
     created()
@@ -33,6 +34,19 @@ export default {
     },
     methods: 
     {
+      decreaseQuantity()
+      {
+        if (this.itemQuantity - 1 > 0)
+        {
+          this.itemQuantity -= 1;
+          this.cartStore.updateItemQuantity(this.variante, -1);
+        }
+      },
+      increaseQuantity()
+      {
+        this.itemQuantity += 1;
+        this.cartStore.updateItemQuantity(this.variante, 1);
+      }
     }
 }
 </script>
@@ -43,8 +57,13 @@ export default {
         <div class="container-overview">
             <h1>{{ libelle }}</h1>
             <p>Prix unitaire : {{ variante.prix }}€</p>
-            <p>Quantité dans le panier : {{ quantity }}</p>
-            <p>Prix total : {{ quantity * variante.prix }}€</p>
+            <p>Quantité :</p>
+            <div id="container-quantity-selector">
+              <input type="number" min="0" v-model="itemQuantity">
+              <button v-on:click="$event => decreaseQuantity()">-</button>
+              <button v-on:click="$event => increaseQuantity()">+</button>
+            </div>
+            <p>Prix total : {{ Math.round(itemQuantity * variante.prix * 100) / 100 }}€</p>
         </div>
         <div class="container-buttons">
             <button v-on:click="this.$router.push({ path: '/produit/' + variante.produitId });">Voir le Produit</button>
@@ -77,6 +96,34 @@ export default {
   height: auto;
   object-fit: cover;
   border-radius: 5px;
+}
+
+#container-quantity-selector{
+  display: flex;
+}
+
+#container-quantity-selector input[type=number]{
+    width: 20%;
+    text-align: center;
+    border-color: rgba(0,0,0, 0.2);
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+}
+
+#container-quantity-selector input[type=number]::-webkit-inner-spin-button,
+#container-quantity-selector input[type=number]::-webkit-outer-spin-button{
+  -webkit-appearance: none; 
+  margin: 0;
+}
+
+#container-quantity-selector > button{
+  text-align: center;
+  padding: 0px;
+  width: 10%;
+  font-size: 120%;
+  border-color: rgba(0,0,0, 0.2);
+  border-style: solid;
+  border-width: 1px 1px 1px 0px;
 }
 
 .container-overview {
