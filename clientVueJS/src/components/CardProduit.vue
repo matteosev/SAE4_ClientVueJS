@@ -21,7 +21,7 @@ export default {
             //console.log(this.produit) // eslint-disable-line no-console
             this.variante = response.data[0]
             console.log(this.variante)
-            axios.get('https://localhost:7259/api/Variantes/GetAllVariantePhotosAsync/' + this.variante.varianteId).then(response => {this.photos = response.data ; console.log(this.photos[0])}).catch(error => console.error(error));
+            axios.get('https://localhost:7259/api/Photos/GetPhotoByVariante/' + this.variante.varianteId).then(response => {this.photos = response.data ; console.log(this.photos[0])}).catch(error => console.error(error));
             //console.log(this.variantes) // eslint-disable-line no-console
             //console.log(this.selectedVariante) // eslint-disable-line no-console
         }
