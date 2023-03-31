@@ -95,14 +95,18 @@ import axios from 'axios';
       </li>
     </ul>
   </nav>
-  <div class="produits_container">
-
-    <CardProduit v-for="produit in filterProducts()" :key="produit.produitId" :produit="produit"></CardProduit>
-
+  <div class="container_central">
+    <div class="produits_container">
+        <CardProduit v-for="produit in filterProducts()" :key="produit.produitId" :produit="produit"></CardProduit>
+    </div>
   </div>
+  
 </template>
   
 <style>
+template{
+    overflow: hidden;
+}
 main{
     height: 100vh;
 }
@@ -193,14 +197,19 @@ body{
         background-color: #fff;
     }
 
-    
-    
+    .container_central{
+        margin-top: 4vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+     
 
     .produits_container{
-        width: 100vw;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: 1fr 1fr 1fr;
         grid-gap: 8.3vw;
+        grid-row-gap: 1vw;
         grid-auto-rows: minmax(10px, auto);
     }
 
