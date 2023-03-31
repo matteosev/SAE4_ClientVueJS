@@ -5,6 +5,8 @@ import Paiements from '../../components/ProfilComponents/ModePaiements.vue';
 import Confidentialite from '../../components/ProfilComponents/Confidentialié.vue';
 import Aide from '../../components/ProfilComponents/Help.vue';
 import { ref } from 'vue'
+import { fetchDataAdresseClient } from '../../api/client';
+import { watch } from 'vue';
 
 const navNames = {
     Informations,
@@ -15,6 +17,29 @@ const navNames = {
 }
 
 const currentNav = ref('Informations')
+
+const user = JSON.parse(localStorage.getItem('client'))
+
+const handleGetAdresse = (user) => {
+    if (user.adresseId == null || user.adresseId == "null")
+        return false
+    else
+        return true
+}
+const handleVerifyHasAdresse = async () => {
+    if (handleGetAdresse(user)) {
+        await fetchDataAdresseClient()
+    }
+    else {
+        console.log("Il n'y a pas d'adresse");
+    }
+}
+
+
+watch(handleVerifyHasAdresse())
+
+
+
 </script>
 
 <template>
@@ -30,7 +55,7 @@ const currentNav = ref('Informations')
 
         <div class="content-nav">
             <keep-alive>
-                <component :is="navNames[currentNav]"> </component>
+                <component :is="navNames[currentNav]" v-bind="props"> </component>
             </keep-alive>
         </div>
     </div>

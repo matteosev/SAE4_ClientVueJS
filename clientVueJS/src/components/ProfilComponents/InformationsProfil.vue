@@ -1,17 +1,19 @@
 <script setup>
 
 import { ref, computed, reactive } from 'vue'
-
-
+import Swal from 'sweetalert2'
+import axios from '../../api/axios';
+import fetchDataClient from '../../api/client.js'
 
 var user = JSON.parse(localStorage.getItem('client'))
 const newUser = reactive({})
 
 newUser.prenomClient = user.prenomClient
-newUser.nomClient = user.nomClient
+newUser.nomClient = handleNom(user.nomClient)
 newUser.portable = user.portable
+newUser.civilite = user.civilite
+newUser.adresseId = user.adresseId
 
-console.log(newUser);
 
 function handleNom(string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -26,21 +28,70 @@ const isReadOnly = ref(true);
 
 const toggleReadOnlyMode = () => {
     isReadOnly.value = !isReadOnly.value;
-    console.log(isReadOnly.value);
 };
 
 const buttonLabel = computed(() => {
     return isReadOnly.value ? 'Modifier' : 'Annuler';
 });
 
-const hasChanges = computed(() => {
-    return user.value !== newUser.value;
-});
 
-const nomClient = ref(handleNom(newUser.nomClient));
 const telClient = ref(handleTel(newUser.portable));
 
-console.log(newUser.prenomClient);
+const addAdresse = ref(false)
+
+const toggleAdresse = () => {
+    addAdresse.value = true
+}
+
+if (newUser.adresseId == "null" || newUser.adresseId == null) {
+    addAdresse.value = false
+}
+
+
+
+const saveChanges = () => {
+    ChangeData()
+    Swal.fire({
+        title: 'Êtes-vous sûr de vouloir modifier ?',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Modifier',
+        denyButtonText: `Annuler`,
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            console.log(user)
+            const response = await axios.put('api/clients/put/' + user.clientId, JSON.stringify(user))
+            console.log(response);
+            Swal.fire('Saved!', '', 'success')
+            await fetchDataClient(localStorage.getItem('token'))
+            isReadOnly.value = true
+        } else if (result.isDenied) {
+            Swal.fire('Annulation des modifications', '', 'info')
+        }
+    })
+}
+
+const ChangeData = () => {
+    user.prenomClient = newUser.prenomClient,
+    user.nomClient = newUser.nomClient,
+    user.portable = newUser.portable,
+    user.civilite = newUser.civilite
+}
+
+// Adresse 
+
+
+
+const handleHasAdresse = () => {
+    if (localStorage.getItem('adresseClient'))
+        return true
+    else
+        return false
+}
+
+console.log(handleHasAdresse())
+
+
 </script>
 
 <template>
@@ -54,7 +105,7 @@ console.log(newUser.prenomClient);
         <div class="info-left">
             <div class="info-card">
                 <p class="info-card-title"> Nom </p>
-                <input type="text" class="text-input" :readonly="isReadOnly" v-model="nomClient" />
+                <input type="text" class="text-input" :readonly="isReadOnly" v-model="newUser.nomClient" />
             </div>
             <div class="info-card">
                 <p class="info-card-title"> Prenom </p>
@@ -63,28 +114,64 @@ console.log(newUser.prenomClient);
             </div>
             <div class="info-card">
                 <p class="info-card-title"> Numero télphone </p>
-                <input type="text" class="text-input" v-model="telClient" :readonly="isReadOnly" />
+                <input type="text" class="text-input" v-model="newUser.portable" :readonly="isReadOnly" />
             </div>
         </div>
         <div class="info-right">
             <div class="info-card">
                 <p class="info-card-title"> Civilité </p>
-                <select class="text-input" :readonly="isReadOnly">
+                <select class="text-input" v-if="!isReadOnly" v-model="newUser.civilite">
                     <option disabled value=""> Quel est votre civilité ?</option>
-                    <option> Monsieur</option>
-                    <option> Madame</option>
-
+                    <option value="Monsieur"> Monsieur</option>
+                    <option value="Madame"> Madame</option>
                 </select>
+                <input type="text" class="text-input" v-if="isReadOnly" v-model="user.civilite" readonly />
             </div>
             <div class="info-card">
                 <p class="info-card-title"> Date de naissance </p>
-                <input type="text" class="text-input" :readonly="isReadOnly" />
+                <input type="date" class="text-input" :readonly="isReadOnly" />
             </div>
         </div>
     </div>
-    <div class="button-container">
-        <button type="submit" class="button-modif" @click="toggleReadOnlyMode">{{ buttonLabel }} </button>
-        <button class="button-modif" @click="saveChanges" :disabled="!hasChanges">Enregistrer</button>
+    <div class="container-adresse">
+        <h3 class="title-adresse">Adresse</h3>
+        <div v-if="!handleHasAdresse()">
+            <div class="content-no-adresse">
+                <p> Vous n'avez pas d'adresse d'enregistrer </p>
+                <div class="container-no-adresse">
+                    <p> Voulez-vous enregistrer votre adresse ? </p>
+                    <button class="button-adresse" @click="toggleAdresse"> Ajouter </button>
+                </div>
+            </div>
+        </div>
+        <div v-if="addAdresse">
+            <div class="info-container">
+                <div class="info-left">
+                    <div class="info-card">
+                        <p class="info-card-title"> Rue </p>
+                        <input type="text" class="text-input"  v-model="nomClient" />
+                    </div>
+                    <div class="info-card">
+                        <p class="info-card-title"> Ville </p>
+                        <input type="text" class="text-input" v-model="newUser.prenomClient" />
+                    </div>
+                </div>
+                <div class="info-right">
+                    <div class="info-card">
+                        <p class="info-card-title"> Code postal </p>
+                        <input type="text" class="text-input"  v-model="nomClient" />
+                    </div>
+                    <div class="info-card">
+                        <p class="info-card-title"> Pays </p>
+                        <input type="text" class="text-input" v-model="newUser.prenomClient"  />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-container">
+            <button type="submit" class="button-modif" @click="toggleReadOnlyMode">{{ buttonLabel }} </button>
+            <button class="button-modif" @click="saveChanges" v-if="!isReadOnly">Enregistrer</button>
+        </div>
     </div>
 </template>
 
@@ -166,5 +253,26 @@ console.log(newUser.prenomClient);
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+
+.container-adresse {
+    margin-top: 30px;
+}
+
+.title-adresse {
+    text-align: center;
+}
+
+.content-no-adresse {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.container-no-adresse {
+    display: flex;
+    margin-bottom: 35px;
 }
 </style>

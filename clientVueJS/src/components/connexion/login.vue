@@ -85,12 +85,11 @@ export default {
         if (this.$route.query.redirectURL == undefined)
           this.$route.query.redirectURL = "/";
 
-        if (this.auth.isAuthenticated)
-        {
+        if (this.auth.isAuthenticated) {
           useCartStore().getCartFromDb(JSON.parse(localStorage.getItem("client")).clientId);
-          this.$router.push({ path: decodeURIComponent(this.$route.query.redirectURL)});
+          this.$router.push({ path: decodeURIComponent(this.$route.query.redirectURL) });
         }
-        
+
       } catch (error) {
         console.log(error)
         Swal.fire({
@@ -122,11 +121,11 @@ export default {
             console.log(this.$route.query.redirectURL)
             if (this.$route.query.redirectURL == undefined)
               this.$route.query.redirectURL = "/";
-            this.$router.push({ path: decodeURIComponent(this.$route.query.redirectURL)})
+            this.$router.push({ path: decodeURIComponent(this.$route.query.redirectURL) })
           }
         } else {
           // Si l'utilisateur n'existe pas, redirigez-le vers la page d'inscription
-          this.$router.push({ path: "/creer-compte"})
+          this.$router.push({ path: "/creer-compte" })
         }
       } catch (error) {
         console.error('Error during Google login:', error);
