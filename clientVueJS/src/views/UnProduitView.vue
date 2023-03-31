@@ -30,7 +30,7 @@ export default {
         axios.get('https://localhost:7259/api/Produits/GetById/' + this.id).then(response => this.produit = response.data).catch(error => console.error(error));
         
         axios.get('https://localhost:7259/api/Variantes/GetAllVariantesByProduitIdAsync/' + this.id)
-        .then(response => 
+        .then(response =>
         {
             this.variantes = response.data
             this.selectedVariante = this.variantes[0];
