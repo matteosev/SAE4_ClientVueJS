@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import { useAuthStore } from '../api/auth';
 import { useCartStore } from '../stores/cart';
 import CardAvis from '../components/CardAvis.vue';
-</script >
+</script>
 
 <script>
 export default {
@@ -32,7 +32,7 @@ export default {
                 this.variantes = response.data
                 this.selectedVariante = this.variantes[0];
                 for (let variante of this.variantes) {
-                    axios.get('https://localhost:7259/api/Variantes/GetAllVariantePhotosAsync/' + variante.varianteId).then(response => variante.photos = response.data).catch(error => console.error(error));
+                    axios.get('https://localhost:7259/api/Photos/GetPhotoByVariante/' + variante.varianteId).then(response => variante.photos = response.data).catch(error => console.error(error));
                     axios.get('https://localhost:7259/api/Avis/GetAllAvisByVarianteId/' + variante.varianteId)
                         .then(response => {
                             for (let avisResponse of response.data)

@@ -49,12 +49,7 @@ import axios from 'axios';
             .then(response => {
                 console.log(response.data)
                 this.produits = response.data;
-                if (this.produits.length != 0)
-                {
-                    setTimeout(() => {
-                        this.isLoaded = false;                        
-                    }, 2000);
-                }
+                
             })
             .catch(error => {
                 console.error(error);
@@ -108,7 +103,6 @@ import axios from 'axios';
     <CardProduit v-for="produit in filterProducts()" :key="produit.produitId" :produit="produit"></CardProduit>
 
   </div>
-  <Loader v-if="isLoaded"></Loader>
 </template>
   
 <style>
