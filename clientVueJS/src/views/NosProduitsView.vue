@@ -1,9 +1,11 @@
 <script setup>  
 import CardProduit from '../components/CardProduit.vue';
+import Loader from '../components/LoaderVue.vue';
 import axios from 'axios';
 </script>
 
 <script>
+
    export default {
         data() {
             return {
@@ -32,7 +34,6 @@ import axios from 'axios';
             }
         },
         methods: {
-
             getAllCategories() {
             axios.get('https://localhost:7259/api/Categories/GetAll')
             .then(response => {
@@ -49,6 +50,7 @@ import axios from 'axios';
             .then(response => {
                 console.log(response.data)
                 this.produits = response.data;
+                
             })
             .catch(error => {
                 console.error(error);
@@ -83,8 +85,8 @@ import axios from 'axios';
                 return produit.categorieId === this.selectedCategory.categorieId;
             });
             },
-            
         },
+        components: { Loader, CardProduit }
     };
 </script>
 

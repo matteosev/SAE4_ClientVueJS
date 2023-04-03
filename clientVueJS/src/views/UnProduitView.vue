@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import { useAuthStore } from '../api/auth';
 import { useCartStore } from '../stores/cart';
 import CardAvis from '../components/CardAvis.vue';
-</script >
+</script>
 
 <script>
 export default {
