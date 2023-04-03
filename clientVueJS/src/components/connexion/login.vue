@@ -39,6 +39,7 @@
 <script>
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../../api/auth.js';
+import { useCartStore } from '../../stores/cart.js';
 import axios from '../../api/axios.js';
 import Swal from 'sweetalert2';
 import { gapi } from "gapi-script";
@@ -81,13 +82,14 @@ export default {
         console.log(encodedCredentials);
         await this.auth.login(encodedCredentials);
 
-        console.log(this.$route.query.redirectURL)
         if (this.$route.query.redirectURL == undefined)
           this.$route.query.redirectURL = "/";
 
-        if (this.auth.isAuthenticated)
-          this.$router.push({ path: decodeURIComponent(this.$route.query.redirectURL)});
-        
+        if (this.auth.isAuthenticated) {
+          useCartStore().getCartFromDb(JSON.parse(localStorage.getItem("client")).clientId);
+          this.$router.push({ path: decodeURIComponent(this.$route.query.redirectURL) });
+        }
+
       } catch (error) {
         console.log(error)
         Swal.fire({
@@ -119,11 +121,11 @@ export default {
             console.log(this.$route.query.redirectURL)
             if (this.$route.query.redirectURL == undefined)
               this.$route.query.redirectURL = "/";
-            this.$router.push({ path: decodeURIComponent(this.$route.query.redirectURL)})
+            this.$router.push({ path: decodeURIComponent(this.$route.query.redirectURL) })
           }
         } else {
           // Si l'utilisateur n'existe pas, redirigez-le vers la page d'inscription
-          this.$router.push({ path: "/creer-compte"})
+          this.$router.push({ path: "/creer-compte" })
         }
       } catch (error) {
         console.error('Error during Google login:', error);

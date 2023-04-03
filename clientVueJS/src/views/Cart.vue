@@ -11,11 +11,14 @@ export default {
     data() 
     {
         return {
-            cartStore: useCartStore()
+            cartStore: useCartStore(),
+            client: JSON.parse(localStorage.getItem("client"))
         };
     },
     created()
     {
+      console.log("Panier : ");
+      console.log(this.cartStore.lines);
     },
     mounted()
     {
@@ -31,14 +34,16 @@ export default {
 
 <template>
     <main>
-        <h1 class="cart-title">Votre Panier Civilité Nom</h1>
-    <div class="cart-wrapper">
-      <div class="cart-container">
-        <CartItem v-for="line of cartStore.lines" :variante="line.variante" :quantity="line.quantity"></CartItem>
-      </div>
-      <div class="checkout">
-        <button @click="purchase" class="buy-now-btn">Acheter maintenant</button>
-      </div>
+        <h1 class="cart-title">Votre Panier {{ client.civilite }} {{ client.nomClient }}</h1>
+        <div v-if="cartStore.lines.length > 0" class="checkout">
+            <button @click="purchase" class="buy-now-btn">Commander</button>
+        </div>
+        <div class="cart-wrapper">
+          <div class="cart-container">
+            <p v-if="cartStore.lines.length == 0">Panier vide !</p>
+            <p v-else style="padding: 10px; margin-bottom: 10px; background-color: rgba(0, 0, 0, 0.1);">Montant total : {{ Math.round(cartStore.totalAmount * 100) / 100 }}€</p>
+            <CartItem v-for="line of cartStore.lines" :variante="line.variante" :quantity="line.quantity"></CartItem>
+          </div>
     </div>
   </main>
     <footer>
