@@ -32,7 +32,7 @@ export default {
                 this.variantes = response.data
                 this.selectedVariante = this.variantes[0];
                 for (let variante of this.variantes) {
-                    axios.get('https://localhost:7259/api/Variantes/GetAllVariantePhotosAsync/' + variante.varianteId).then(response => variante.photos = response.data).catch(error => console.error(error));
+                    axios.get('https://localhost:7259/api/Photos/GetPhotoByVariante/' + variante.varianteId).then(response => variante.photos = response.data).catch(error => console.error(error));
                     axios.get('https://localhost:7259/api/Avis/GetAllAvisByVarianteId/' + variante.varianteId)
                         .then(response => {
                             for (let avisResponse of response.data)
@@ -224,7 +224,8 @@ export default {
         </section>
     </main>
     <footer>
-        Miliboo
+        <h2>Miliboo</h2>
+        <h3>Maxence DUBOIS - Mattéo SEVERINI - Jérémy POULAIN - Timoté POLICET - Mathis SPORTIELLO</h3>
     </footer>
 </template>
   
@@ -406,12 +407,16 @@ button {
     border-radius: 5px;
 }
 
-footer {
+footer{
     display: flex;
+    height: 30vh;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: var(--first-color);
     color: white;
 }
+
+footer h2{color:white}
+footer h3{color:white}
 </style>

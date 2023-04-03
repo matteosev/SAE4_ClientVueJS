@@ -11,7 +11,9 @@ import axios from 'axios';
             categoriesParent:[],
             categoriesEnfant:[],
             produits: [],
-            selectedCategory: null
+            selectedCategory: null,
+            prix1: null,
+            prix2: null,
             };
         },
         mounted() {
@@ -63,6 +65,11 @@ import axios from 'axios';
             return categoriesEnfant;
             },
 
+            async getProduitsByPrice() {
+                const response = await axios.get(`https://localhost:7259/api/Produits/GetProduitsWherePrixEntre/${this.prix1}/${this.prix2}`);
+                this.produits = response.data;
+            },
+
             selectCategory(category) {
             this.selectedCategory = category;
             this.getAllProducts();
@@ -95,6 +102,19 @@ import axios from 'axios';
       </li>
     </ul>
   </nav>
+    <div class="filtres">
+        <div>
+            <label for="prix1">Prix minimum :</label>
+            <input type="number" id="prix1" v-model="prix1">
+            <label for="prix2">Prix maximum :</label>
+            <input type="number" id="prix2" v-model="prix2">
+        </div>  
+        <div>
+            <button id="apply_filtre" @click="getProduitsByPrice">Rechercher</button>
+        </div>
+        
+    </div>
+    
   <div class="container_central">
     <div class="produits_container">
         <CardProduit v-for="produit in filterProducts()" :key="produit.produitId" :produit="produit"></CardProduit>
@@ -129,11 +149,9 @@ body{
     }
 
     nav ul{
-        width: 92vw;
+        width: 98vw;
         display: flex;
         justify-content: space-around;
-        
-        
     }
 
     nav ul li{
@@ -240,5 +258,18 @@ body{
         width: 90vw;
     }
     }
+
+    .filtres div{
+        display: flex;
+        width: 98vw;
+        align-items: center;
+        justify-content: center;
+    }
+    .filtres{
+        display: flex;
+        flex-direction: column;
+    }
+
+    
     
 </style>
