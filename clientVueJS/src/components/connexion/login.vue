@@ -1,3 +1,4 @@
+<!-- login.vue -->
 <template>
   <div class="box-form">
     <div class="left">
