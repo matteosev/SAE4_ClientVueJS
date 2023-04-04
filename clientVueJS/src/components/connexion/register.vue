@@ -86,6 +86,7 @@ import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import { gapi } from "gapi-script";
 import { useAuthStore } from '../../api/auth.js';
+import fetchDataClient from '../../api/client'
 
 onMounted(async () => {
   await gapi.load('client:auth2', async () => {
@@ -179,6 +180,7 @@ async function handleSubmit() {
       password: base64Password,
     }
     await auth.login(encodedCredentials);
+    await fetchDataClient(localStorage.getItem('token'))
     router.push('/');
   } catch (error) {
     Swal.fire({
@@ -208,6 +210,7 @@ async function handleAdditionalInfoSubmit() {
         auth.token = responseConnect.data.token;
         auth.userDetails = responseConnect.data.userDetails;
         localStorage.setItem('token', auth.token);
+        await fetchDataClient(localStorage.getItem('token'))
         router.push('/');
       }
     }
