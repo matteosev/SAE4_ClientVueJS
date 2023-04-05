@@ -24,7 +24,8 @@ function handleLogout() {
 <template>
   <header>
     <div class="home_logo">
-      <img class="logo_miliboo" src="./assets/logo.png" alt="" />
+      <RouterLink to="/"><img class="logo_miliboo" src="./assets/logo.png" alt="" /></RouterLink>
+      
     </div>
 
     <nav class="home_navigation">

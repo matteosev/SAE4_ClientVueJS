@@ -1,9 +1,11 @@
 <script setup>  
 import CardProduit from '../components/CardProduit.vue';
+import Loader from '../components/LoaderVue.vue';
 import axios from 'axios';
 </script>
 
 <script>
+
    export default {
         data() {
             return {
@@ -11,7 +13,8 @@ import axios from 'axios';
             categoriesParent:[],
             categoriesEnfant:[],
             produits: [],
-            selectedCategory: null
+            selectedCategory: null,
+            isLoaded: true
             };
         },
         mounted() {
@@ -30,7 +33,6 @@ import axios from 'axios';
             }
         },
         methods: {
-
             getAllCategories() {
             axios.get('https://localhost:7259/api/Categories/GetAll')
             .then(response => {
@@ -47,6 +49,7 @@ import axios from 'axios';
             .then(response => {
                 console.log(response.data)
                 this.produits = response.data;
+                
             })
             .catch(error => {
                 console.error(error);
@@ -76,8 +79,8 @@ import axios from 'axios';
                 return produit.categorieId === this.selectedCategory.categorieId;
             });
             },
-            
         },
+        components: { Loader, CardProduit }
     };
 </script>
 
@@ -95,14 +98,18 @@ import axios from 'axios';
       </li>
     </ul>
   </nav>
-  <div class="produits_container">
-
-    <CardProduit v-for="produit in filterProducts()" :key="produit.produitId" :produit="produit"></CardProduit>
-
+  <div class="container_central">
+    <div class="produits_container">
+        <CardProduit v-for="produit in filterProducts()" :key="produit.produitId" :produit="produit"></CardProduit>
+    </div>
   </div>
+  
 </template>
   
 <style>
+template{
+    overflow: hidden;
+}
 main{
     height: 100vh;
 }
@@ -193,14 +200,19 @@ body{
         background-color: #fff;
     }
 
-    
-    
+    .container_central{
+        margin-top: 4vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+     
 
     .produits_container{
-        width: 100vw;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: 1fr 1fr 1fr;
         grid-gap: 8.3vw;
+        grid-row-gap: 1vw;
         grid-auto-rows: minmax(10px, auto);
     }
 

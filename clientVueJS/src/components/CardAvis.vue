@@ -8,9 +8,16 @@ export default {
     data()
     {
         return {
+            clientPseudo: ""
         };
     },
     created()
+    {
+        axios.get('https://localhost:7259/api/Clients/GetById/' + this.avis.clientId)
+        .then(response => this.clientPseudo = response.data.prenomClient + ' ' + response.data.nomClient.charAt(0))
+        .catch(error => console.error(error));
+    },
+    mounted()
     {
     },
     methods:
@@ -30,7 +37,7 @@ export default {
         <p>{{ avis.texte }}</p>
         <div id="avisFooter">
             <p>{{ new Date(avis.date).toLocaleDateString('fr-FR') }}</p>
-            <p>{{ avis.clientId }}</p>
+            <p>{{ clientPseudo }}</p>
         </div> 
     </div>
 </template>

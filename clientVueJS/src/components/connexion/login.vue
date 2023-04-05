@@ -1,3 +1,4 @@
+<!-- login.vue -->
 <template>
   <div class="box-form">
     <div class="left">
@@ -44,6 +45,7 @@ import axios from '../../api/axios.js';
 import Swal from 'sweetalert2';
 import { gapi } from "gapi-script";
 import { onMounted } from 'vue';
+import fetchDataClient from '../../api/client'
 
 
 export default {
@@ -122,6 +124,7 @@ export default {
             if (this.$route.query.redirectURL == undefined)
               this.$route.query.redirectURL = "/";
             this.$router.push({ path: decodeURIComponent(this.$route.query.redirectURL) })
+            await fetchDataClient(localStorage.getItem('token'))
           }
         } else {
           // Si l'utilisateur n'existe pas, redirigez-le vers la page d'inscription

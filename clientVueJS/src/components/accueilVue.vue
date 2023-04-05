@@ -7,7 +7,7 @@
  
  
  <template>
-    <main>
+    <main>  
   
       <div class="home_container">
         <div class="home_titre">
@@ -95,6 +95,8 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
+
   #home_collections_texte{
     width:35vw;
     font-size: 19px;

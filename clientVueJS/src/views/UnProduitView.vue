@@ -8,7 +8,6 @@ import CardAvis from '../components/CardAvis.vue';
 </script>
 
 <script>
-
 export default {
     props: ['id'],
     data() {
@@ -33,7 +32,7 @@ export default {
                 this.variantes = response.data
                 this.selectedVariante = this.variantes[0];
                 for (let variante of this.variantes) {
-                    axios.get('https://localhost:7259/api/Variantes/GetAllVariantePhotosAsync/' + variante.varianteId).then(response => variante.photos = response.data).catch(error => console.error(error));
+                    axios.get('https://localhost:7259/api/Photos/GetPhotoByVariante/' + variante.varianteId).then(response => variante.photos = response.data).catch(error => console.error(error));
                     axios.get('https://localhost:7259/api/Avis/GetAllAvisByVarianteId/' + variante.varianteId)
                         .then(response => {
                             for (let avisResponse of response.data)
@@ -245,14 +244,13 @@ h3 {
     color: var(--first-color)
 }
 
-#product-col-1 h1,
-#product-col-1 h2,
-#product-col-1 h3 {
-    margin: 10px 0px 10px 0px;
-    text-align: center;
-    background-color: #527140CF;
-    color: white;
-    padding: 10px;
+.product-text-partie{
+    margin: 50px;
+}
+
+.product-text-partie h2{
+    margin-bottom: 10px;
+    color: var(--first-color);
 }
 
 button {
