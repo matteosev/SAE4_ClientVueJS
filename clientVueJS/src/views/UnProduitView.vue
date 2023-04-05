@@ -1,4 +1,4 @@
-<script>
+<script setup>
 import axios from 'axios';
 import { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -7,6 +7,7 @@ import { useCartStore } from '../stores/cart';
 import CardAvis from '../components/CardAvis.vue';
 </script>
 
+<script>
 
 export default {
     props: ['id'],
@@ -28,29 +29,27 @@ export default {
         axios.get('https://localhost:7259/api/Produits/GetById/' + this.id).then(response => this.produit = response.data).catch(error => console.error(error));
 
         axios.get('https://localhost:7259/api/Variantes/GetAllVariantesByProduitIdAsync/' + this.id)
-        .then(response => 
-        {
-            this.variantes = response.data
-            this.selectedVariante = this.variantes[0];
-            for (let variante of this.variantes)
-            {
-                axios.get('https://localhost:7259/api/Variantes/GetAllVariantePhotosAsync/' + variante.varianteId).then(response => variante.photos = response.data).catch(error => console.error(error));
-                axios.get('https://localhost:7259/api/Avis/GetAllAvisByVarianteId/' + variante.varianteId)
-                .then(response => {
-                    for (let avisResponse of response.data)
-                        this.avis.push(avisResponse);
-                })
-                .catch(error => console.error(error));
-                console.log(this.avis);
+            .then(response => {
+                this.variantes = response.data
+                this.selectedVariante = this.variantes[0];
+                for (let variante of this.variantes) {
+                    axios.get('https://localhost:7259/api/Variantes/GetAllVariantePhotosAsync/' + variante.varianteId).then(response => variante.photos = response.data).catch(error => console.error(error));
+                    axios.get('https://localhost:7259/api/Avis/GetAllAvisByVarianteId/' + variante.varianteId)
+                        .then(response => {
+                            for (let avisResponse of response.data)
+                                this.avis.push(avisResponse);
+                        })
+                        .catch(error => console.error(error));
+                    console.log(this.avis);
+                }
             }
-        }
-        ).catch(error => console.error(error));
+            ).catch(error => console.error(error));
     },
     mounted() {
     },
     computed:
     {
-        avisAverage(){
+        avisAverage() {
             let sum = 0;
             for (let a of this.avis)
                 sum += a.note;
@@ -71,24 +70,23 @@ export default {
             else
                 this.cartStore.addItem(this.selectedVariante, this.quantity);
         },
-        postAvis(event)
-        {
+        postAvis(event) {
             let isoDateString = new Date().toISOString();
             let avis = {
-                varianteId : this.selectedVariante.varianteId,
-                clientId : JSON.parse(localStorage.getItem("client")).clientId,
-                titre : this.avisTitle,
-                texte : this.avisText,
-                note : this.avisNote,
-                date : isoDateString,
-                avis_Client : null,
-                avis_Photo : null,
-                avis_Variante : null
+                varianteId: this.selectedVariante.varianteId,
+                clientId: JSON.parse(localStorage.getItem("client")).clientId,
+                titre: this.avisTitle,
+                texte: this.avisText,
+                note: this.avisNote,
+                date: isoDateString,
+                avis_Client: null,
+                avis_Photo: null,
+                avis_Variante: null
             }
             axios.post("https://localhost:7259/api/Avis/Post", avis)
-            .then(response => {
-                alert("Félicitations ! Vous avez déposé le " + response.data.avisId + "e avis de notre site !");
-            });
+                .then(response => {
+                    alert("Félicitations ! Vous avez déposé le " + response.data.avisId + "e avis de notre site !");
+                });
         }
     }
 }
@@ -110,21 +108,26 @@ export default {
                 <div id="product-text">
                     <div class="product-text-partie">
                         <h2>Description</h2>
-                        <p style="text-align: justify;">{{  this.produit.description }}</p>
+                        <p style="text-align: justify;">{{ this.produit.description }}</p>
                     </div>
                     <div class="product-text-partie">
                         <h2>Entretien</h2>
-                        <p style="text-align: justify;">{{  this.produit.instructionsEntretien }}</p>
+                        <p style="text-align: justify;">{{ this.produit.instructionsEntretien }}</p>
                     </div>
                     <div class="product-text-partie">
                         <h2>Fiche Technique</h2>
-                        <p v-if="this.produit.matiere != null && this.produit.matiere != ''">Matière : {{  this.produit.matiere }}</p>
-                        <p v-if="this.produit.revetement != null && this.produit.revetement != ''">Revêtement : {{  this.produit.revetement }}</p>
-                        <p v-if="this.produit.poidsColis != null && this.produit.poidsColis != ''">Poids du colis : {{  this.produit.poidsColis }}</p>
-                        <p v-if="this.produit.dimensionsTotale != null && this.produit.dimensionsTotale != ''">Dimensions du produit : {{  this.produit.dimensionsTotale }}</p>
-                        <p v-if="this.produit.dimensionsColis != null && this.produit.dimensionsColis != ''">Dimensions du colis : {{  this.produit.dimensionsColis }}</p>
+                        <p v-if="this.produit.matiere != null && this.produit.matiere != ''">Matière : {{
+                            this.produit.matiere }}</p>
+                        <p v-if="this.produit.revetement != null && this.produit.revetement != ''">Revêtement : {{
+                            this.produit.revetement }}</p>
+                        <p v-if="this.produit.poidsColis != null && this.produit.poidsColis != ''">Poids du colis : {{
+                            this.produit.poidsColis }}</p>
+                        <p v-if="this.produit.dimensionsTotale != null && this.produit.dimensionsTotale != ''">Dimensions du
+                            produit : {{ this.produit.dimensionsTotale }}</p>
+                        <p v-if="this.produit.dimensionsColis != null && this.produit.dimensionsColis != ''">Dimensions du
+                            colis : {{ this.produit.dimensionsColis }}</p>
                     </div>
-                                    
+
                 </div>
 
                 <div v-if="authStore.isAuthenticated" id="formAvis">
@@ -137,8 +140,15 @@ export default {
                         <div style="width: 2%;"></div>
                         <div class="flex-col" style="width: 26%;" id="formAvis-firstLine-containerNote">
                             <label>Note</label>
-                            <input type="range" v-model="avisNote" min="1" max="5" list="tickmarks" name="noteAvis" id="formAvisSejourNote" required>
-                            <datalist id="tickmarks"><option value="1" label="1"></option><option value="2" label="2"></option><option value="3" label="3"></option><option value="4" label="4"></option><option value="5" label="5"></option></datalist>
+                            <input type="range" v-model="avisNote" min="1" max="5" list="tickmarks" name="noteAvis"
+                                id="formAvisSejourNote" required>
+                            <datalist id="tickmarks">
+                                <option value="1" label="1"></option>
+                                <option value="2" label="2"></option>
+                                <option value="3" label="3"></option>
+                                <option value="4" label="4"></option>
+                                <option value="5" label="5"></option>
+                            </datalist>
                         </div>
                         <div style="width: 2%;"></div>
                     </div>
@@ -220,21 +230,27 @@ export default {
 </template>
   
 <style scoped>
-.flex-col{
+.flex-col {
     display: flex;
     flex-direction: column;
 }
 
-.flex-row{
+.flex-row {
     display: flex;
 }
 
-h1, h2, h3 { color: var(--first-color) }
+h1,
+h2,
+h3 {
+    color: var(--first-color)
+}
 
-#product-col-1 h1, #product-col-1 h2, #product-col-1 h3 {
+#product-col-1 h1,
+#product-col-1 h2,
+#product-col-1 h3 {
     margin: 10px 0px 10px 0px;
     text-align: center;
-    background-color:  #527140CF;
+    background-color: #527140CF;
     color: white;
     padding: 10px;
 }
@@ -270,33 +286,38 @@ button {
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
-#formAvis textarea { resize: none; border-radius: 2px;}
+#formAvis textarea {
+    resize: none;
+    border-radius: 2px;
+}
 
-#formAvis > button {
+#formAvis>button {
     width: 100%;
     padding: 10px;
 }
 
-#avisStats { margin-top: 10px; }
+#avisStats {
+    margin-top: 10px;
+}
 
-#avisStats > .flex-row > * {
+#avisStats>.flex-row>* {
     width: 50%;
     padding: 10px;
     font-size: 150%;
 }
 
-#avisStats > .flex-row > *:first-child {
+#avisStats>.flex-row>*:first-child {
     text-align: right;
     border-right: 1px solid black;
 }
 
 .cardAvis:not(:last-child) {
-    border-bottom: 1px solid rgba(0,0,0, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     padding-bottom: 5px;
     margin-bottom: 5px;
 }
 
-#sidepane{
+#sidepane {
     margin: 10px;
     padding: 10px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -315,7 +336,7 @@ button {
     margin-top: 5px;
 }
 
-#sidepane button:active{
+#sidepane button:active {
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
 
@@ -366,9 +387,9 @@ button {
 }
 
 
-#container-quantity > button {
+#container-quantity>button {
     border-width: 1px;
-    border-color: rgba(0,0,0, 0.2);
+    border-color: rgba(0, 0, 0, 0.2);
     text-align: center;
     padding: 0px;
     width: 100%;
@@ -385,12 +406,11 @@ button {
     border-radius: 5px;
 }
 
-footer{
+footer {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color:  var(--first-color);
+    background-color: var(--first-color);
     color: white;
-}
-</style>
+}</style>

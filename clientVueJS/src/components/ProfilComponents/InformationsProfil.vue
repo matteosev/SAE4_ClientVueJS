@@ -1,9 +1,9 @@
 <script setup>
 
-import { ref, computed, reactive } from 'vue'
+import { ref, computed, reactive, watch, onMounted } from 'vue'
 import Swal from 'sweetalert2'
 import axios from '../../api/axios';
-import fetchDataClient from '../../api/client.js'
+import { fetchDataClient } from '../../api/client.js'
 
 var user = JSON.parse(localStorage.getItem('client'))
 const newUser = reactive({})
@@ -19,11 +19,6 @@ function handleNom(string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
 
-function handleTel(tel) {
-    const formatted = tel.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, '$1 $2 $3 $4 $5');
-    return formatted;
-}
-
 const isReadOnly = ref(true);
 
 const toggleReadOnlyMode = () => {
@@ -33,9 +28,6 @@ const toggleReadOnlyMode = () => {
 const buttonLabel = computed(() => {
     return isReadOnly.value ? 'Modifier' : 'Annuler';
 });
-
-
-const telClient = ref(handleTel(newUser.portable));
 
 const addAdresse = ref(false)
 
@@ -60,8 +52,11 @@ const saveChanges = () => {
     }).then(async (result) => {
         if (result.isConfirmed) {
             console.log(user)
+            console.log(adresse)
             const response = await axios.put('api/clients/put/' + user.clientId, JSON.stringify(user))
+            const responseAdresse = await axios.put('api/adresses/put/' + adresseClient.adresseId, JSON.stringify(adresseClient))
             console.log(response);
+            console.log(responseAdresse);
             Swal.fire('Saved!', '', 'success')
             await fetchDataClient(localStorage.getItem('token'))
             isReadOnly.value = true
@@ -71,26 +66,85 @@ const saveChanges = () => {
     })
 }
 
+const adresseClient = reactive({})
+var adresse = reactive({})
+
+const adresseHere = () => {
+    if (localStorage.getItem("adresseClient")) {
+        return true
+    }
+    else
+        return false
+}
+adresse = JSON.parse(localStorage.getItem('adresseClient'))
+const loadAdresseData = onMounted(() => {
+
+    adresseClient.adresseId = adresse.adresseId
+    adresseClient.rue = adresse.rue
+    adresseClient.ville = adresse.ville
+    adresseClient.codePostal = adresse.codePostal
+    adresseClient.pays = adresse.pays
+    adresseClient.telFixe = adresse.telFixe
+    adresseClient.remarques = adresse.remarques
+})
+
+
+
 const ChangeData = () => {
-    user.prenomClient = newUser.prenomClient,
-    user.nomClient = newUser.nomClient,
-    user.portable = newUser.portable,
-    user.civilite = newUser.civilite
+    user.prenomClient = newUser.prenomClient;
+    user.nomClient = newUser.nomClient;
+    user.portable = newUser.portable;
+    user.civilite = newUser.civilite;
+    adresse.rue = adresseClient.rue;
+    adresse.ville = adresseClient.ville;
+    adresse.pays = adresseClient.pays;
+    adresse.codePostal = adresseClient.codePostal;
+    adresse.remarques = adresseClient.remarques;
+    adresse.telFixe = adresseClient.telFixe;
 }
 
 // Adresse 
 
 
 
-const handleHasAdresse = () => {
-    if (localStorage.getItem('adresseClient'))
-        return true
-    else
-        return false
+
+const addRemarques = ref(false);
+const addTelFixe = ref(false)
+
+const toggleRemarqueAdresse = () => {
+    addRemarques.value = !addRemarques.value
+    console.log(addRemarques.value)
+}
+const toggleTelFixeAdresse = () => {
+    addTelFixe.value = !addTelFixe.value
 }
 
-console.log(handleHasAdresse())
+const addOrRemove = (value) => {
+    return value ? 'Annuler' : 'Ajouter'
+}
 
+
+const addAdresseToClient = () => {
+    adresseClient.adresseId = user.clientId;
+    Swal.fire({
+        title: 'Êtes-vous sûr de vouloir ajouter une Adresse ?',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Ajouter',
+        denyButtonText: `Annuler`,
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            console.log(user)
+            const response = await axios.post('api/adresses/PostAdresseClient', JSON.stringify(adresseClient))
+            console.log(response);
+            Swal.fire('Ajoutée!', '', 'success')
+            await fetchDataClient(localStorage.getItem('token'))
+            isReadOnly.value = true
+        } else if (result.isDenied) {
+            Swal.fire('Annulation des modifications', '', 'info')
+        }
+    })
+}
 
 </script>
 
@@ -135,9 +189,41 @@ console.log(handleHasAdresse())
     </div>
     <div class="container-adresse">
         <h3 class="title-adresse">Adresse</h3>
-        <div v-if="!handleHasAdresse()">
+        <div v-if="adresseHere()">
+            <div class="info-container">
+                <div class="info-left">
+                    <div class="info-card">
+                        <p class="info-card-title"> Rue </p>
+                        <input type="text" class="text-input" v-model="adresseClient.rue" :readonly="isReadOnly" />
+                    </div>
+                    <div class="info-card">
+                        <p class="info-card-title"> Ville </p>
+                        <input type="text" class="text-input" v-model="adresseClient.ville" :readonly="isReadOnly" />
+                    </div>
+                    <div class="info-card" v-if="adresseClient.remarques">
+                        <p class="info-card-title"> Remarques </p>
+                        <input type="text" class="text-input" v-model="adresseClient.remarques" :readonly="isReadOnly" />
+                    </div>
+                </div>
+                <div class="info-right">
+                    <div class="info-card">
+                        <p class="info-card-title"> Code postal </p>
+                        <input type="text" class="text-input" v-model="adresseClient.codePostal" :readonly="isReadOnly" />
+                    </div>
+                    <div class="info-card">
+                        <p class="info-card-title"> Pays </p>
+                        <input type="text" class="text-input" v-model="adresseClient.pays" :readonly="isReadOnly" />
+                    </div>
+                    <div class="info-card" v-if="adresseClient.telFixe">
+                        <p class="info-card-title"> TelFixe </p>
+                        <input type="text" class="text-input" v-model="adresseClient.telFixe" :readonly="isReadOnly" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="!adresseHere()">
             <div class="content-no-adresse">
-                <p> Vous n'avez pas d'adresse d'enregistrer </p>
+                <p> Vous n'avez pas d'adresse d'enregistré </p>
                 <div class="container-no-adresse">
                     <p> Voulez-vous enregistrer votre adresse ? </p>
                     <button class="button-adresse" @click="toggleAdresse"> Ajouter </button>
@@ -149,25 +235,42 @@ console.log(handleHasAdresse())
                 <div class="info-left">
                     <div class="info-card">
                         <p class="info-card-title"> Rue </p>
-                        <input type="text" class="text-input"  v-model="nomClient" />
+                        <input type="text" class="text-input" v-model="adresseClient.rue" />
                     </div>
                     <div class="info-card">
                         <p class="info-card-title"> Ville </p>
-                        <input type="text" class="text-input" v-model="newUser.prenomClient" />
+                        <input type="text" class="text-input" v-model="adresseClient.ville" />
+                    </div>
+                    <div class="info-card" v-show="addRemarques">
+                        <p class="info-card-title"> Remarques </p>
+                        <input type="text" class="text-input" v-model="adresseClient.remarques" />
                     </div>
                 </div>
                 <div class="info-right">
                     <div class="info-card">
                         <p class="info-card-title"> Code postal </p>
-                        <input type="text" class="text-input"  v-model="nomClient" />
+                        <input type="text" class="text-input" v-model="adresseClient.codePostal" />
                     </div>
                     <div class="info-card">
                         <p class="info-card-title"> Pays </p>
-                        <input type="text" class="text-input" v-model="newUser.prenomClient"  />
+                        <input type="text" class="text-input" v-model="adresseClient.pays" />
+                    </div>
+                    <div class="info-card" v-show="addTelFixe">
+                        <p class="info-card-title"> TelFixe </p>
+                        <input type="text" class="text-input" v-model="adresseClient.telFixe" />
                     </div>
                 </div>
+
+            </div>
+            <div class="container-button-adresse">
+                <button class="button-modif" @click="toggleRemarqueAdresse">{{ addOrRemove(addRemarques) }} une remarque
+                    ?</button>
+                <button class="button-modif" @click="toggleTelFixeAdresse">{{ addOrRemove(addTelFixe) }} un télphone
+                    fixe
+                    ?</button>
             </div>
         </div>
+        <button class="button-add-adresse" v-if="addAdresse" @click="addAdresseToClient"> Ajouter une adresse</button>
         <div class="button-container">
             <button type="submit" class="button-modif" @click="toggleReadOnlyMode">{{ buttonLabel }} </button>
             <button class="button-modif" @click="saveChanges" v-if="!isReadOnly">Enregistrer</button>
@@ -229,15 +332,15 @@ console.log(handleHasAdresse())
     text-transform: uppercase;
     visibility: visible;
     opacity: 1;
+    margin: 10px;
     transition: all 0.3s ease-in-out;
-
 }
 
 .button-modif:hover {
     background-color: #3B5C37;
 }
 
-.text-input {
+.button-add-adresse .text-input {
     padding: 10px;
     border: solid 2px #3B5C37;
     font-size: 18px;
@@ -247,6 +350,14 @@ console.log(handleHasAdresse())
 
 .text-input:focus {
     outline: none;
+}
+
+.text-input {
+    padding: 10px;
+    border: solid 2px #3B5C37;
+    font-size: 18px;
+    margin-top: 9px;
+    border-radius: 4px;
 }
 
 .container-button-radio {
@@ -274,5 +385,29 @@ console.log(handleHasAdresse())
 .container-no-adresse {
     display: flex;
     margin-bottom: 35px;
+}
+
+.container-button-adresse {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.autocomplete-results {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #3B5C37;
+    border-radius: 4px;
+    z-index: 100;
+}
+
+.autocomplete-result {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.autocomplete-result:hover {
+    background-color: #3B5C37;
+    color: white;
 }
 </style>

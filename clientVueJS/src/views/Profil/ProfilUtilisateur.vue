@@ -4,8 +4,8 @@ import Commandes from '../../components/ProfilComponents/MesCommandesProfil.vue'
 import Paiements from '../../components/ProfilComponents/ModePaiements.vue';
 import Confidentialite from '../../components/ProfilComponents/Confidentialié.vue';
 import Aide from '../../components/ProfilComponents/Help.vue';
-import { ref } from 'vue'
-import { fetchDataAdresseClient } from '../../api/client';
+import { ref, watchEffect } from 'vue'
+import { fetchDataAdresseClient, fetchDataCbClient } from '../../api/client';
 import { watch } from 'vue';
 
 const navNames = {
@@ -26,6 +26,21 @@ const handleGetAdresse = (user) => {
     else
         return true
 }
+
+const handleGetCb = (user) => {
+    if (user.carteBancaireId == null || user.carteBancaireId == "null")
+        return false
+    else
+        return true
+}
+
+const handleVerifyHasCb = async () => {
+    if (handleGetCb(user))
+        await fetchDataCbClient()
+    else
+        console.log("Il n'y a pas de cb");
+}
+
 const handleVerifyHasAdresse = async () => {
     if (handleGetAdresse(user)) {
         await fetchDataAdresseClient()
@@ -36,7 +51,8 @@ const handleVerifyHasAdresse = async () => {
 }
 
 
-watch(handleVerifyHasAdresse())
+watchEffect(handleVerifyHasAdresse())
+watchEffect(handleVerifyHasCb())
 
 
 
@@ -55,7 +71,7 @@ watch(handleVerifyHasAdresse())
 
         <div class="content-nav">
             <keep-alive>
-                <component :is="navNames[currentNav]" v-bind="props"> </component>
+                <component :is="navNames[currentNav]"> </component>
             </keep-alive>
         </div>
     </div>
