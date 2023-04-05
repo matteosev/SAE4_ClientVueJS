@@ -2,7 +2,7 @@ import jwtDecode from 'jwt-decode';
 import axios from './axios.js';
 
 
-export default async function fetchDataClient(token) {
+export const fetchDataClient = async (token) => {
     try {
         const decodeToken = jwtDecode(token)
         const user = []
@@ -11,6 +11,7 @@ export default async function fetchDataClient(token) {
         if (localStorage.getItem('client'))
             localStorage.removeItem('client')
         localStorage.setItem('client', JSON.stringify(user[0]))
+        console.log("reload Data")
 
     } catch (error) {
         console.error('Error during authentication:', error);
@@ -18,17 +19,15 @@ export default async function fetchDataClient(token) {
     }
 }
 
-export async function fetchDataAdresseClient() {
+export const fetchDataAdresseClient = async () => {
     try {
         const adresse = []
         const user = JSON.parse(localStorage.getItem('client'))
-        console.log(user)
 
         const responseAdresse = await axios.get("api/adresses/getbyId/" + user.adresseId)
         adresse.push(responseAdresse.data);
-        if (localStorage.getItem('adresseClient'))
-            localStorage.removeItem('adresseClient')
-        localStorage.setItem('adresseClient', + JSON.stringify(adresse[0]))
+
+        localStorage.setItem('adresseClient', JSON.stringify(adresse[0]))
 
     } catch (error) {
         console.error('Error during authentication:', error);
@@ -36,7 +35,20 @@ export async function fetchDataAdresseClient() {
     }
 }
 
-export async function addAdresseClient(adresse, clientId){
-    
-    const responseAddAdresse = await axios.post("api/adresses/post/")
+
+export const fetchDataCbClient = async () => {
+    try {
+        const cb = []
+        const user = JSON.parse(localStorage.getItem('client'))
+
+        const reponseCb = await axios.get("api/CarteBancaire/GetCarteBanquaireByClientId/" + user.clientId)
+        cb.push(reponseCb.data)
+
+        localStorage.setItem('cbClient', JSON.stringify(cb[0]))
+
+        console.log("reload data")
+    } catch (error) {
+        console.error('Error during authentication:', error);
+        throw error;
+    }
 }
