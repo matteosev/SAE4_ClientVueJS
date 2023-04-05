@@ -251,8 +251,6 @@ h3 {
 .product-text-partie h2{
     margin-bottom: 10px;
     color: var(--first-color);
-
-
 }
 
 button {
@@ -413,5 +411,4 @@ footer {
     justify-content: center;
     background-color: var(--first-color);
     color: white;
-}
-</style>
+}</style>
