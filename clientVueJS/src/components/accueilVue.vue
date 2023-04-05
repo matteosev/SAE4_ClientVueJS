@@ -14,8 +14,7 @@
           <h1 class="home_collections_titre">
             Miliboo
           </h1>
-          <h2 id="home_collections_texte">Miliboo propose plusieurs collections de meubles de haute qualité, allant des styles classiques aux designs modernes et contemporains, en utilisant des matériaux nobles, alliant à la fois fonctionnalité et esthétique.</h2>
-        </div>
+           </div>
         <div class="home_collections_images">
           <img src="../assets/chaises.png" alt="">
         </div>
@@ -40,6 +39,7 @@
     </main>
     <footer>
         <h2>Miliboo</h2>
+        <h2 id="home_collections_texte">Miliboo propose plusieurs collections de meubles de haute qualité, allant des styles classiques aux designs modernes et contemporains, en utilisant des matériaux nobles, alliant à la fois fonctionnalité et esthétique.</h2>
         <h3>Maxence DUBOIS - Mattéo SEVERINI - Jérémy POULAIN - Timoté POLICET - Mathis SPORTIELLO</h3>
     </footer>
   </template>
@@ -63,9 +63,7 @@
 }
 
 #home_collections_button {
-  position: absolute; /* add this line */
-  top: 45%;
-  right: 9%;
+  margin-left: 9vw;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -108,9 +106,16 @@
     color: var(--second-color);
   }
   
-  .home_collections_images img {
-  max-width: 100%; /* add this line */
+  .home_collections_images  {
+  width: 98vw;
+  position: relative;
+  height: fit-content;
 }
+.home_collections_images img {
+  width: 100%;
+}
+
+
 
   footer {
     display: flex;
