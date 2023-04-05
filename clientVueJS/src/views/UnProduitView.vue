@@ -100,7 +100,7 @@ export default {
 
                 <swiper :modules="[Navigation]" :slides-per-view="1" :space-between="1" navigation>
                     <swiper-slide v-for="photo of selectedVariante.photos" :key="photo.photoId">
-                        <img :src="photo.chemin">
+                        <img :src="photo.chemin" :alt="selectedVariante.libelle + 'photo'">
                     </swiper-slide>
                 </swiper>
 
@@ -204,7 +204,9 @@ export default {
 
                     <!-- Call To Action -->
                     <div id="container-buy">
-                        <input type="number" min="0" v-model="quantity">
+                        <label for="nombre achat">
+                            <input type="number" min="0" v-model="quantity">
+                        </label>
                         <div id="container-quantity">
                             <button v-on:click="$event => this.quantity += 1">+</button>
                             <button v-on:click="$event => (this.quantity - 1 > 0) ? this.quantity -= 1 : 0">-</button>

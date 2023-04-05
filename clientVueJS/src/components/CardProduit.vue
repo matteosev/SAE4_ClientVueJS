@@ -47,7 +47,7 @@ export default {
     <Loader v-if="isLoaded"></Loader>
 
     <div class="Bien">
-        <img v-if="photos.length > 0" :src="photos[0].chemin" alt="produit photo">
+        <img v-if="photos.length > 0" :src="photos[0].chemin" :alt="produit.libelle + 'photo'">
         <div class="bandeau">
           <h2>{{ produit.libelle }}</h2>
           <h3>{{ this.variante.prix }}€</h3>
