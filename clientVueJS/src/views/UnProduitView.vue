@@ -204,9 +204,7 @@ export default {
 
                     <!-- Call To Action -->
                     <div id="container-buy">
-                        <label for="nombre achat">
-                            <input type="number" min="0" v-model="quantity">
-                        </label>
+                        <input type="number" min="0" v-model="quantity">
                         <div id="container-quantity">
                             <button v-on:click="$event => this.quantity += 1">+</button>
                             <button v-on:click="$event => (this.quantity - 1 > 0) ? this.quantity -= 1 : 0">-</button>

@@ -30,7 +30,7 @@ export default {
             axios.get('https://localhost:7259/api/Photos/GetPhotoByVariante/' + this.variante.varianteId)
             .then(response => {
               this.photos = response.data;
-              console.log(this.photos[0]);
+              console.log(this.photos[length-1]);
               this.isLoaded = false;
             })
             .catch(error => console.error(error));
@@ -49,18 +49,14 @@ export default {
     <div class="Bien">
         <img v-if="photos.length > 0" :src="photos[0].chemin" :alt="produit.libelle + 'photo'">
         <div class="bandeau">
-          <h2>{{ produit.libelle }}</h2>
-          <h3>{{ this.variante.prix }}€</h3>
-          <a :href="urlProduit">Voir le produit</a>
+            <h2>{{ produit.libelle }}</h2>
+            <h3>{{ this.variante.prix }}€</h3>
+            <a :href="urlProduit">Voir le produit</a>
         </div>
-        
-
     </div>
 </template>
 
 <style>
-
-
   .Bien{
           display: flex;
           margin-bottom: 40px;
