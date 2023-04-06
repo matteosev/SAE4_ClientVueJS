@@ -14,7 +14,8 @@ import axios from 'axios';
             categoriesEnfant:[],
             produits: [],
             selectedCategory: null,
-            isLoaded: true
+            prix1: null,
+            prix2: null,
             };
         },
         mounted() {
@@ -66,6 +67,11 @@ import axios from 'axios';
             return categoriesEnfant;
             },
 
+            async getProduitsByPrice() {
+                const response = await axios.get(`https://localhost:7259/api/Produits/GetProduitsWherePrixEntre/${this.prix1}/${this.prix2}`);
+                this.produits = response.data;
+            },
+
             selectCategory(category) {
             this.selectedCategory = category;
             this.getAllProducts();
@@ -98,6 +104,24 @@ import axios from 'axios';
       </li>
     </ul>
   </nav>
+    <div class="filtres">
+        <h1>Filtrer par prix</h1>
+        <div>
+            <div>
+                <label for="prix1">Prix minimum</label>
+                <input type="number" id="prix1" v-model="prix1">
+            </div>
+            <div>
+                <label for="prix2">Prix maximum</label>
+                <input type="number" id="prix2" v-model="prix2">
+            </div>
+        </div>  
+        <div>
+            <button id="apply_filtre" @click="getProduitsByPrice">Rechercher</button>
+        </div>
+        
+    </div>
+    
   <div class="container_central">
     <div class="produits_container">
         <CardProduit v-for="produit in filterProducts()" :key="produit.produitId" :produit="produit"></CardProduit>
@@ -119,6 +143,7 @@ main{
     justify-content: center;
     align-items: center;
 }
+h1{font-size: 40px;}
 body{
         height: 100vh;
     }
@@ -132,11 +157,9 @@ body{
     }
 
     nav ul{
-        width: 92vw;
+        width: 98vw;
         display: flex;
         justify-content: space-around;
-        
-        
     }
 
     nav ul li{
@@ -243,5 +266,61 @@ body{
         width: 90vw;
     }
     }
+
+    .filtres div{
+        display: flex;
+        width: fit-content;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+    }
+    .filtres div div{
+        display: flex;
+    }
+    label{
+        margin-right: 10px;
+    }
+    .filtres{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    button{
+        background-color: var(--first-color);
+        color: white;
+        padding: 3px;
+        border: solid 2px #FFF;
+    }
+
+    button:hover{
+        background-color: #fff;
+        color: var(--first-color);
+        border: solid 2px var(--first-color);
+        cursor: pointer;
+    }
+
+    input {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        font-size: 16px;
+        color: #333;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    input:focus {
+        outline: none;
+        box-shadow: 0px 0px 10px var(--first-color);
+        background-color: #fff;
+    }
+
+    label{
+        font-weight: bold;
+    }
+
     
+        
 </style>

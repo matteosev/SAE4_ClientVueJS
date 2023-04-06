@@ -224,7 +224,8 @@ export default {
         </section>
     </main>
     <footer>
-        Miliboo
+        <h2>Miliboo</h2>
+        <h3>Maxence DUBOIS - Mattéo SEVERINI - Jérémy POULAIN - Timoté POLICET - Mathis SPORTIELLO</h3>
     </footer>
 </template>
   
@@ -404,11 +405,16 @@ button {
     border-radius: 5px;
 }
 
-footer {
+footer{
     display: flex;
+    height: 30vh;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: var(--first-color);
     color: white;
-}</style>
+}
+
+footer h2{color:white}
+footer h3{color:white}
+</style>
