@@ -86,7 +86,7 @@ import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import { gapi } from "gapi-script";
 import { useAuthStore } from '../../api/auth.js';
-import fetchDataClient from '../../api/client'
+import {fetchDataClient} from '../../api/client'
 
 onMounted(async () => {
   await gapi.load('client:auth2', async () => {

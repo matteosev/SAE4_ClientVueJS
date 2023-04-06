@@ -18,6 +18,7 @@ function handleLogout() {
   isConnected.value = false;
   useCartStore().deleteAllLines();
   authStoreInstance.logout(); // Appel de la méthode logout du store
+  isConnected.value = false;
 }
 </script>
 

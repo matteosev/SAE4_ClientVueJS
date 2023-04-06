@@ -52,9 +52,3 @@ export const fetchDataCbClient = async () => {
         throw error;
     }
 }
-export default {
-    fetchDataClient,
-    fetchDataAdresseClient,
-    fetchDataCbClient
-  };
-  
