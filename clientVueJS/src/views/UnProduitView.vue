@@ -109,7 +109,7 @@ export default {
 
                 <swiper :modules="[Navigation]" :slides-per-view="1" :space-between="1" navigation>
                     <swiper-slide v-for="photo of selectedVariante.photos" :key="photo.photoId">
-                        <img :src="photo.chemin">
+                        <img :src="photo.chemin" :alt="selectedVariante.libelle + 'photo'">
                     </swiper-slide>
                 </swiper>
 
@@ -261,8 +261,6 @@ h3 {
 .product-text-partie h2{
     margin-bottom: 10px;
     color: var(--first-color);
-
-
 }
 
 button {

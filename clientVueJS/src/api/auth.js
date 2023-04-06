@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import axios from './axios.js';
 import jwtDecode from 'jwt-decode';
 import { reactive, ref } from 'vue'
-import fetchDataClient from './client.js'
+import { fetchDataClient } from './client.js'
 
 const useAuthStore = defineStore('auth', {
 
@@ -32,6 +32,7 @@ const useAuthStore = defineStore('auth', {
       this.userDetails = null;
       localStorage.removeItem('token');
       localStorage.removeItem('client')
+      localStorage.removeItem('adresseClient')
     },
   },
   getters: {
