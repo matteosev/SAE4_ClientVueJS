@@ -264,6 +264,7 @@ h3 {
 }
 
 button {
+    cursor:pointer;
     border-width: 0px;
     background-color: var(--first-color);
     color: white;

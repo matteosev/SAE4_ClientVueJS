@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "gapi-script": "^1.2.0",
+    "gsap": "^3.11.5",
     "jwt-decode": "^3.1.2",
     "pinia": "^2.0.32",
     "swiper": "^9.1.1",
