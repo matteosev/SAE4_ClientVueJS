@@ -13,6 +13,7 @@ newUser.nomClient = handleNom(user.nomClient)
 newUser.portable = user.portable
 newUser.civilite = user.civilite
 newUser.adresseId = user.adresseId
+newUser.email = user.email
 
 
 function handleNom(string) {
@@ -172,6 +173,10 @@ const addAdresseToClient = () => {
             </div>
         </div>
         <div class="info-right">
+            <div class="info-card">
+                <p class="info-card-title"> Email </p>
+                <input type="text" class="text-input" v-model="newUser.email" :readonly="isReadOnly" />
+            </div>
             <div class="info-card">
                 <p class="info-card-title"> Civilité </p>
                 <select class="text-input" v-if="!isReadOnly" v-model="newUser.civilite">
@@ -334,6 +339,7 @@ const addAdresseToClient = () => {
     opacity: 1;
     margin: 10px;
     transition: all 0.3s ease-in-out;
+    border-radius: 10px;
 }
 
 .button-modif:hover {
