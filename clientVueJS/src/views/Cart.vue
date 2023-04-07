@@ -36,7 +36,7 @@ export default {
     <main>
         <h1 class="cart-title">Votre Panier {{ client.civilite }} {{ client.nomClient }}</h1>
         <div v-if="cartStore.lines.length > 0" class="checkout">
-            <button @click="purchase" class="buy-now-btn">Commander</button>
+            <button v-on:click="this.$router.push({ path: '/checkout/address'});" class="buy-now-btn">Commander</button>
         </div>
         <div class="cart-wrapper">
           <div class="cart-container">

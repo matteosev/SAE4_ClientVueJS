@@ -34,3 +34,28 @@ footer{
     font-weight: normal;
     font-style: normal;
 }
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row, .flex-row-center, .flex-row-grow {
+  display: flex;
+}
+
+.flex-row-center {
+  justify-content: center;
+}
+
+.flex-row-grow > * {
+  flex-grow: 1;
+}
+
+.flex-row-grow > *:not(:first-child) {
+  margin-left: 5px;
+}
+
+.flex-row-grow > *:not(:last-child) {
+  margin-right: 5px;
+}

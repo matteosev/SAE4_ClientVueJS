@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AccueilView from '../views/AccueilView.vue'
+import CheckoutAddress from '../views/checkout/Address.vue'
+import CheckoutRecap from '../views/checkout/Recap.vue'
+import CheckoutPayment from '../views/checkout/Payment.vue'
 
 const routes = 
 [
@@ -47,7 +50,18 @@ const routes =
       component: () => import('../views/Cart.vue')
     },
 
-      {
+    {
+      path: '/checkout',
+      name: 'checkout',
+      component: () => import('../views/Checkout.vue'),
+      children: [
+        { path: 'address', component: CheckoutAddress },
+        { path: 'recap', component: CheckoutRecap },
+        { path: 'payment', component: CheckoutPayment }
+      ]
+    },
+
+    {
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue')

@@ -67,7 +67,7 @@ export const useCartStore = defineStore("cart", {
                 this.postLine(line);
         },
 
-        /* Les méthodes suivantes modifient LE PANIER (FRONTEND)  ET  LES LIGNEPANIER (BACKEND) */
+        /* Les méthodes suivantes modifient LE PANIER (FRONTEND) ET  LES LIGNEPANIER (BACKEND) */
         addItem(itemVariante, itemQuantity) {
             let lineId = this.findLineId(itemVariante.varianteId);
             if (lineId == -1)
@@ -109,6 +109,43 @@ export const useCartStore = defineStore("cart", {
                 axios.delete("https://localhost:7259/api/LignePaniers/Delete/" + this.lines[lineId].lignePanierId);
                 this.deleteLine(lineId);
             }
+        },
+
+        emptyCart(){
+            for (let i = this.lines.length - 1; i >= 0; i--) {
+                axios.delete("https://localhost:7259/api/LignePaniers/Delete/" + this.lines[i].lignePanierId);
+                this.deleteLine(i);
+            }
+        },
+
+        // Transformer le panier en commande
+        cartToOrder()
+        {
+            let order = {
+                clientId: JSON.parse(localStorage.getItem("client")).clientId,
+                adresseId: 1,
+                commandeExpresse: false,
+                commandeCollect: false,
+                commandePointsFideliteUtilises: 0,
+                commandeInstructions: "ncjksn",
+                etat: 0
+            }
+            axios.post("https://localhost:7259/api/Commandes/Post", order)
+            .then(response => {
+                for (let lp of this.lines){
+                    let ligneCommande = {
+                        varianteId: lp.variante.varianteId,
+                        commandeId: response.data.commandeId,
+                        quantite: lp.quantity,
+                        ligneCommande_Variante: null,
+                        ligneCommande_Commande: null
+                    }
+                    console.log(JSON.stringify(ligneCommande));
+                    axios.post("https://localhost:7259/api/LigneCommandes/Post", ligneCommande)
+                    .then(response => {console.log(response.data)})
+                }
+                console.log(response.data);
+            });
         }
     },
     getters:
