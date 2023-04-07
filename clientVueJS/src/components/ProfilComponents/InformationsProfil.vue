@@ -79,7 +79,7 @@ const adresseHere = () => {
         return false
 }
 adresse = JSON.parse(localStorage.getItem('adresseClient'))
-const loadAdresseData = onMounted(() => {
+const loadAdresseData = () => {
 
     adresseClient.adresseId = adresse.adresseId
     adresseClient.rue = adresse.rue
@@ -88,7 +88,7 @@ const loadAdresseData = onMounted(() => {
     adresseClient.pays = adresse.pays
     adresseClient.telFixe = adresse.telFixe
     adresseClient.remarques = adresse.remarques
-})
+}
 
 
 
