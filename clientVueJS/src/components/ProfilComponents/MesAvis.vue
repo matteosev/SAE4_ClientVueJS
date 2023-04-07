@@ -9,7 +9,7 @@ var clientId = JSON.parse(localStorage.getItem('client')).clientId;
 var clientAvis = reactive([]);
 var indexEditedAvis = ref(-1);
 
-axios.get('https://localhost:7259/api/Avis/GetAllAvisByClientId/' + clientId)
+axios.get('/api/Avis/GetAllAvisByClientId/' + clientId)
 .then(response =>{
     for (let avis of response.data)
         clientAvis.push(avis);
@@ -34,12 +34,12 @@ function saveEditingAvis(){
         avis_Photo: null,
         avis_Variante: null
     }
-    axios.put("https://localhost:7259/api/Avis/Put/" + avis.avisId, avis).then(response => {});
+    axios.put("/api/Avis/Put/" + avis.avisId, avis).then(response => {});
     indexEditedAvis.value = -1;
 }
 
 function deleteEditingAvis(){
-    axios.delete("https://localhost:7259/api/Avis/Delete/" + clientAvis[indexEditedAvis.value].avisId)
+    axios.delete("/api/Avis/Delete/" + clientAvis[indexEditedAvis.value].avisId)
     .then(response => {});
     clientAvis.splice(indexEditedAvis.value, 1)
     indexEditedAvis.value = -1;

@@ -1,5 +1,4 @@
 <script setup>
-import axios from 'axios';
 import { useOrderStore } from '../../stores/order';
 import { useCartStore } from '../../stores/cart';
 </script>
@@ -30,23 +29,6 @@ export default {
         postCommand(){
             if (this.$refs.form.checkValidity())
             {
-                /*
-                let adresse = {
-                    rue: this.orderStore.address.street,
-                    codePostal: this.orderStore.address.postalCode,
-                    ville: this.orderStore.address.city,
-                    pays: this.orderStore.address.country,
-                    telFixe: this.orderStore.address.phone,
-                    remarques: this.orderStore.address.remarks,
-                    adresse_Client: null,
-                    adresse_Commande: null
-                }
-                console.log(JSON.stringify(adresse))
-                axios.post("https://localhost:7259/api/Adresses/Post", adresse)
-                .then(response => {
-                    alert(response.data.adresseId);
-                    //
-                });*/
                 this.cartStore.cartToOrder();
                 this.cartStore.emptyCart();
                 this.$router.push({ path: '/'});

@@ -1,5 +1,4 @@
-<script setup>  
-import axios from 'axios';
+<script setup>
 import { useCartStore } from '../stores/cart';
 import CartItem from '../components/CartItem.vue'
 </script>

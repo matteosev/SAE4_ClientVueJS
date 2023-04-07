@@ -1,5 +1,5 @@
 <script setup>  
-import axios from 'axios';
+import axios from '../api/axios';
 import { useCartStore } from '../stores/cart';
 </script>
 
@@ -18,11 +18,11 @@ export default {
     },
     created()
     {
-        axios.get('https://localhost:7259/api/Produits/GetById/' + this.variante.produitId)
+        axios.get('/api/Produits/GetById/' + this.variante.produitId)
         .then(response => this.libelle = response.data.libelle)
         .catch(error => console.error(error));
 
-        axios.get('https://localhost:7259/api/Variantes/GetAllVariantePhotosAsync/' + this.variante.varianteId)
+        axios.get('/api/Photos/GetPhotoByVariante/' + this.variante.varianteId)
         .then(response => this.photo = response.data[0].chemin)
         .catch(error => console.error(error));
     },

@@ -1,5 +1,5 @@
 <script setup>
-import axios from 'axios';
+import axios from '../../api/axios.js';
 import CardCommande from '../CardCommande.vue';
 </script>
 
@@ -17,7 +17,7 @@ export default {
     {
         var clientId = JSON.parse(localStorage.getItem("client")).clientId;
 
-        axios.get('https://localhost:7259/api/Commandes/GetCommandeByClient/' + clientId)
+        axios.get('/api/Commandes/GetCommandeByClient/' + clientId)
         .then(response => {
             for (let c of response.data)
                 this.commandes.push(c);

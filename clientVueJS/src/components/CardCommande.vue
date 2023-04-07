@@ -1,5 +1,5 @@
 <script setup>
-import axios from 'axios';
+import axios from '../api/axios';
 </script>
 
 <script>
@@ -16,16 +16,16 @@ export default {
     },
     mounted()
     {
-        axios.get('https://localhost:7259/api/LigneCommandes/GetAllLigneCommandesByCommandeId/' + this.commande.commandeId)
+        axios.get('/api/LigneCommandes/GetAllLigneCommandesByCommandeId/' + this.commande.commandeId)
         .then(responseL => {
             for (let l of responseL.data)
             {
                 //console.log(l);
-                axios.get('https://localhost:7259/api/Variantes/GetVarianteById/' + l.varianteId)
+                axios.get('/api/Variantes/GetVarianteById/' + l.varianteId)
                 .then(responseV => 
                 {
                     //console.log(responseV.data);
-                    axios.get('https://localhost:7259/api/Produits/GetById/' + responseV.data.produitId)
+                    axios.get('/api/Produits/GetById/' + responseV.data.produitId)
                     .then(responseP => 
                     {
                         //console.log(responseP.data);

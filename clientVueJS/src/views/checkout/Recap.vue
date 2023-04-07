@@ -1,5 +1,5 @@
 <script setup>
-import axios from 'axios';
+import axios from '../../api/axios';
 import { useOrderStore } from '../../stores/order';
 import { useCartStore } from '../../stores/cart';
 </script>
@@ -21,10 +21,10 @@ export default {
         for (let line of this.cartStore.lines)
         {
             console.log(line)
-            axios.get('https://localhost:7259/api/Produits/GetById/' + line.variante.produitId)
+            axios.get('/api/Produits/GetById/' + line.variante.produitId)
             .then(response => {
                 let libelle = response.data.libelle;
-                axios.get('https://localhost:7259/api/Variantes/GetVarianteById/' + line.variante.varianteId)
+                axios.get('/api/Variantes/GetVarianteById/' + line.variante.varianteId)
                 .then(response => this.orderLines.push({ name: libelle, color: response.data.couleurHexa, quantity: line.quantity, price: line.variante.prix}));
             });
         }

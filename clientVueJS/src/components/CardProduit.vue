@@ -1,5 +1,5 @@
 <script setup>
-import axios from 'axios';
+import axios from '../api/axios.js';
 import Loader from '../components/LoaderVue.vue';
 </script>
 
@@ -21,13 +21,13 @@ export default {
     },
     methods:
     {
-        getAllVariantes() { axios.get('https://localhost:7259/api/Variantes/GetAllVariantesByProduitIdAsync/' + this.produit.produitId)
+        getAllVariantes() { axios.get('/api/Variantes/GetAllVariantesByProduitIdAsync/' + this.produit.produitId)
         .then(response => 
         {
             //console.log(this.produit) // eslint-disable-line no-console
             this.variante = response.data[0]
             console.log(this.variante)
-            axios.get('https://localhost:7259/api/Photos/GetPhotoByVariante/' + this.variante.varianteId)
+            axios.get('/api/Photos/GetPhotoByVariante/' + this.variante.varianteId)
             .then(response => {
               this.photos = response.data;
               console.log(this.photos[length-1]);

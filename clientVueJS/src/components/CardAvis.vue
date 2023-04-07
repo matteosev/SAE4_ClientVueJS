@@ -1,5 +1,5 @@
 <script setup>
-import axios from 'axios';
+import axios from '../api/axios';
 </script>
 
 <script>
@@ -13,7 +13,7 @@ export default {
     },
     created()
     {
-        axios.get('https://localhost:7259/api/Clients/GetById/' + this.avis.clientId)
+        axios.get('/api/Clients/GetById/' + this.avis.clientId)
         .then(response => this.clientPseudo = response.data.prenomClient + ' ' + response.data.nomClient.charAt(0))
         .catch(error => console.error(error));
     },

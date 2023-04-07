@@ -1,7 +1,7 @@
 <script setup>
 import CardProduit from '../components/CardProduit.vue';
 import Loader from '../components/LoaderVue.vue';
-import axios from 'axios';
+import axios from '../api/axios.js';
 </script>
 
 <script>
@@ -35,7 +35,7 @@ export default {
     },
     methods: {
         getAllCategories() {
-            axios.get('https://localhost:7259/api/Categories/GetAll')
+            axios.get('/api/Categories/GetAll')
                 .then(response => {
                     console.log(response.data)
                     this.categories = response.data;
@@ -46,7 +46,7 @@ export default {
         },
 
         getAllProducts() {
-            axios.get('https://localhost:7259/api/Produits/GetAll')
+            axios.get('/api/Produits/GetAll')
                 .then(response => {
                     console.log(response.data)
                     this.produits = response.data;
@@ -58,7 +58,7 @@ export default {
         },
 
         getAllProduitsByCatParent(categorieParentId) {
-            axios.get('https://localhost:7259/api/Produits/GetAllProduitsByCategorieParent/' + categorieParentId)
+            axios.get('/api/Produits/GetAllProduitsByCategorieParent/' + categorieParentId)
                 .then(response => {
                     console.log(response.data);
                     this.produits = response.data;
@@ -79,7 +79,7 @@ export default {
         },
 
         async getProduitsByPrice() {
-            const response = await axios.get(`https://localhost:7259/api/Produits/GetProduitsWherePrixEntre/${this.prix1}/${this.prix2}`);
+            const response = await axios.get(`/api/Produits/GetProduitsWherePrixEntre/${this.prix1}/${this.prix2}`);
             this.produits = response.data;
         },
 

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import axios from 'axios';
+import axios from '../api/axios';
 
 export const useCartStore = defineStore("cart", {
     state: () => {
@@ -12,12 +12,12 @@ export const useCartStore = defineStore("cart", {
         // On récupère les lignesPanier (Backend) de la BD et on les met dans le panier (Frontend)
         getCartFromDb(clientId)
         {
-            axios.get('https://localhost:7259/api/LignePaniers/GetLignePanierByClientId/' + clientId)
+            axios.get('/api/LignePaniers/GetLignePanierByClientId/' + clientId)
             .then(response =>
             {
                 for (let lignePanier of response.data)
                 {
-                    axios.get('https://localhost:7259/api/Variantes/GetVarianteById/' + lignePanier.varianteId)
+                    axios.get('/api/Variantes/GetVarianteById/' + lignePanier.varianteId)
                     .then(response => {
                         this.addLine({
                             lignePanierId: lignePanier.lignePanierId,
@@ -55,7 +55,7 @@ export const useCartStore = defineStore("cart", {
                 lignePanier_Client: null,
                 lignePanier_Variante: null
             };
-            axios.post("https://localhost:7259/api/LignePaniers/Post", lignePanier)
+            axios.post("/api/LignePaniers/Post", lignePanier)
             .then(response => {
                 this.lines[lineId].lignePanierId = response.data.lignePanierId;
             });
@@ -95,7 +95,7 @@ export const useCartStore = defineStore("cart", {
                     lignePanier_Client: null,
                     lignePanier_Variante: null
                 };
-                axios.put("https://localhost:7259/api/LignePaniers/Put/" + lignePanier.lignePanierId, lignePanier).then(response => console.log(response));
+                axios.put("/api/LignePaniers/Put/" + lignePanier.lignePanierId, lignePanier).then(response => console.log(response));
                 this.lines[lineId].quantity += itemQuantityChange;
             }
             else
@@ -106,14 +106,14 @@ export const useCartStore = defineStore("cart", {
             let lineId = this.findLineId(itemVariante.varianteId);
             if (lineId != -1)
             {
-                axios.delete("https://localhost:7259/api/LignePaniers/Delete/" + this.lines[lineId].lignePanierId);
+                axios.delete("/api/LignePaniers/Delete/" + this.lines[lineId].lignePanierId);
                 this.deleteLine(lineId);
             }
         },
 
         emptyCart(){
             for (let i = this.lines.length - 1; i >= 0; i--) {
-                axios.delete("https://localhost:7259/api/LignePaniers/Delete/" + this.lines[i].lignePanierId);
+                axios.delete("/api/LignePaniers/Delete/" + this.lines[i].lignePanierId);
                 this.deleteLine(i);
             }
         },
@@ -130,7 +130,7 @@ export const useCartStore = defineStore("cart", {
                 commandeInstructions: "ncjksn",
                 etat: 0
             }
-            axios.post("https://localhost:7259/api/Commandes/Post", order)
+            axios.post("/api/Commandes/Post", order)
             .then(response => {
                 for (let lp of this.lines){
                     let ligneCommande = {
@@ -141,7 +141,7 @@ export const useCartStore = defineStore("cart", {
                         ligneCommande_Commande: null
                     }
                     console.log(JSON.stringify(ligneCommande));
-                    axios.post("https://localhost:7259/api/LigneCommandes/Post", ligneCommande)
+                    axios.post("/api/LigneCommandes/Post", ligneCommande)
                     .then(response => {console.log(response.data)})
                 }
                 console.log(response.data);

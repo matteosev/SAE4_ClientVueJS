@@ -1,5 +1,5 @@
 <script setup>
-import axios from 'axios';
+import axios from '../api/axios';
 import { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { useAuthStore } from '../api/auth';
@@ -26,15 +26,15 @@ export default {
         };
     },
     created() {
-        axios.get('https://localhost:7259/api/Produits/GetById/' + this.id).then(response => this.produit = response.data).catch(error => console.error(error));
+        axios.get('api/Produits/GetById/' + this.id).then(response => this.produit = response.data).catch(error => console.error(error));
 
-        axios.get('https://localhost:7259/api/Variantes/GetAllVariantesByProduitIdAsync/' + this.id)
+        axios.get('api/Variantes/GetAllVariantesByProduitIdAsync/' + this.id)
             .then(response => {
                 this.variantes = response.data
                 this.selectedVariante = this.variantes[0];
                 for (let variante of this.variantes) {
-                    axios.get('https://localhost:7259/api/Photos/GetPhotoByVariante/' + variante.varianteId).then(response => variante.photos = response.data).catch(error => console.error(error));
-                    axios.get('https://localhost:7259/api/Avis/GetAllAvisByVarianteId/' + variante.varianteId)
+                    axios.get('api/Photos/GetPhotoByVariante/' + variante.varianteId).then(response => variante.photos = response.data).catch(error => console.error(error));
+                    axios.get('api/Avis/GetAllAvisByVarianteId/' + variante.varianteId)
                         .then(response => {
                             for (let avisResponse of response.data)
                                 this.avis.push(avisResponse);
@@ -91,7 +91,7 @@ export default {
                 avis_Photo: null,
                 avis_Variante: null
             }
-            axios.post("https://localhost:7259/api/Avis/Post", avis)
+            axios.post("api/Avis/Post", avis)
                 .then(response => {
                     alert("Félicitations ! Vous avez déposé le " + response.data.avisId + "e avis de notre site !");
                 });
