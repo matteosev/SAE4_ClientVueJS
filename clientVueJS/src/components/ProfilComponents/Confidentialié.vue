@@ -1,37 +1,37 @@
 <script setup>
 
 import { ref } from 'vue'
+import axios from '../../api/axios.js';
 
-const See = ref(false)
-const SeePassModify = ref(false)
-const Modify = ref(false)
-
-const toggleSeePassword = () => {
-    return See.value = !See.value
-}
-const toggleModify = () => {
-    return Modify.value = !Modify.value
-}
-
+var user = JSON.parse(localStorage.getItem('client'));
+const SeePassModify = ref(false);
+const newPassword = ref('');
+const newConfirmPassword = ref('')
 const toggleModifyPassword = () => {
     return SeePassModify.value = !SeePassModify.value
-}
-
-const ChangeType = () => {
-    return See.value ? 'text' : 'password'
 }
 
 const ChangeTypeModify = () => {
     return SeePassModify.value ? 'text' : 'password'
 }
 
-const CheckVerif = () => {
-    return See.value ? 'Cacher' : 'Vérifier'
-}
-
 const CheckVerifModify = () => {
     return SeePassModify ? 'Vérifier' : 'Cacher'
 }
+
+const addNewPassword = async () => {
+    if (newPassword.value == newConfirmPassword.value)
+    {
+        const password = user.password.value;
+        const newpassword = newPassword.value;
+        const encryptedPassword = btoa(newpassword);
+        const putUser = {...user, password: encryptedPassword}
+        const response = await axios.put("/api/Clients/Put/" + user.clientId, JSON.stringify(putUser));
+    }
+}
+
+
+
 
 </script>
 
@@ -42,17 +42,7 @@ const CheckVerifModify = () => {
             Confidentialité
         </h2>
     </div>
-    <p class="title-part"> Mot de passe </p>
-    <div class="container-mdp">
-        <div class="content">
-            <input :type="ChangeType()" class="input-box">
-        </div>
-        <div class="container-button">
-            <button class="button-paswword" @click="toggleSeePassword">{{ CheckVerif() }}</button>
-            <button class="button-paswword" @click="toggleModify">Modifier</button>
-        </div>
-    </div>
-    <div v-if="Modify" class="modify-password">
+    <div class="modify-password">
         <div class="titre-modifier">
             <h3 class="title-modify"> Modification du Mot de passe </h3>
         </div>
@@ -66,7 +56,7 @@ const CheckVerifModify = () => {
                 <input :type="ChangeTypeModify()" v-model="newConfirmPassword" class="input-box">
             </div>
             <div class="container-button">
-                <button class="button-paswword">Confirmer</button>
+                <button class="button-paswword" @click="addNewPassword">Confirmer</button>
                 <button class="button-paswword" @click="toggleModifyPassword">{{ CheckVerifModify() }}</button>
             </div>
 

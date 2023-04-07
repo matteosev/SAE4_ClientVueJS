@@ -53,7 +53,12 @@ function stopEditingAvis(){
 
 <template>
     <div id="container">
-        <h2>Mes Avis</h2>
+        <div class="info-container-title">
+            <img src="../../assets/IconProfil/angle-petit-droit.png" alt="">
+            <h2 class="info-title">
+                Mes avis
+            </h2>
+        </div>
         <div v-if="indexEditedAvis > -1">
             <div id="formAvis">
                 <div style="display: flex;" id="formAvis-firstLine">
@@ -92,13 +97,33 @@ function stopEditingAvis(){
                 </div>
             </div>
         </div>
-        <div v-else>
+        <div id="avis__container" v-else>
             <CardAvis class="cardAvis" v-on:click="$event => startEditingAvis(i)" v-for="(a, i) in clientAvis" :key="a.avisId" :avis="clientAvis[i]"></CardAvis>
         </div>
     </div>
 </template>
 
 <style scoped>
+* {
+    font-family: 'Space-Grotesk-Bold';
+    margin: 0;
+    padding: 0;
+}
+
+
+.info-container-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 60%;
+}   
+.info-title {
+    padding: 20px;
+    font-size: 28px;
+    border-bottom: solid 2px;
+
+}
 
 .flex-col {
     display: flex;
@@ -108,6 +133,8 @@ function stopEditingAvis(){
 #container{
     padding: 10px;
 }
+
+
 
 #formAvis textarea {
     resize: none;

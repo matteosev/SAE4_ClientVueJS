@@ -27,27 +27,31 @@ export default {
 </script>
 
 <template>
-    <div>
+    <div class="avis">
         <div id="avisHeader">
-            <h3>{{ avis.titre }}</h3>
-            <div>
-                <span v-for="i of [1,2,3,4,5]" class="dot" :class="[i <= avis.note ? 'dotChecked' : '']"></span>
-            </div>
+            <h3>{{ avis.titre }}</h3> 
         </div> 
+        <div>
+            <span v-for="i of [1,2,3,4,5]" class="dot" :class="[i <= avis.note ? 'dotChecked' : '']"></span>
+        </div>
         <p>{{ avis.texte }}</p>
         <div id="avisFooter">
             <p>{{ new Date(avis.date).toLocaleDateString('fr-FR') }}</p>
             <p>{{ clientPseudo }}</p>
+            
         </div> 
+        
     </div>
 </template>
 
 <style>
 
-#avisHeader { display: flex; }
-#avisHeader > h3 { flex-grow: 1; }
-#avisFooter { display: flex; }
-#avisFooter > p:first-child { flex-grow: 1; }
+.avis{
+    background: #E4FFDC;
+    padding: 20px;
+    border-radius: 10px;
+    
+}
 
 .dot{
     height: 1em;
@@ -58,4 +62,8 @@ export default {
 }
 
 .dotChecked { background-color: var(--first-color); }
+
+#avisHeader{
+    margin-bottom: 15px;
+}
 </style>

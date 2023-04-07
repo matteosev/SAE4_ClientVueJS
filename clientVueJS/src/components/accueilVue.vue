@@ -7,15 +7,14 @@
  
  
  <template>
-    <main>
+    <main>  
   
       <div class="home_container">
         <div class="home_titre">
           <h1 class="home_collections_titre">
             Miliboo
           </h1>
-          <h2 id="home_collections_texte">Miliboo propose plusieurs collections de meubles de haute qualité, allant des styles classiques aux designs modernes et contemporains, en utilisant des matériaux nobles, alliant à la fois fonctionnalité et esthétique.</h2>
-        </div>
+           </div>
         <div class="home_collections_images">
           <img src="../assets/chaises.png" alt="">
         </div>
@@ -38,6 +37,11 @@
       </div>
   
     </main>
+    <footer>
+        <h2>Miliboo</h2>
+        <h2 id="home_collections_texte">Miliboo propose plusieurs collections de meubles de haute qualité, allant des styles classiques aux designs modernes et contemporains, en utilisant des matériaux nobles, alliant à la fois fonctionnalité et esthétique.</h2>
+        <h3>Maxence DUBOIS - Mattéo SEVERINI - Jérémy POULAIN - Timoté POLICET - Mathis SPORTIELLO</h3>
+    </footer>
   </template>
 
 
@@ -47,45 +51,44 @@
   
   <style scoped>
   
-  main{ /*Je crée les différentes section du main*/
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    grid-gap: 10px;
-    grid-auto-rows: minmax(100px, auto);
-  }
-  .home_container{
-    position: relative;
-  }
-  
-  #home_collections_button{
-    position: absolute;
-    top: 45%;
-    right: 9%;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 40px;
-    height: 40px;
-    width: fit-content;
-    color: var(--first-color);
-    padding: 10px;
-    border-radius: 9px;
-    border: solid var(--first-color);
-  }
+  main {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(100px, auto);
+  height: 100%; /* add this line */
+}
+.home_container {
+  position: relative; /* add this line */
+}
+
+#home_collections_button {
+  margin-left: 9vw;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 40px;
+  height: 40px;
+  width: fit-content;
+  color: var(--first-color);
+  padding: 10px;
+  border-radius: 9px;
+  border: solid var(--first-color);
+}
   #home_collections_button:hover{
     background-color: var(--first-color);
     color: #FFF;
   }
   
-  .home_titre   {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 90vw;
-    margin-left: 5vw;
-  }
+  .home_titre {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80vw; /* reduce the width */
+  margin: 0 auto; /* center the element */
+}
   
   .home_collections_titre{
     width: fit-content;
@@ -95,15 +98,34 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
+
   #home_collections_texte{
     width:35vw;
     font-size: 19px;
     color: var(--second-color);
   }
   
-  .home_collections_images img{
-    max-width: 1080px;
-  }
+  .home_collections_images  {
+  width: 98vw;
+  position: relative;
+  height: fit-content;
+}
+.home_collections_images img {
+  width: 100%;
+}
+
+
+
+  footer {
+    display: flex;
+    height: 30vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--first-color);
+    color: white;
+}
 
 
   </style>

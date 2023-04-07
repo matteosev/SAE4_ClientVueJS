@@ -13,77 +13,80 @@
       </div>
     </div>
 
-    
 
-<div class="right">
-  <template v-if="!showAdditionalInfoForm">
-    <h5>Inscription</h5><br>
-    <p>Déjà membre? <a href="/se-connecter">Se connecter</a> </p>
-    <form @submit.prevent="handleSubmit">
-        <div class="inputs">
-          <input type="email" v-model="registrationData.email" placeholder="Email" required>
+
+    <div class="right">
+      <template v-if="!showAdditionalInfoForm">
+        <h5>Inscription</h5><br>
+        <p>Déjà membre? <a href="/se-connecter">Se connecter</a> </p>
+        <form @submit.prevent="handleSubmit">
+          <div class="inputs">
+            <input type="email" v-model="registrationData.email" placeholder="Email" required>
+            <br>
+            <input type="password" v-model="registrationData.password" @input="checkPasswordLength"
+              placeholder="Mot de passe" required>
+            <span class="password-error" v-if="passwordError">Le mot de passe doit comporter au moins 9 caractères</span>
+            <br>
+            <input type="text" v-model="registrationData.nomClient" placeholder="Nom" required>
+            <br>
+            <input type="text" v-model="registrationData.prenomClient" placeholder="Prénom" required>
+            <br>
+            <input type="text" v-model="registrationData.portable" placeholder="Portable" required>
+            <br>
+            <select id="civilite" v-model="registrationData.civilite" required>
+              <option value="" disabled selected hidden>Civilité</option>
+              <option value="Monsieur">Monsieur</option>
+              <option value="Madame">Madame</option>
+            </select>
+            <br>
+            <label>
+              <input type="checkbox" v-model="registrationData.newsletterMiliboo">
+              <span class="checkmark"></span>
+              <span class="label-text">Recevoir la newsletter Miliboo</span>
+            </label>
+            <br>
+            <label>
+              <input type="checkbox" v-model="registrationData.newsletterPartenaire">
+              <span class="checkmark"></span>
+              <span class="label-text">Recevoir la newsletter des partenaires</span>
+            </label>
+          </div>
+
           <br>
-          <input type="password" v-model="registrationData.password" @input="checkPasswordLength"
-            placeholder="Mot de passe" required>
-          <span class="password-error" v-if="passwordError">Le mot de passe doit comporter au moins 9 caractères</span>
+          <button type="submit">S'inscrire</button>
+        </form>
+      </template>
+
+      <template v-else>
+        <h5>Un instant...</h5><br>
+        <p>Connecté avec Google? <a href="/se-connecter">Se connecter</a> </p>
+        <form @submit.prevent="handleAdditionalInfoSubmit">
+          <input type="text" v-model="googleRegistrationData.portable" placeholder="Portable" required>
           <br>
-          <input type="text" v-model="registrationData.nomClient" placeholder="Nom" required>
-          <br>
-          <input type="text" v-model="registrationData.prenomClient" placeholder="Prénom" required>
-          <br>
-          <input type="text" v-model="registrationData.portable" placeholder="Portable" required>
-          <br>
-          <select id="civilite" v-model="registrationData.civilite" required>
+          <select id="civilite" v-model="googleRegistrationData.civilite" required>
             <option value="" disabled selected hidden>Civilité</option>
             <option value="Monsieur">Monsieur</option>
             <option value="Madame">Madame</option>
           </select>
           <br>
-          <label>
-            <input type="checkbox" v-model="registrationData.newsletterMiliboo">
-            <span class="checkmark"></span>
-            <span class="label-text">Recevoir la newsletter Miliboo</span>
-          </label>
-          <br>
-          <label>
-            <input type="checkbox" v-model="registrationData.newsletterPartenaire">
-            <span class="checkmark"></span>
-            <span class="label-text">Recevoir la newsletter des partenaires</span>
-          </label>
-        </div>
-
-        <br>
-        <button type="submit">S'inscrire</button>
-      </form>
+          <button type="submit">Finaliser l'inscription</button>
+        </form>
       </template>
-
-  <template v-else>
-    <h5>Un instant...</h5><br>
-    <p>Connecté avec Google? <a href="/se-connecter">Se connecter</a> </p>
-    <form @submit.prevent="handleAdditionalInfoSubmit">
-    <input type="text" v-model="googleRegistrationData.portable" placeholder="Portable" required>
-    <br>
-    <select id="civilite" v-model="googleRegistrationData.civilite" required>
-      <option value="" disabled selected hidden>Civilité</option>
-      <option value="Monsieur">Monsieur</option>
-      <option value="Madame">Madame</option>
-    </select>
-    <br>
-    <button type="submit">Finaliser l'inscription</button>
-  </form>  </template>
-</div></div>
+    </div>
+  </div>
 </template>
 
 
 
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from '../../api/axios';
 import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import { gapi } from "gapi-script";
-import { onMounted } from 'vue';
+import { useAuthStore } from '../../api/auth.js';
+import {fetchDataClient} from '../../api/client'
 
 onMounted(async () => {
   await gapi.load('client:auth2', async () => {
@@ -105,7 +108,7 @@ function generateRandomPassword(length = 12) {
 
 
 const showAdditionalInfoForm = ref(false);
-
+const auth = useAuthStore();
 const router = useRouter();
 const passwordError = ref(false);
 const registrationData = ref({
@@ -144,19 +147,15 @@ async function handleGoogleSignIn() {
   try {
     const authInstance = gapi.auth2.getAuthInstance();
     const googleUser = await authInstance.signIn();
-    
-    // Récupérer les informations de profil de l'utilisateur Google
+
     const profile = googleUser.getBasicProfile();
 
-    // Mettre à jour les données d'inscription Google avec les informations du profil
     googleRegistrationData.value.email = profile.getEmail();
     googleRegistrationData.value.nomClient = profile.getFamilyName();
     googleRegistrationData.value.prenomClient = profile.getGivenName();
 
-    // Afficher le formulaire d'informations supplémentaires
     showAdditionalInfoForm.value = true;
   } catch (error) {
-    // Gérer l'erreur de connexion Google
     console.error('Error signing in:', error);
   }
 }
@@ -164,12 +163,24 @@ async function handleGoogleSignIn() {
 
 
 async function handleSubmit() {
-  console.log(registrationData.value);
-
   try {
-
-    const response = await axios.post('api/Clients/Post', registrationData.value);
-    localStorage.setItem('accessToken', response.data.accessToken);
+    const data = btoa(registrationData.value.password);
+    const dataToSend = { ...registrationData.value, password: data };
+    const response = await axios.post('api/Clients/Post', dataToSend, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+    Swal.fire(
+      'Compte créé',
+      'Bienvenue !',
+      'success'
+    )
+    const base64Password = btoa(registrationData.value.password);
+    const encodedCredentials = {
+      email: registrationData.value.email,
+      password: base64Password,
+    }
+    await auth.login(encodedCredentials);
+    await fetchDataClient(localStorage.getItem('token'))
     router.push('/');
   } catch (error) {
     Swal.fire({
@@ -178,6 +189,7 @@ async function handleSubmit() {
       icon: 'error',
       confirmButtonText: 'Ok'
     })
+
   }
 }
 async function handleAdditionalInfoSubmit() {
@@ -185,7 +197,23 @@ async function handleAdditionalInfoSubmit() {
   try {
     const response = await axios.post('api/Clients/Post', googleRegistrationData.value);
     localStorage.setItem('accessToken', response.data.accessToken);
-    router.push('/');
+    const googleUser = await gapi.auth2.getAuthInstance().signIn();
+    const profile = googleUser.getBasicProfile();
+    const id_token = googleUser.getAuthResponse().id_token;
+
+    const responseConnect = await axios.post('/api/login/GoogleResponse', {
+      email: profile.getEmail(),
+    });
+
+    if (responseConnect.status === 200) {
+      if (responseConnect.data.userExists) {
+        auth.token = responseConnect.data.token;
+        auth.userDetails = responseConnect.data.userDetails;
+        localStorage.setItem('token', auth.token);
+        await fetchDataClient(localStorage.getItem('token'))
+        router.push('/');
+      }
+    }
   } catch (error) {
     Swal.fire({
       title: 'Oops...',
@@ -193,9 +221,11 @@ async function handleAdditionalInfoSubmit() {
       icon: 'error',
       confirmButtonText: 'Ok'
     });
+
   }
 }
 
+defineExpose({ auth });
 
 </script>
 

@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import { useAuthStore } from '../api/auth';
 import { useCartStore } from '../stores/cart';
 import CardAvis from '../components/CardAvis.vue';
-</script >
+</script>
 
 <script>
 export default {
@@ -32,7 +32,7 @@ export default {
                 this.variantes = response.data
                 this.selectedVariante = this.variantes[0];
                 for (let variante of this.variantes) {
-                    axios.get('https://localhost:7259/api/Variantes/GetAllVariantePhotosAsync/' + variante.varianteId).then(response => variante.photos = response.data).catch(error => console.error(error));
+                    axios.get('https://localhost:7259/api/Photos/GetPhotoByVariante/' + variante.varianteId).then(response => variante.photos = response.data).catch(error => console.error(error));
                     axios.get('https://localhost:7259/api/Avis/GetAllAvisByVarianteId/' + variante.varianteId)
                         .then(response => {
                             for (let avisResponse of response.data)
@@ -100,7 +100,7 @@ export default {
 
                 <swiper :modules="[Navigation]" :slides-per-view="1" :space-between="1" navigation>
                     <swiper-slide v-for="photo of selectedVariante.photos" :key="photo.photoId">
-                        <img :src="photo.chemin">
+                        <img :src="photo.chemin" :alt="selectedVariante.libelle + 'photo'">
                     </swiper-slide>
                 </swiper>
 
@@ -224,7 +224,8 @@ export default {
         </section>
     </main>
     <footer>
-        Miliboo
+        <h2>Miliboo</h2>
+        <h3>Maxence DUBOIS - Mattéo SEVERINI - Jérémy POULAIN - Timoté POLICET - Mathis SPORTIELLO</h3>
     </footer>
 </template>
   
@@ -244,14 +245,13 @@ h3 {
     color: var(--first-color)
 }
 
-#product-col-1 h1,
-#product-col-1 h2,
-#product-col-1 h3 {
-    margin: 10px 0px 10px 0px;
-    text-align: center;
-    background-color: #527140CF;
-    color: white;
-    padding: 10px;
+.product-text-partie{
+    margin: 50px;
+}
+
+.product-text-partie h2{
+    margin-bottom: 10px;
+    color: var(--first-color);
 }
 
 button {
@@ -405,12 +405,16 @@ button {
     border-radius: 5px;
 }
 
-footer {
+footer{
     display: flex;
+    height: 30vh;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: var(--first-color);
     color: white;
 }
+
+footer h2{color:white}
+footer h3{color:white}
 </style>
