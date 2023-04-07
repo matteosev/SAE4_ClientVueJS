@@ -59,9 +59,6 @@ const modifyCb = () => {
 
 const addNewCb = () => {
     newCb.clientId = user.clientId
-    newCb.dateExpiration = new Date(newCb.dateExpiration)
-    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-    newCb.dateExpiration = newCb.dateExpiration.toLocaleDateString('fr-FR', options).split('/').reverse().join('-');
     console.log(newCb)
     Swal.fire({
         title: 'Êtes-vous sûr de vouloir ajouter une nouvelle CB ?',
@@ -121,14 +118,16 @@ const buttonLabel = () => {
                 </div>
                 <div class="cb-card">
                     <p class="cb-card-title"> Date Expiration </p>
-                    <input type="text" class="text-input" v-model="coucheCb.dateExpiration" v-if="isReadOnly"
-                        :readonly="isReadOnly" />
-                    <input type="date" class="text-input" v-model="coucheCb.dateExpiration" v-if="!isReadOnly" />
+                    <input type="text" class="text-input" placeholder="MM/AAAA" v-model="coucheCb.dateExpiration"
+                        v-if="isReadOnly" :readonly="isReadOnly" />
+                    <input type="text" class="text-input" placeholder="MM/AAAA" v-model="coucheCb.dateExpiration"
+                        v-if="!isReadOnly" />
                 </div>
             </div>
         </div>
         <div class="button-container">
-            <button type="submit" class="button-add-cb" @click="toggleReadOnlyMode">{{ buttonLabel() }} </button>
+            <button type="submit" class="button-add-cb" v-if="handleHasCb()" @click="toggleReadOnlyMode">{{ buttonLabel() }}
+            </button>
             <button class="button-add-cb" @click="modifyCb" v-if="!isReadOnly"> Enregistrer </button>
         </div>
 
@@ -154,7 +153,7 @@ const buttonLabel = () => {
                     </div>
                     <div class="cb-card">
                         <p class="cb-card-title"> Date Expiration </p>
-                        <input type="date" class="text-input" v-model="newCb.dateExpiration" />
+                        <input type="text" class="text-input" placeholder="MM/AAAA" v-model="newCb.dateExpiration" />
                     </div>
                 </div>
                 <button class="button-save" @click="addNewCb"> Ajouter </button>

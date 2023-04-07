@@ -72,13 +72,14 @@ var adresse = reactive({})
 
 const adresseHere = () => {
     if (localStorage.getItem("adresseClient")) {
+        loadAdresseData()
         return true
     }
     else
         return false
 }
 adresse = JSON.parse(localStorage.getItem('adresseClient'))
-const loadAdresseData = onMounted(() => {
+const loadAdresseData = () => {
 
     adresseClient.adresseId = adresse.adresseId
     adresseClient.rue = adresse.rue
@@ -87,7 +88,7 @@ const loadAdresseData = onMounted(() => {
     adresseClient.pays = adresse.pays
     adresseClient.telFixe = adresse.telFixe
     adresseClient.remarques = adresse.remarques
-})
+}
 
 
 
@@ -185,10 +186,6 @@ const addAdresseToClient = () => {
                     <option value="Madame"> Madame</option>
                 </select>
                 <input type="text" class="text-input" v-if="isReadOnly" v-model="user.civilite" readonly />
-            </div>
-            <div class="info-card">
-                <p class="info-card-title"> Date de naissance </p>
-                <input type="date" class="text-input" :readonly="isReadOnly" />
             </div>
         </div>
     </div>

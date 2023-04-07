@@ -5,9 +5,8 @@ import Paiements from '../../components/ProfilComponents/ModePaiements.vue';
 import Confidentialite from '../../components/ProfilComponents/Confidentialié.vue';
 import Avis from '../../components/ProfilComponents/MesAvis.vue';
 import Aide from '../../components/ProfilComponents/Help.vue';
-import { ref, watchEffect } from 'vue'
+import { onMounted, ref, watchEffect } from 'vue'
 import { fetchDataAdresseClient, fetchDataCbClient } from '../../api/client';
-import { watch } from 'vue';
 
 const navNames = {
     Informations,
