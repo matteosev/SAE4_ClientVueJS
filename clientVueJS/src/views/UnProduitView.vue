@@ -70,7 +70,7 @@ export default {
             else{
                 this.cartStore.addItem(this.selectedVariante, this.quantity);
                 Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon: 'success',
                     title: 'Votre article a été ajouté au panier',
                     showConfirmButton: false,
