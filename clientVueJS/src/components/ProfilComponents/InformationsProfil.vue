@@ -186,10 +186,6 @@ const addAdresseToClient = () => {
                 </select>
                 <input type="text" class="text-input" v-if="isReadOnly" v-model="user.civilite" readonly />
             </div>
-            <div class="info-card">
-                <p class="info-card-title"> Date de naissance </p>
-                <input type="date" class="text-input" :readonly="isReadOnly" />
-            </div>
         </div>
     </div>
     <div class="container-adresse">
