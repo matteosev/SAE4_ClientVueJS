@@ -45,7 +45,7 @@ import axios from '../../api/axios.js';
 import Swal from 'sweetalert2';
 import { gapi } from "gapi-script";
 import { onMounted } from 'vue';
-import fetchDataClient from '../../api/client'
+import { fetchDataClient } from '../../api/client'
 
 
 export default {

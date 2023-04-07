@@ -33,6 +33,7 @@ const useAuthStore = defineStore('auth', {
       localStorage.removeItem('token');
       localStorage.removeItem('client')
       localStorage.removeItem('adresseClient')
+      localStorage.removeItem('cbClient')
     },
   },
   getters: {
