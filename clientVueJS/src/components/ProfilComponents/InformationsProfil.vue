@@ -72,6 +72,7 @@ var adresse = reactive({})
 
 const adresseHere = () => {
     if (localStorage.getItem("adresseClient")) {
+        loadAdresseData()
         return true
     }
     else
