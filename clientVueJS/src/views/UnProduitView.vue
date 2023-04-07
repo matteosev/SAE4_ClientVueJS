@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import { useAuthStore } from '../api/auth';
 import { useCartStore } from '../stores/cart';
 import CardAvis from '../components/CardAvis.vue';
+import Swal from 'sweetalert2';
 </script>
 
 <script>
@@ -66,8 +67,16 @@ export default {
         addToCart(event) {
             if (!this.authStore.isAuthenticated)
                 this.$router.push({ path: '/se-connecter', query: { redirectURL: encodeURIComponent('/produit/' + this.id) } });
-            else
+            else{
                 this.cartStore.addItem(this.selectedVariante, this.quantity);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Votre article a été ajouté au panier',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
         },
         postAvis(event) {
             let isoDateString = new Date().toISOString();
@@ -255,6 +264,7 @@ h3 {
 }
 
 button {
+    cursor:pointer;
     border-width: 0px;
     background-color: var(--first-color);
     color: white;
